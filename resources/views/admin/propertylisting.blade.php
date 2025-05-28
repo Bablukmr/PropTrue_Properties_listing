@@ -18,11 +18,37 @@
                 </div>
             </div><!-- /.container-fluid -->
         </section>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> Please check the form for errors.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
+
+
+
+
+
                     <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary" style="border-color: #d33593;">
@@ -31,7 +57,8 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form method="POST" action="#" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('admin.propertylisting.store') }}"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     <div class="row">
@@ -454,6 +481,7 @@
                                                         <input type="date" class="form-control" id="available_from"
                                                             name="available_from">
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label for="preferred_tenants">Preferred Tenants</label>
                                                         <select class="form-control" id="preferred_tenants"
@@ -539,16 +567,14 @@
                                                         @enderror
                                                     </div>
 
-
-
-
                                                     <div class="form-group">
                                                         <label for="property_images">Additional Images</label>
                                                         <div class="input-group">
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input"
                                                                     id="property_images" name="property_images[]"
-                                                                    accept="image/*" multiple>
+                                                                    accept="image/*" multiple
+                                                                    onchange="previewAdditionalImages(event)">
                                                                 <label class="custom-file-label"
                                                                     for="property_images">Choose files</label>
                                                             </div>
@@ -567,20 +593,18 @@
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input"
                                                                     id="floor_plan_image" name="floor_plan_image"
-                                                                    accept="image/*">
+                                                                    accept="image/*" onchange="previewFloorPlan(event)">
                                                                 <label class="custom-file-label"
                                                                     for="floor_plan_image">Choose file</label>
                                                             </div>
                                                         </div>
-                                                        <div class="image-preview mt-2" id="floor_plan_preview"
-                                                            style="display: none;">
+                                                        <div id="floor_plan_preview" class="mt-2"
+                                                            style="display: none; position: relative;">
                                                             <img id="floor_plan_preview_img" src="#"
                                                                 alt="Floor Plan Preview"
-                                                                style="max-width: 100px; max-height: 100px; border: 1px solid #b1b2b1; padding: 2px;" />
-                                                            <button type="button"
-                                                                class="btn btn-danger btn-sm delete-image"
-                                                                data-target="#floor_plan_image"
-                                                                style="position: absolute; top: 0; right: 0; padding: 0.15rem 0.3rem; font-size: 0.7rem;">×</button>
+                                                                style="max-width: 150px; border: 1px solid #ddd; border-radius: 4px;">
+                                                            <button type="button" onclick="removeFloorPlan()"
+                                                                style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -608,6 +632,20 @@
                                                     <h3 class="card-title">Additional Information</h3>
                                                 </div>
                                                 <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="similar_properties">Similar Properties</label>
+                                                        <select class="form-control select2" id="similar_properties"
+                                                            name="similar_properties[]" multiple="multiple"
+                                                            data-placeholder="Search and select similar properties">
+                                                            <option value="1">Beautiful 3 BHK Apartment</option>
+                                                            <option value="2">Luxury Villa with Pool</option>
+                                                            <option value="3">Modern Penthouse Downtown</option>
+                                                            <option value="4">Spacious Family House</option>
+                                                            <option value="5">Commercial Office Space</option>
+                                                            <!-- Add more proper options here -->
+                                                        </select>
+                                                    </div>
+
                                                     <div class="form-group">
                                                         <label for="keyfeatures">Key Features</label>
                                                         <textarea class="form-control text-editor" id="keyfeatures" name="keyfeatures" rows="3"
@@ -642,7 +680,25 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
+        // Initialize Select2 for similar properties
+        // Error handling for Select2
+        try {
+            $('.select2').select2({
+                placeholder: 'Search and select similar properties',
+                allowClear: true
+            });
+        } catch (e) {
+            console.error("Select2 initialization error:", e);
+            // Fallback to standard multiple select
+            $('.select2').removeClass('select2').css('width', '100%');
+        }
+
+        // Main image preview
         function previewImage(event) {
             const file = event.target.files[0];
             const previewContainer = document.getElementById('image-preview-container');
@@ -667,8 +723,131 @@
             previewImage.src = '#';
             previewContainer.style.display = 'none';
         }
+
+        // Additional images preview
+        function previewAdditionalImages(event) {
+            const files = event.target.files;
+            const previewContainer = document.getElementById('additional_images_preview');
+            previewContainer.innerHTML = '';
+
+            if (files) {
+                for (let i = 0; i < files.length; i++) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'col-md-3 mb-2';
+                        div.innerHTML = `
+                            <div style="position: relative;">
+                                <img src="${e.target.result}" alt="Preview"
+                                     style="max-width: 100%; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;">
+                                <button type="button" onclick="removeAdditionalImage(${i})"
+                                    style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
+                            </div>
+                        `;
+                        previewContainer.appendChild(div);
+                    }
+                    reader.readAsDataURL(files[i]);
+                }
+            }
+        }
+
+        function removeAdditionalImage(index) {
+            const input = document.getElementById('property_images');
+            const files = Array.from(input.files);
+            files.splice(index, 1);
+
+            // Create a new DataTransfer object and add the remaining files
+            const dataTransfer = new DataTransfer();
+            files.forEach(file => dataTransfer.items.add(file));
+
+            // Assign the new files back to the input
+            input.files = dataTransfer.files;
+
+            // Trigger the preview function again to update the display
+            const event = new Event('change');
+            input.dispatchEvent(event);
+        }
+
+        // Floor plan preview
+        function previewFloorPlan(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('floor_plan_preview');
+            const previewImage = document.getElementById('floor_plan_preview_img');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'inline-block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeFloorPlan() {
+            const input = document.getElementById('floor_plan_image');
+            const previewContainer = document.getElementById('floor_plan_preview');
+            const previewImage = document.getElementById('floor_plan_preview_img');
+
+            input.value = '';
+            previewImage.src = '#';
+            previewContainer.style.display = 'none';
+        }
+
+        // Auto-generate slug from title
+        document.getElementById('title').addEventListener('input', function() {
+            const title = this.value;
+            const slug = title.toLowerCase()
+                .replace(/[^\w\s-]/g, '') // Remove non-word characters
+                .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+                .replace(/^-+|-+$/g, ''); // Trim hyphens from start and end
+            document.getElementById('slug').value = slug;
+        });
     </script>
+
+    <!-- Summernote -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.text-editor').summernote({
+                height: 150,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+    </script>
+    <!-- Select2 CSS (before your custom styles) -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Your custom styles -->
+    <style>
+        /* Your existing styles */
+        .select2-container--default .select2-selection--multiple {
+            border-color: #b1b2b1;
+            min-height: 38px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #d33593;
+            border-color: #d33593;
+            color: white;
+            padding: 0 5px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            margin-right: 5px;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #d33593;
+        }
+    </style>
     <style>
         .card-primary {
             border-color: #d33593;
@@ -762,27 +941,52 @@
             top: 0;
             right: 0;
             padding: 0.15rem 0.3rem;
-            font-size: 0.7rem;
+            font-size: 0.7 font-size: 0.7rem;
             background-color: #dc3545;
             border: none;
             border-radius: 0;
         }
 
-        .note-editor.note-frame .note-statusbar {
-            background-color: #f8f9fa;
+        .select2-container--default .select2-selection--multiple {
+            border-color: #b1b2b1;
         }
 
-        .note-btn {
-            background-color: #f8f9fa;
-            border-color: #dee2e6;
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #d33593;
+            border-color: #d33593;
+            color: white;
         }
 
-        .note-btn:hover {
-            background-color: #e9ecef;
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
         }
 
-        .note-editable {
-            background-color: #ffffff;
+        .custom-file-label::after {
+            background-color: #d33593;
+            color: white;
+            border-color: #d33593;
         }
-    </style>
-@endsection
+
+        /* Show/hide available from date based on availability selection */
+        document.getElementById('availability').addEventListener('change', function() {
+                const availableFromGroup=document.getElementById('available_from_group');
+
+                if (this.value === 'After Date') {
+                    availableFromGroup.style.display = 'block';
+                }
+
+                else {
+                    availableFromGroup.style.display = 'none';
+                }
+            });
+
+        // Initialize availability field
+        document.addEventListener('DOMContentLoaded', function() {
+                const availability=document.getElementById('availability');
+                const availableFromGroup=document.getElementById('available_from_group');
+
+                if (availability.value !== 'After Date') {
+                    availableFromGroup.style.display = 'none';
+                }
+            });
+    </script>@endsection

@@ -9,14 +9,24 @@ class SimilarProperty extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $table = 'similar_properties';
+
+    protected $fillable = [
+        'property_id',
+        'similar_property_id',
+        'similarity_score'
+    ];
+
+    protected $casts = [
+        'similarity_score' => 'integer',
+    ];
 
     public function property()
     {
         return $this->belongsTo(Property::class, 'property_id');
     }
 
-    public function similar()
+    public function similarProperty()
     {
         return $this->belongsTo(Property::class, 'similar_property_id');
     }

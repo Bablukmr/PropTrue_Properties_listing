@@ -12,7 +12,72 @@ class Property extends Model
 
     protected $table = 'full_property_schema';
 
-    protected $guarded = [];
+    protected $fillable = [
+        // Basic Information
+        'title',
+        'description',
+        'slug',
+        'property_type',
+        'listing_type',
+        'price',
+        'price_unit',
+        'security_deposit',
+        'property_id',
+
+        // Location Details
+        'location',
+        'address',
+        'city',
+        'state',
+        'country',
+        'zip_code',
+        'latitude',
+        'longitude',
+        'landmark',
+        'google_map_link',
+
+        // Property Details
+        'bedrooms',
+        'bathrooms',
+        'balconies',
+        'floors',
+        'floor_number',
+        'super_area',
+        'carpet_area',
+        'plot_area',
+        'year_built',
+        'age_of_property',
+
+        // Furnishing
+        'furnishing',
+        'furnishing_details',
+
+        // Features & Amenities
+        'features',
+        'amenities',
+
+        // Availability
+        'availability',
+        'available_from',
+        'preferred_tenants',
+
+        // Media
+        'main_image',
+        'video_url',
+        'floor_plan_image',
+        'brochure',
+
+        // Additional Info
+        'is_featured',
+        'is_verified',
+        'is_active',
+        'property_status',
+        'notes',
+        'keyfeatures',
+
+        // Ownership
+        'user_id',
+    ];
 
     protected $casts = [
         'furnishing_details' => 'array',
@@ -21,20 +86,31 @@ class Property extends Model
         'is_featured' => 'boolean',
         'is_verified' => 'boolean',
         'is_active' => 'boolean',
+        'available_from' => 'date',
+        'price' => 'decimal:2',
+        'security_deposit' => 'decimal:2',
+        'super_area' => 'decimal:2',
+        'carpet_area' => 'decimal:2',
+        'plot_area' => 'decimal:2',
     ];
 
     public function images()
     {
-        return $this->hasMany(PropertyImage::class);
+        return $this->hasMany(PropertyImage::class, 'property_id');
     }
 
     public function similarProperties()
     {
-        return $this->hasMany(SimilarProperty::class, 'property_id');
+        return $this->belongsToMany(
+            Property::class,
+            'similar_properties',
+            'property_id',
+            'similar_property_id'
+        )->withTimestamps();
     }
 
     public function owner()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
