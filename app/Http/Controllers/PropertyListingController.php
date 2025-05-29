@@ -7,14 +7,59 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Property;
 use App\Models\PropertyImage;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyListingController extends Controller
 {
     // ... other methods ...
     public function index()
     {
-        return view('admin.propertylisting');
+        $properties = Property::all();
+
+        return view('admin.propertylisting', compact('properties'));
     }
+    public function list()
+    {
+        $properties = Property::all();
+        //  dd($properties); // Debugging line to check properties data
+        return view('admin.listofproperties', compact('properties'));
+    }
+    public function edit($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('admin.editproperty', compact('property')); // Make sure you have this blade
+    }
+
+    public function toggleStatus($id)
+    {
+        $property = Property::findOrFail($id);
+
+        // Toggle the value
+        $property->is_active = $property->is_active == 1 ? 0 : 1;
+
+        // Save and check if it succeeds
+        if ($property->save()) {
+            return back()->with('success', 'Property status updated successfully.');
+        } else {
+            return back()->with('error', 'Failed to update property status.');
+        }
+    }
+
+
+    public function destroy($id)
+    {
+        $property = Property::findOrFail($id);
+
+        // This will automatically delete all related images
+        $property->images()->delete();
+
+        // Now delete the property
+        $property->delete();
+
+        return back()->with('success', 'Property deleted successfully.');
+    }
+
+
 
     /**
      * Store a newly created property in storage.
@@ -22,12 +67,12 @@ class PropertyListingController extends Controller
     public function store(Request $request)
     {
         // Debugging line to check request data
-// dd($request->all());
+        // dd($request->all());
         $validatedData = $this->validateRequest($request);
 
         // Begin database transaction
-        DB::beginTransaction();
-
+        // DB::beginTransaction();
+        //  dd($validatedData);
         try {
             // Handle main image upload
             $mainImagePath = $this->handleFileUpload($request->file('main_image'), 'properties/main_images');
@@ -99,7 +144,7 @@ class PropertyListingController extends Controller
                 'keyfeatures' => $validatedData['keyfeatures'] ?? null,
 
                 // Ownership - assuming you'll use auth later
-                'user_id' => auth()->id() ?? 1, // Default to 1 if no auth
+                'user_id' => Auth::guard('admin')->user()->id  ?? 1, // Default to 1 if no auth
             ]);
 
             // Handle additional images
@@ -178,12 +223,12 @@ class PropertyListingController extends Controller
             'preferred_tenants' => 'nullable|in:Family,Professionals,Students,Company,Anyone',
 
             // Media
-            'main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             'property_images' => 'nullable|array',
-            'property_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'property_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
             'video_url' => 'nullable|url',
-            'floor_plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'brochure' => 'nullable|file|mimes:pdf|max:5120',
+            'floor_plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'brochure' => 'nullable|file|mimes:pdf|max:10240', // 1MB max for brochure
 
             // Additional Info
             'is_featured' => 'nullable|boolean',
