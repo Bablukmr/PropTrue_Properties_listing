@@ -42,5 +42,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
         Route::get('propertylisting', [PropertyListingController::class, 'index'])->name('admin.propertylisting');
         Route::post('propertylisting/store', [PropertyListingController::class, 'store'])->name('admin.propertylisting.store');
+       // Route::get('listofproperties', [PropertyListingController::class, 'list'])->name('admin.listofproperties');
+
+    Route::get('properties', [PropertyListingController::class, 'list'])->name('admin.properties.list');
+    Route::get('properties/{property}/edit', [PropertyListingController::class, 'edit'])->name('admin.properties.edit');
+    Route::put('properties/{property}/toggle', [PropertyListingController::class, 'toggleStatus'])->name('admin.properties.toggleStatus');
+    Route::delete('properties/{property}', [PropertyListingController::class, 'destroy'])->name('admin.properties.destroy');
     });
 });

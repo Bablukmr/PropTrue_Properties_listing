@@ -215,7 +215,7 @@
 
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/table" class="nav-link">
+                        <a href="{{ route('admin.properties.list') }}" class="nav-link">
                             <i class="fas fa-list nav-icon"></i>
                             <p>All Properties</p>
                         </a>

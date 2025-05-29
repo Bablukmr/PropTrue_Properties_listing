@@ -18,6 +18,9 @@
                 </div>
             </div><!-- /.container-fluid -->
         </section>
+
+
+
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Success!</strong> {{ session('success') }}
@@ -46,14 +49,12 @@
                 <div class="row">
 
 
-
-
-
                     <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary" style="border-color: #d33593;">
                             <div class="card-header mt-2 " style="background-color: #48254a; color: #ffffff;">
                                 <h3 class="card-title">Property Information</h3>
+
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
@@ -71,20 +72,20 @@
                                                 <div class="card-body">
                                                     <div class="form-group">
                                                         <label for="title">Property Title*</label>
-                                                        <input type="text" class="form-control" id="title"
-                                                            name="title" placeholder="e.g. Beautiful 3 BHK Apartment"
-                                                            required>
+                                                        <input value="{{ old('title') }}" type="text"
+                                                            class="form-control" id="title" name="title"
+                                                            placeholder="e.g. Beautiful 3 BHK Apartment" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="slug">Slug*</label>
-                                                        <input type="text" class="form-control" id="slug"
-                                                            name="slug" placeholder="e.g. beautiful-3bhk-apartment"
-                                                            required>
+                                                        <input value="{{ old('slug') }}" type="text"
+                                                            class="form-control" id="slug" name="slug"
+                                                            placeholder="e.g. beautiful-3bhk-apartment" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="description">Description*</label>
                                                         <textarea class="form-control text-editor" id="description" name="description" rows="3"
-                                                            placeholder="Detailed description of the property" required></textarea>
+                                                            placeholder="Detailed description of the property" required>{{ old('description') }}</textarea>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -636,48 +637,53 @@
                                                         <label for="similar_properties">Similar Properties</label>
                                                         <select class="form-control select2" id="similar_properties"
                                                             name="similar_properties[]" multiple="multiple"
-                                                            data-placeholder="Search and select similar properties">
-                                                            <option value="1">Beautiful 3 BHK Apartment</option>
-                                                            <option value="2">Luxury Villa with Pool</option>
-                                                            <option value="3">Modern Penthouse Downtown</option>
-                                                            <option value="4">Spacious Family House</option>
-                                                            <option value="5">Commercial Office Space</option>
-                                                            <!-- Add more proper options here -->
+                                                            data-placeholder="Search and select similar properties"
+                                                            style="width: 100%;">
+                                                            @foreach ($properties as $property)
+                                                                <option value="{{ $property->id }}"
+                                                                    {{ in_array($property->id, old('similar_properties', $selectedSimilarProperties ?? [])) ? 'selected' : '' }}>
+                                                                    {{ $property->title }} ({{ $property->property_id }})
+                                                                </option>
+                                                            @endforeach
                                                         </select>
+                                                        @error('similar_properties')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
+                                                </div>
 
-                                                    <div class="form-group">
-                                                        <label for="keyfeatures">Key Features</label>
-                                                        <textarea class="form-control text-editor" id="keyfeatures" name="keyfeatures" rows="3"
-                                                            placeholder="List key features of the property"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="notes">Notes</label>
-                                                        <textarea class="form-control text-editor" id="notes" name="notes" rows="3"
-                                                            placeholder="Any additional notes"></textarea>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="keyfeatures">Key Features</label>
+                                                    <textarea class="form-control text-editor" id="keyfeatures" name="keyfeatures" rows="3"
+                                                        placeholder="List key features of the property"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="notes">Notes</label>
+                                                    <textarea class="form-control text-editor" id="notes" name="notes" rows="3"
+                                                        placeholder="Any additional notes"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                <!-- /.card-body -->
 
-                                <div class="card-footer" style="background-color: #f8f9fa;">
-                                    <button type="submit" class="btn btn-primary"
-                                        style="background-color: #d33593; border-color: #d33593;">Submit Property</button>
-                                    <button type="reset" class="btn btn-secondary"
-                                        style="background-color: #717271; border-color: #717271;">Reset</button>
-                                </div>
-                            </form>
                         </div>
-                        <!-- /.card -->
+                        <!-- /.card-body -->
+
+                        <div class="card-footer" style="background-color: #f8f9fa;">
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #d33593; border-color: #d33593;">Submit Property</button>
+                            <button type="reset" class="btn btn-secondary"
+                                style="background-color: #717271; border-color: #717271;">Reset</button>
+                        </div>
+                        </form>
                     </div>
+                    <!-- /.card -->
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
+            </div>
+    </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     <!-- Select2 -->

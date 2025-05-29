@@ -23,7 +23,6 @@ class Property extends Model
         'price_unit',
         'security_deposit',
         'property_id',
-
         // Location Details
         'location',
         'address',
@@ -94,10 +93,10 @@ class Property extends Model
         'plot_area' => 'decimal:2',
     ];
 
-    public function images()
-    {
-        return $this->hasMany(PropertyImage::class, 'property_id');
-    }
+    // public function images()
+    // {
+    //     return $this->hasMany(PropertyImage::class, 'property_id');
+    // }
 
     public function similarProperties()
     {
@@ -108,7 +107,10 @@ class Property extends Model
             'similar_property_id'
         )->withTimestamps();
     }
-
+    public function images()
+    {
+        return $this->hasMany(PropertyImage::class);
+    }
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
