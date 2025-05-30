@@ -75,8 +75,10 @@
                                 <!-- Property Title -->
                                 <div class="px-4 pt-4">
                                     <h2 class="font-bold text-lg">
-                                        {{ $property->bedrooms ?? 'N/A' }} BHK {{ $property->property_type }} for
-                                        {{ $property->listing_type }} in {{ $property->city }}
+                                        {{ $property->title }}
+
+                                        {{-- {{ $property->bedrooms ?? 'N/A' }} BHK {{ $property->property_type }} for
+                                        {{ $property->listing_type }} in {{ $property->city }} --}}
                                     </h2>
                                     <p class="flex items-center text-teal-800 font-semibold">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1 text-teal-800"

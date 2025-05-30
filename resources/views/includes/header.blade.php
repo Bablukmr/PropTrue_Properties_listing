@@ -27,13 +27,22 @@
                         'Buy' => [
                             'url' => '#',
                             'dropdown' => [
-                                'New Properties' => '/search',
-                                'Resale Properties' => '/search',
+                                'New Properties' => route('property.search', [
+                                    'search' => '',
+                                    'property_type' => '',
+                                    'sort' => 'newest',
+                                ]),
+                                'Resale Properties' => route('property.search', [
+                                    'search' => '',
+                                    'property_type' => '',
+                                    'listing_type' => 'For Resale',
+                                ]),
                             ],
                         ],
+
                         'Sell' => [
                             'url' => '/contact',
-                            'dropdown' =>null,
+                            'dropdown' => null,
                         ],
                         'Blog' => [
                             'url' => '/#blog',
@@ -147,10 +156,10 @@
                 <div class="pt-4 mt-2 border-t border-gray-100">
 
 
-                         <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"
-                     class="block w-full px-4 py-2.5 mt-2 text-center bg-green-500 text-white font-medium rounded-lg hover:bg-teal-700 transition-colors duration-200">
-                    <span class="relative z-10">WhatsApp Us</span>
-                </a>
+                    <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"
+                        class="block w-full px-4 py-2.5 mt-2 text-center bg-green-500 text-white font-medium rounded-lg hover:bg-teal-700 transition-colors duration-200">
+                        <span class="relative z-10">WhatsApp Us</span>
+                    </a>
 
 
                 </div>

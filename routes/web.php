@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PropertyDetailsController;
+use App\Http\Controllers\PropertyInquiryController;
 use App\Http\Controllers\PropertyListingController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,8 @@ Route::get('/searchs', [
 
 Route::get('/', [PropertyListingController::class, 'indexwelcome'])->name('home');
 Route::get('/search', [PropertyListingController::class, 'search'])->name('property.search');
-
+Route::post('/properties/{property}/inquiry', [PropertyInquiryController::class, 'store'])
+    ->name('property.inquiry.store');
 Route::get('/property/{id}', [PropertyDetailsController::class, 'index'])->name('property.show');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/join-us', [PageController::class, 'joinus'])->name('joinus');

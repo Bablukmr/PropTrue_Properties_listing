@@ -791,48 +791,84 @@
                     <h4 class="font-display text-2xl font-bold text-textClr-primary mb-6">
                         Inquire About This Property
                     </h4>
-                    <form class="space-y-5">
+                    <form action="{{ route('property.inquiry.store', $property->id) }}" method="POST"
+                        class="space-y-5">
+                        @csrf
                         <div>
-                            <label for="name" class="block text-sm font-medium text-textClr-secondary mb-1">Full
-                                Name</label>
-                            <input type="text" id="name"
+                            <label for="name" class="block text-sm font-medium text-textClr-secondary mb-1">Full Name
+                                *</label>
+                            <input type="text" id="name" name="name" required
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
-                                placeholder="e.g., Jane Doe" />
+                                placeholder="e.g., Jane Doe" value="{{ old('name') }}" />
+                            @error('name')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label for="email" class="block text-sm font-medium text-textClr-secondary mb-1">Email
                                 Address</label>
-                            <input type="email" id="email"
+                            <input type="email" id="email" name="email"
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
-                                placeholder="you@example.com" />
+                                placeholder="you@example.com" value="{{ old('email') }}" />
+                            @error('email')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-medium text-textClr-secondary mb-1">Phone
-                                Number</label>
-                            <input type="tel" id="phone"
+                                Number *</label>
+                            <input type="tel" id="phone" name="phone" required
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
-                                placeholder="+1 (555) 123-4567" />
+                                placeholder="+91 xxxxxxx" value="{{ old('phone') }}" />
+                            @error('phone')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label for="message"
                                 class="block text-sm font-medium text-textClr-secondary mb-1">Message</label>
-                            <textarea id="message" rows="4"
+                            <textarea id="message" name="message" rows="4"
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
-                                placeholder="I'm interested in this property..."></textarea>
+                                placeholder="I'm interested in this property...">{{ old('message') }}</textarea>
+                            @error('message')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="flex items-center">
-                            <input id="terms" type="checkbox"
-                                class="h-4 w-4 text-brand-primary bg-brand-dark border-brand-light/50 rounded focus:ring-brand-primary" />
+                            <input id="terms" name="terms" type="checkbox" required
+                                class="h-4 w-4 text-brand-primary bg-brand-dark border-brand-light/50 rounded focus:ring-brand-primary"
+                                {{ old('terms') ? 'checked' : '' }} />
                             <label for="terms" class="ml-2 block text-sm text-textClr-secondary">I agree to the
                                 <a href="#" class="text-brand-primary hover:underline">terms and
                                     conditions</a></label>
+                            @error('terms')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
+
+                        <!-- reCAPTCHA -->
+                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                        @error('g-recaptcha-response')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+
                         <button type="submit"
                             class="bg-primary hover:bg-primary-dark text-white w-full py-3.5 rounded-lg font-semibold text-md flex items-center justify-center">
                             <i class="fa-solid fa-paper-plane mr-2"></i>Submit Inquiry
                         </button>
                     </form>
+
+                    @if (session('success'))
+                        <div class="mt-4 p-4 bg-green-100 text-green-700 rounded">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                 </div>
+
+                @push('scripts')
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                @endpush
+
             </aside>
         </div>
     </div>

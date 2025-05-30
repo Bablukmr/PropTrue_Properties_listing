@@ -226,6 +226,12 @@
                             <p>Add New Property</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.propertylisting') }}" class="nav-link">
+                            <i class="fas fa-plus-circle nav-icon"></i>
+                            <p>Enquiry List</p>
+                        </a>
+                    </li>
 
 
                     <li class="nav-item">

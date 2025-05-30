@@ -54,6 +54,7 @@ class PropertyListingController extends Controller
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
                     ->orWhere('city', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%")
                     ->orWhere('address', 'like', "%{$searchTerm}%");
             });
         }
