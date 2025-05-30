@@ -152,44 +152,67 @@
 
                 </div> --}}
                 <!-- Search Bar -->
-                <form action="/search"
-                    class="bg-white/20 rounded-xl shadow-lg p-6 w-full max-w-5xl mx-auto grid gap-4 grid-cols-1 md:grid-cols-6 backdrop-blur-sm border border-white/30 transition-all duration-500 hover:shadow-xl">
+                <form action="{{ route('property.search') }}" method="GET"
+                    class="bg-white/20 rounded-xl shadow-lg p-6 w-full max-w-5xl mx-auto grid gap-4 grid-cols-1 md:grid-cols-5 backdrop-blur-sm border border-white/30 transition-all duration-500 hover:shadow-xl">
 
-                    <select
+                    <select name="property_type"
                         class="border border-white/30 bg-white/20 text-white px-4 py-3 rounded-md w-full md:col-span-1 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <option class="text-gray-800">Property Types</option>
-                        <option class="text-gray-800">Residential Flat</option>
-                        <option class="text-gray-800">Residential Plot</option>
-                        <option class="text-gray-800">Commercial</option>
-                        <option class="text-gray-800">Villa</option>
+                        <option class="text-gray-800" value="">Property Types</option>
+                        <option class="text-gray-800" value="Residential Flat"
+                            {{ request('property_type') == 'Residential Flat' ? 'selected' : '' }}>Residential Flat</option>
+                        <option class="text-gray-800" value="Residential Plot"
+                            {{ request('property_type') == 'Residential Plot' ? 'selected' : '' }}>Residential Plot</option>
+                        <option class="text-gray-800" value="Commercial"
+                            {{ request('property_type') == 'Commercial' ? 'selected' : '' }}>
+                            Commercial</option>
+                        <option class="text-gray-800" value="Villa"
+                            {{ request('property_type') == 'Villa' ? 'selected' : '' }}>Villa</option>
+                        <option class="text-gray-800" value="Apartment"
+                            {{ request('property_type') == 'Apartment' ? 'selected' : '' }}>Apartment
+                        </option>
+                        <option class="text-gray-800" value="Penthouse"
+                            {{ request('property_type') == 'Penthouse' ? 'selected' : '' }}>Penthouse
+                        </option>
+                        <option class="text-gray-800" value="House"
+                            {{ request('property_type') == 'House' ? 'selected' : '' }}>House</option>
+                        <option class="text-gray-800" value="Condo"
+                            {{ request('property_type') == 'Condo' ? 'selected' : '' }}>Condo</option>
+                        <option class="text-gray-800" value="Townhouse"
+                            {{ request('property_type') == 'Townhouse' ? 'selected' : '' }}>Townhouse
+                        </option>
                     </select>
-                    <input type="text" placeholder="Type, property name, locality, city"
+
+                    <input type="text" name="search" placeholder="Type, property name, locality, city"
+                        value="{{ request('search') }}"
                         class="border border-white/30 bg-white/20 text-white placeholder-white/70 px-4 py-3 rounded-md w-full md:col-span-2 focus:outline-none focus:ring-2 focus:ring-primary" />
 
-                    <select
+                    <select name="listing_type"
                         class="border border-white/30 bg-white/20 text-white px-4 py-3 rounded-md w-full md:col-span-1 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <option class="text-gray-800">Transaction Type</option>
-                        <option class="text-gray-800">Project</option>
-                        <option class="text-gray-800">Resale</option>
-
+                        <option class="text-gray-800" value="">Transaction Type</option>
+                        <option class="text-gray-800" value="For Sale"
+                            {{ request('listing_type') == 'For Sale' ? 'selected' : '' }}>For Sale
+                        </option>
+                        <option class="text-gray-800" value="For Resale"
+                            {{ request('listing_type') == 'For Resale' ? 'selected' : '' }}>For
+                            Resale</option>
+                        <option class="text-gray-800" value="For Rent"
+                            {{ request('listing_type') == 'For Rent' ? 'selected' : '' }}>For Rent
+                        </option>
+                        <option class="text-gray-800" value="Lease"
+                            {{ request('listing_type') == 'Lease' ? 'selected' : '' }}>Lease</option>
                     </select>
-                    <select
-                        class="border border-white/30 bg-white/20 text-white px-4 py-3 rounded-md w-full md:col-span-1 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <option class="text-gray-800">Location</option>
-                        <option class="text-gray-800">Patna</option>
-                        <option class="text-gray-800">Mumbai</option>
-                        <option class="text-gray-800">Delhi</option>
-                        <option class="text-gray-800">Bangalore</option>
-                        <option class="text-gray-800">Hyderabad</option>
-                    </select>
-
-                    <button
+                    <!-- Add this hidden input to maintain other search parameters -->
+                    @foreach (request()->except('sort') as $key => $value)
+                        @if ($value)
+                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                        @endif
+                    @endforeach
+                    <button type="submit"
                         class="bg-primary hover:bg-primary-dark text-white font-bold px-4 py-3 rounded-md transition-all duration-300 transform hover:scale-105 shadow-md md:col-span-1 flex items-center justify-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-
                         Search
                     </button>
                 </form>
@@ -247,7 +270,7 @@
         </script>
 
         <!-- Featured Properties -->
-        <section id="featured-properties" class="py-20 bg-white">
+        {{-- <section id="featured-properties" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Section Heading -->
                 <div class="text-center mb-16">
@@ -330,7 +353,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-2xl font-bold text-primary">₹2.75 Cr</span>
-                                <a href="{{ route('propertydetails.index') }}"
+                                <a href="#"
                                     class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -409,7 +432,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-2xl font-bold text-primary">₹4.2 Cr</span>
-                                <a href="{{ route('propertydetails.index') }}"
+                                <a href="#"
                                     class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -487,7 +510,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-2xl font-bold text-primary">₹8.5 Cr</span>
-                                <a href="{{ route('propertydetails.index') }}"
+                                <a href="#"
                                     class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -566,7 +589,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-2xl font-bold text-primary">₹1.85 Cr</span>
-                                <a href="{{ route('propertydetails.index') }}"
+                                <a href="#"
                                     class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -588,6 +611,150 @@
                         class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-md">
                         View All Properties
                     </button>
+                </div>
+            </div>
+        </section> --}}
+
+        <!-- Featured Properties -->
+        <section id="featured-properties" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Heading -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                        Featured Properties
+                    </h2>
+                    <div class="mx-auto w-24 h-1 bg-gradient-to-r from-primary to-primary-dark rounded-full mb-6"></div>
+                    <p class="text-gray-500 max-w-3xl mx-auto text-lg">
+                        Explore our handpicked selection of premium properties. Each listing is carefully vetted to ensure
+                        quality and value for our clients.
+                    </p>
+                </div>
+
+                <!-- Property Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    @foreach ($featured_properties as $property)
+                        <div
+                            class="property-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
+                            <div class="relative h-60 overflow-hidden">
+                                @if ($property->main_image)
+                                    <img src="{{ asset($property->main_image) }}" alt="{{ $property->title }}"
+                                        class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
+                                @else
+                                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <span class="text-gray-500">No Image Available</span>
+                                    </div>
+                                @endif
+
+                                <div class="absolute top-4 left-4 flex flex-col space-y-2">
+                                    @if ($property->is_featured)
+                                        <span
+                                            class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full animate-pulse">
+                                            Featured
+                                        </span>
+                                    @endif
+                                    @if ($property->property_status === 'Available')
+                                        <span class="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                            Available
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md">
+                                    <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="p-6">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-xl font-bold text-gray-800">{{ $property->title }}</h3>
+                                    @if ($property->is_verified)
+                                        <span
+                                            class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded ">Verified</span>
+                                    @endif
+                                </div>
+
+                                <p class="text-sm text-gray-500 mb-3 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    {{ $property->city }}, {{ $property->state }}
+                                </p>
+
+                                <div class="flex items-center text-sm text-gray-600 mb-4 space-x-4">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                            </path>
+                                        </svg>
+                                        {{ $property->bedrooms }} BHK
+                                    </span>
+
+                                    @if ($property->year_built)
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                                </path>
+                                            </svg>
+                                            {{ $property->year_built }}
+                                        </span>
+                                    @endif
+
+                                    @if ($property->super_area)
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
+                                                </path>
+                                            </svg>
+                                            {{ $property->super_area }} sqft
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xl font-bold text-primary">
+                                        ₹{{ number_format($property->price) }}
+                                        {{-- @if ($property->price_unit)
+                                            <span class="text-sm font-normal">{{ $property->price_unit }}</span>
+                                        @endif --}}
+                                    </span>
+                                    <a href="{{ route('property.show', $property->id) }}"
+                                        class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
+                                        </svg>
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- View All Button -->
+                <div class="text-center mt-12">
+                    <a href="#"
+                        class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-md">
+                        View All Properties
+                    </a>
                 </div>
             </div>
         </section>
@@ -870,7 +1037,7 @@
         </section>
 
         <!-- Scrollable Property List -->
-        <section class="py-16">
+        {{-- <section class="py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center mb-8">
                     <h2 class="text-3xl font-bold text-gray-800">New Listings</h2>
@@ -1083,6 +1250,130 @@
                     </div>
                 </div>
             </div>
+        </section> --}}
+
+        <!-- Scrollable Property List -->
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800">New Listings</h2>
+                    <div class="flex space-x-4">
+                        <button
+                            class="scroll-left-btn bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button
+                            class="scroll-right-btn bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="property-scroll-container overflow-x-auto pb-8 -mx-4 px-4 scrollbar-hide">
+                        <div class="property-scroll-wrapper flex space-x-6" style="min-width: max-content;">
+                            @foreach ($newlisted_properties as $property)
+                                <div
+                                    class="property-card flex-shrink-0 w-72 bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+                                    <div class="relative h-48 overflow-hidden">
+                                        @if ($property->main_image)
+                                            <img src="{{ asset($property->main_image) }}" alt="{{ $property->title }}"
+                                                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                                        @else
+                                            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                <span class="text-gray-500">No Image Available</span>
+                                            </div>
+                                        @endif
+
+                                        <div class="absolute top-4 left-4 flex flex-col space-y-2">
+                                            @if ($property->is_featured)
+                                                <span
+                                                    class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                                    Featured
+                                                </span>
+                                            @endif
+                                            @if ($property->property_status === 'Available')
+                                                <span
+                                                    class="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                                    Available
+                                                </span>
+                                            @endif
+                                        </div>
+
+                                        <div
+                                            class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md">
+                                            <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-5">
+                                        <h3 class="text-lg font-bold text-gray-800 mb-1">{{ $property->title }}</h3>
+                                        <p class="text-sm text-gray-500 mb-3 flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                                </path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                            {{ $property->city }}, {{ $property->state }}
+                                        </p>
+
+                                        <div class="flex items-center text-sm text-gray-600 mb-4 space-x-4">
+                                            @if ($property->bedrooms)
+                                                <span class="flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                                        </path>
+                                                    </svg>
+                                                    {{ $property->bedrooms }} BHK
+                                                </span>
+                                            @endif
+
+                                            @if ($property->super_area)
+                                                <span class="flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
+                                                        </path>
+                                                    </svg>
+                                                    {{ $property->super_area }} sqft
+                                                </span>
+                                            @endif
+                                        </div>
+
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-xl font-bold text-primary">
+                                                ₹{{ number_format($property->price) }}
+                                            </span>
+                                            <a href="{{ route('property.show', $property->id) }}"
+                                                class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300">
+                                                View Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- How It Works -->
@@ -1245,133 +1536,153 @@
                 </div>
             </div>
         </section>
-<!-- Blog Section -->
-<section id="#blog" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Section Heading -->
-        <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                Latest <span class="text-primary">Blog</span> Posts
-            </h2>
-            <div class="mx-auto w-24 h-1 bg-gradient-to-r from-primary to-primary-dark rounded-full mb-6"></div>
-            <p class="text-gray-500 max-w-3xl mx-auto text-lg">
-                Stay updated with the latest trends, tips, and insights in the real estate market.
-            </p>
-        </div>
+        <!-- Blog Section -->
+        <section id="#blog" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Heading -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                        Latest <span class="text-primary">Blog</span> Posts
+                    </h2>
+                    <div class="mx-auto w-24 h-1 bg-gradient-to-r from-primary to-primary-dark rounded-full mb-6"></div>
+                    <p class="text-gray-500 max-w-3xl mx-auto text-lg">
+                        Stay updated with the latest trends, tips, and insights in the real estate market.
+                    </p>
+                </div>
 
-        <!-- Blog Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Blog Post 1 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
-                <div class="relative h-60 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Real Estate Trends"
-                         class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-                            Trends
-                        </span>
+                <!-- Blog Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Blog Post 1 -->
+                    <div
+                        class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+                                alt="Real Estate Trends"
+                                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                    Trends
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                June 15, 2023
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-gray-800 mb-3 hover:text-primary transition-colors duration-300">
+                                <a href="#">Top 5 Real Estate Trends to Watch in 2023</a>
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                                Discover the emerging trends that are shaping the real estate market this year and how they
+                                might affect your investments.
+                            </p>
+                            <a href="#"
+                                class="text-primary hover:text-primary-dark font-medium flex items-center transition-colors duration-300">
+                                Read More
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Blog Post 2 -->
+                    <div
+                        class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6" alt="Home Buying Tips"
+                                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                    Tips
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                May 28, 2023
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-gray-800 mb-3 hover:text-primary transition-colors duration-300">
+                                <a href="#">10 Essential Tips for First-Time Home Buyers</a>
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                                Navigating the home buying process can be overwhelming. Here are 10 crucial tips to help
+                                first-time buyers make smart decisions.
+                            </p>
+                            <a href="#"
+                                class="text-primary hover:text-primary-dark font-medium flex items-center transition-colors duration-300">
+                                Read More
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Blog Post 3 -->
+                    <div
+                        class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00" alt="Investment Guide"
+                                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                    Investment
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                April 12, 2023
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-gray-800 mb-3 hover:text-primary transition-colors duration-300">
+                                <a href="#">The Ultimate Guide to Real Estate Investment in 2023</a>
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                                Learn how to maximize your returns with our comprehensive guide to real estate investment
+                                strategies for the current market.
+                            </p>
+                            <a href="#"
+                                class="text-primary hover:text-primary-dark font-medium flex items-center transition-colors duration-300">
+                                Read More
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="p-6">
-                    <div class="flex items-center text-sm text-gray-500 mb-3">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        June 15, 2023
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 hover:text-primary transition-colors duration-300">
-                        <a href="#">Top 5 Real Estate Trends to Watch in 2023</a>
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        Discover the emerging trends that are shaping the real estate market this year and how they might affect your investments.
-                    </p>
-                    <a href="#" class="text-primary hover:text-primary-dark font-medium flex items-center transition-colors duration-300">
-                        Read More
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
+
+                <!-- View All Button -->
+                <div class="text-center mt-12">
+                    <a href="#"
+                        class="inline-block bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        View All Blog Posts
                     </a>
                 </div>
             </div>
-
-            <!-- Blog Post 2 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
-                <div class="relative h-60 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6" alt="Home Buying Tips"
-                         class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                            Tips
-                        </span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center text-sm text-gray-500 mb-3">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        May 28, 2023
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 hover:text-primary transition-colors duration-300">
-                        <a href="#">10 Essential Tips for First-Time Home Buyers</a>
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        Navigating the home buying process can be overwhelming. Here are 10 crucial tips to help first-time buyers make smart decisions.
-                    </p>
-                    <a href="#" class="text-primary hover:text-primary-dark font-medium flex items-center transition-colors duration-300">
-                        Read More
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Blog Post 3 -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
-                <div class="relative h-60 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00" alt="Investment Guide"
-                         class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                            Investment
-                        </span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center text-sm text-gray-500 mb-3">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        April 12, 2023
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3 hover:text-primary transition-colors duration-300">
-                        <a href="#">The Ultimate Guide to Real Estate Investment in 2023</a>
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        Learn how to maximize your returns with our comprehensive guide to real estate investment strategies for the current market.
-                    </p>
-                    <a href="#" class="text-primary hover:text-primary-dark font-medium flex items-center transition-colors duration-300">
-                        Read More
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- View All Button -->
-        <div class="text-center mt-12">
-            <a href="#" class="inline-block bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                View All Blog Posts
-            </a>
-        </div>
-    </div>
-</section>
+        </section>
         <!-- Featured Developers -->
         <section class="py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

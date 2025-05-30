@@ -6,25 +6,29 @@ use App\Http\Controllers\PropertyDetailsController;
 use App\Http\Controllers\PropertyListingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('home');
 Route::get('/propertydetails', [
     PropertyDetailsController::class,
-    'index'
+    'indexdummy'
 ])->name('propertydetails.index');
 
-Route::get('/search', [
+Route::get('/searchs', [
     PropertyDetailsController::class,
     'search'
 ])->name('propertydetails.search');
 
+Route::get('/', [PropertyListingController::class, 'indexwelcome'])->name('home');
+Route::get('/search', [PropertyListingController::class, 'search'])->name('property.search');
 
+Route::get('/property/{id}', [PropertyDetailsController::class, 'index'])->name('property.show');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/join-us', [PageController::class, 'joinus'])->name('joinus');
 Route::get('/associates-us', [PageController::class, 'assosiatewithus'])->name('assosiatewithus');
 Route::get('/about-us', [PageController::class, 'aboutus'])->name('aboutus');
 Route::get('/our-team', [PageController::class, 'ourteam'])->name('ourteam');
+
 // Admin routes
 Route::group(['prefix' => 'admin'], function () {
     // Routes for guests (e.g., login, register)
@@ -48,5 +52,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('properties/{property}/edit', [PropertyListingController::class, 'edit'])->name('admin.properties.edit');
     Route::put('properties/{property}/toggle', [PropertyListingController::class, 'toggleStatus'])->name('admin.properties.toggleStatus');
     Route::delete('properties/{property}', [PropertyListingController::class, 'destroy'])->name('admin.properties.destroy');
+
+
+    // Route::get('/property/{slug}', [PropertyDetailsController::class, 'index'])->name('admin.propertydetails.index');
     });
 });

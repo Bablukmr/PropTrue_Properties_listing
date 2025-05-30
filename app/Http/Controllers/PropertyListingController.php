@@ -12,12 +12,92 @@ use Illuminate\Support\Facades\Auth;
 class PropertyListingController extends Controller
 {
     // ... other methods ...
+
+
+    public function indexwelcome()
+    {
+        $newlisted_properties = Property::where('is_active', true)
+            ->orderBy('created_at', 'desc')
+            ->take(10) // Limit to 10 newly listed properties
+            ->get();
+        $featured_properties = Property::where('is_featured', true)
+            ->where('is_active', true)
+            ->orderBy('created_at', 'desc')
+            ->take(4) // Limit to 4 featured properties
+            ->get();
+
+        return view('welcome', compact('featured_properties', 'newlisted_properties'));
+    }
     public function index()
     {
         $properties = Property::all();
 
         return view('admin.propertylisting', compact('properties'));
     }
+    public function search(Request $request)
+    {
+        $query = Property::query()->where('is_active', true);
+
+        // Search by property type
+        if ($request->filled('property_type')) {
+            $query->where('property_type', $request->property_type);
+        }
+
+        // Search by listing type
+        if ($request->filled('listing_type')) {
+            $query->where('listing_type', $request->listing_type);
+        }
+
+        // General search (title, city, address)
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhere('city', 'like', "%{$searchTerm}%")
+                    ->orWhere('address', 'like', "%{$searchTerm}%");
+            });
+        }
+        // Apply sorting
+        $sort = $request->get('sort', 'newest');
+        switch ($sort) {
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'area_asc':
+                $query->orderBy('super_area', 'asc');
+                break;
+            case 'area_desc':
+                $query->orderBy('super_area', 'desc');
+                break;
+            case 'bedrooms_asc':
+                $query->orderBy('bedrooms', 'asc');
+                break;
+            case 'bedrooms_desc':
+                $query->orderBy('bedrooms', 'desc');
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        // Get paginated results
+        $properties = $query->paginate(5);
+
+        return view('search-results', [
+            'properties' => $properties,
+            'searchParams' => $request->all()
+        ]);
+    }
+
     public function list()
     {
         $properties = Property::all();
@@ -68,6 +148,10 @@ class PropertyListingController extends Controller
     {
         // Debugging line to check request data
         // dd($request->all());
+        $request->merge([
+            'slug' => Str::slug($request->slug)
+        ]);
+
         $validatedData = $this->validateRequest($request);
 
         // Begin database transaction
@@ -143,6 +227,14 @@ class PropertyListingController extends Controller
                 'notes' => $validatedData['notes'] ?? null,
                 'keyfeatures' => $validatedData['keyfeatures'] ?? null,
 
+                // ... existing fields ...
+                'bazar_distance_km' => $validatedData['bazar_distance_km'] ?? null,
+                'hospital_distance_km' => $validatedData['hospital_distance_km'] ?? null,
+                'school_distance_km' => $validatedData['school_distance_km'] ?? null,
+                'bus_stand_distance_km' => $validatedData['bus_stand_distance_km'] ?? null,
+                'junction_distance_km' => $validatedData['junction_distance_km'] ?? null,
+                'airport_distance_km' => $validatedData['airport_distance_km'] ?? null,
+
                 // Ownership - assuming you'll use auth later
                 'user_id' => Auth::guard('admin')->user()->id  ?? 1, // Default to 1 if no auth
             ]);
@@ -160,7 +252,7 @@ class PropertyListingController extends Controller
             // Commit the transaction
             DB::commit();
 
-            return redirect()->route('admin.propertylisting')
+            return redirect()->route('admin.properties.list')
                 ->with('success', 'Property created successfully!');
         } catch (\Exception $e) {
             // Rollback the transaction on error
@@ -238,6 +330,15 @@ class PropertyListingController extends Controller
             'keyfeatures' => 'nullable|string',
             'similar_properties' => 'nullable|array',
             'similar_properties.*' => 'nullable|exists:full_property_schema,id',
+            // Nearby Locations
+            'bazar_distance_km' => 'nullable|string|max:100',
+            'hospital_distance_km' => 'nullable|string|max:100',
+            'school_distance_km' => 'nullable|string|max:100',
+            'bus_stand_distance_km' => 'nullable|string|max:100',
+            'junction_distance_km' => 'nullable|string|max:100',
+            'airport_distance_km' => 'nullable|string|max:100',
+
+
         ]);
     }
 

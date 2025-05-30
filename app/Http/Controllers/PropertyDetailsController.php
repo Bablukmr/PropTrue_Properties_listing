@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Property;
+use App\Models\PropertyImage;
+use App\Models\SimilarProperty;
 use Illuminate\Http\Request;
 
 class PropertyDetailsController extends Controller
@@ -9,13 +12,48 @@ class PropertyDetailsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexdummy()
     {
-       return view('propertydetail');
+        return view('propertydetail');
     }
-public function search(){
-    return view('search');
-}
+
+    public function index($id)
+    {
+        $property = Property::with(['images', 'owner'])->findOrFail($id);
+        // dd($property);
+        // All images for this property
+        $propertyimagesall = PropertyImage::where('property_id', $id)->get();
+
+        // Get featured image (or fallback)
+        $featuredImage = $propertyimagesall->where('is_featured', true)->first() ?? $propertyimagesall->first();
+
+        // Get similar property IDs from the pivot table
+        $similarPropertyIds = SimilarProperty::where('property_id', $id)->pluck('similar_property_id');
+
+        // Fetch actual similar properties with their images
+        $similarProperties = Property::with('images')
+            ->whereIn('id', $similarPropertyIds)
+            ->get()
+            ->map(function ($similar) {
+                $similar->featuredImage = $similar->images->where('is_featured', true)->first()
+                    ?? $similar->images->first();
+                return $similar;
+            });
+        // dd($propertyimagesall);
+        return view('propertydetails', compact(
+            'property',
+            'propertyimagesall',
+            'featuredImage',
+            'similarProperties'
+        ));
+    }
+
+
+
+    public function search()
+    {
+        return view('search');
+    }
     /**
      * Show the form for creating a new resource.
      */

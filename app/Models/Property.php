@@ -73,6 +73,13 @@ class Property extends Model
         'property_status',
         'notes',
         'keyfeatures',
+        // nearby_places',
+        'bazar_distance_km',
+        'hospital_distance_km',
+        'school_distance_km',
+        'bus_stand_distance_km',
+        'junction_distance_km',
+        'airport_distance_km',
 
         // Ownership
         'user_id',

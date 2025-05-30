@@ -16,10 +16,9 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.container-fluid -->
         </section>
-
-
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -94,11 +93,13 @@
                                                                 <select class="form-control" id="property_type"
                                                                     name="property_type" required>
                                                                     <option value="">Select Type</option>
-                                                                    <option value="Apartment">Apartment</option>
-                                                                    <option value="Villa">Villa</option>
                                                                     <option value="Residential Plot">Residential Plot
                                                                     </option>
+                                                                    <option value="Residential Flat">Residential Flat
+                                                                    </option>
                                                                     <option value="Commercial">Commercial</option>
+                                                                    <option value="Villa">Villa</option>
+                                                                    <option value="Apartment">Apartment</option>
                                                                     <option value="Penthouse">Penthouse</option>
                                                                     <option value="House">House</option>
                                                                     <option value="Condo">Condo</option>
@@ -112,8 +113,9 @@
                                                                 <select class="form-control" id="listing_type"
                                                                     name="listing_type" required>
                                                                     <option value="">Select Type</option>
-                                                                    <option value="For Rent">For Rent</option>
                                                                     <option value="For Sale">For Sale</option>
+                                                                    <option value="For Resale">For Resale</option>
+                                                                    <option value="For Rent">For Rent</option>
                                                                     <option value="Lease">Lease</option>
                                                                 </select>
                                                             </div>
@@ -623,6 +625,79 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Nearby Places & Connectivity -->
+                                    <!-- Nearby Amenities & Connectivity -->
+                                    <h4 class="text-muted border-bottom pb-2 mb-3">Nearby Amenities & Connectivity</h4>
+                                    <div class="row mt-3">
+
+                                        <!-- Nearby Places -->
+                                        <div class="col-md-6">
+                                            <div class="card card-secondary" style="border-color: #b1b2b1;">
+                                                <div class="card-header"
+                                                    style="background-color: #717271; color: #ffffff;">
+                                                    <h3 class="card-title"><i class="fas fa-map-marker-alt"></i> Nearby
+                                                        Places</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="bazar"><i class="fas fa-store"></i> Bazar</label>
+                                                        <input type="text" class="form-control" id="bazar"
+                                                            name="bazar_distance_km"
+                                                            placeholder="e.g. Main Market (0.5 km)">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="hospital"><i class="fas fa-hospital"></i>
+                                                            Hospital</label>
+                                                        <input type="text" class="form-control" id="hospital"
+                                                            name="hospital_distance_km"
+                                                            placeholder="e.g. City Hospital (1.2 km)">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="school"><i class="fas fa-school"></i> School</label>
+                                                        <input type="text" class="form-control" id="school"
+                                                            name="school_distance_km"
+                                                            placeholder="e.g. Sunrise Public School (1.5 km)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Connectivity -->
+                                        <div class="col-md-6">
+                                            <div class="card card-secondary" style="border-color: #b1b2b1;">
+                                                <div class="card-header"
+                                                    style="background-color: #717271; color: #ffffff;">
+                                                    <h3 class="card-title"><i class="fas fa-route"></i> Connectivity</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="bus_stand"><i class="fas fa-bus"></i> Bus
+                                                            Stand</label>
+                                                        <input type="text" class="form-control" id="bus_stand"
+                                                            name="bus_stand_distance_km"
+                                                            placeholder="e.g. Gandhi Maidan Bus Stand (0.8 km)">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="junction"><i class="fas fa-train"></i> Railway
+                                                            Junction</label>
+                                                        <input type="text" class="form-control" id="junction"
+                                                            name="junction_distance_km"
+                                                            placeholder="e.g. Patna Junction (1.2 km)">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="airport"><i class="fas fa-plane"></i> Airport</label>
+                                                        <input type="text" class="form-control" id="airport"
+                                                            name="airport_distance_km"
+                                                            placeholder="e.g. Jay Prakash Airport (7 km)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
 
                                     <!-- Additional Information -->
                                     <div class="row mt-3">
