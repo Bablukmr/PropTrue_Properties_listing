@@ -799,7 +799,7 @@
                                 *</label>
                             <input type="text" id="name" name="name" required
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
-                                placeholder="e.g., Jane Doe" value="{{ old('name') }}" />
+                                placeholder="Full Name" value="{{ old('name') }}" />
                             @error('name')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -809,7 +809,7 @@
                                 Address</label>
                             <input type="email" id="email" name="email"
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
-                                placeholder="you@example.com" value="{{ old('email') }}" />
+                                placeholder="Email" value="{{ old('email') }}" />
                             @error('email')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -819,7 +819,7 @@
                                 Number *</label>
                             <input type="tel" id="phone" name="phone" required
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
-                                placeholder="+91 xxxxxxx" value="{{ old('phone') }}" />
+                                placeholder="Phone Number" value="{{ old('phone') }}" />
                             @error('phone')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror

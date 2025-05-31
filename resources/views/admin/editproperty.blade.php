@@ -7,17 +7,16 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Property Listing</h1>
+                        <h1>Edit Property</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#" style="color: #b1b2b1;">Dashboard</a></li>
-                            <li class="breadcrumb-item active" style="color: #ffffff;">Add Property</li>
+                            <li class="breadcrumb-item active" style="color: #ffffff;">Edit Property</li>
                         </ol>
                     </div>
                 </div>
             </div>
-            <!-- /.container-fluid -->
         </section>
 
         @if (session('success'))
@@ -46,20 +45,18 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-
-
                     <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary" style="border-color: #d33593;">
-                            <div class="card-header mt-2 " style="background-color: #48254a; color: #ffffff;">
+                            <div class="card-header mt-2" style="background-color: #48254a; color: #ffffff;">
                                 <h3 class="card-title">Property Information</h3>
-
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form method="POST" action="{{ route('admin.propertylisting.store') }}"
+                            <form method="POST" action="{{ route('admin.properties.update', $property->id) }}"
                                 enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
                                 <div class="card-body">
                                     <div class="row">
                                         <!-- Basic Information -->
@@ -71,20 +68,20 @@
                                                 <div class="card-body">
                                                     <div class="form-group">
                                                         <label for="title">Property Title*</label>
-                                                        <input value="{{ old('title') }}" type="text"
+                                                        <input value="{{ old('title', $property->title) }}" type="text"
                                                             class="form-control" id="title" name="title"
                                                             placeholder="e.g. Beautiful 3 BHK Apartment" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="slug">Slug*</label>
-                                                        <input value="{{ old('slug') }}" type="text"
+                                                        <input value="{{ old('slug', $property->slug) }}" type="text"
                                                             class="form-control" id="slug" name="slug"
                                                             placeholder="e.g. beautiful-3bhk-apartment" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="description">Description*</label>
                                                         <textarea class="form-control text-editor" id="description" name="description" rows="3"
-                                                            placeholder="Detailed description of the property" required>{{ old('description') }}</textarea>
+                                                            placeholder="Detailed description of the property" required>{{ old('description', $property->description) }}</textarea>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -93,17 +90,33 @@
                                                                 <select class="form-control" id="property_type"
                                                                     name="property_type" required>
                                                                     <option value="">Select Type</option>
-                                                                    <option value="Residential Plot">Residential Plot
-                                                                    </option>
-                                                                    <option value="Residential Flat">Residential Flat
-                                                                    </option>
-                                                                    <option value="Commercial">Commercial</option>
-                                                                    <option value="Villa">Villa</option>
-                                                                    <option value="Apartment">Apartment</option>
-                                                                    <option value="Penthouse">Penthouse</option>
-                                                                    <option value="House">House</option>
-                                                                    <option value="Condo">Condo</option>
-                                                                    <option value="Townhouse">Townhouse</option>
+                                                                    <option value="Residential Plot"
+                                                                        {{ old('property_type', $property->property_type) == 'Residential Plot' ? 'selected' : '' }}>
+                                                                        Residential Plot</option>
+                                                                    <option value="Residential Flat"
+                                                                        {{ old('property_type', $property->property_type) == 'Residential Flat' ? 'selected' : '' }}>
+                                                                        Residential Flat</option>
+                                                                    <option value="Commercial"
+                                                                        {{ old('property_type', $property->property_type) == 'Commercial' ? 'selected' : '' }}>
+                                                                        Commercial</option>
+                                                                    <option value="Villa"
+                                                                        {{ old('property_type', $property->property_type) == 'Villa' ? 'selected' : '' }}>
+                                                                        Villa</option>
+                                                                    <option value="Apartment"
+                                                                        {{ old('property_type', $property->property_type) == 'Apartment' ? 'selected' : '' }}>
+                                                                        Apartment</option>
+                                                                    <option value="Penthouse"
+                                                                        {{ old('property_type', $property->property_type) == 'Penthouse' ? 'selected' : '' }}>
+                                                                        Penthouse</option>
+                                                                    <option value="House"
+                                                                        {{ old('property_type', $property->property_type) == 'House' ? 'selected' : '' }}>
+                                                                        House</option>
+                                                                    <option value="Condo"
+                                                                        {{ old('property_type', $property->property_type) == 'Condo' ? 'selected' : '' }}>
+                                                                        Condo</option>
+                                                                    <option value="Townhouse"
+                                                                        {{ old('property_type', $property->property_type) == 'Townhouse' ? 'selected' : '' }}>
+                                                                        Townhouse</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -113,10 +126,18 @@
                                                                 <select class="form-control" id="listing_type"
                                                                     name="listing_type" required>
                                                                     <option value="">Select Type</option>
-                                                                    <option value="For Sale">For Sale</option>
-                                                                    <option value="For Resale">For Resale</option>
-                                                                    <option value="For Rent">For Rent</option>
-                                                                    <option value="Lease">Lease</option>
+                                                                    <option value="For Sale"
+                                                                        {{ old('listing_type', $property->listing_type) == 'For Sale' ? 'selected' : '' }}>
+                                                                        For Sale</option>
+                                                                    <option value="For Resale"
+                                                                        {{ old('listing_type', $property->listing_type) == 'For Resale' ? 'selected' : '' }}>
+                                                                        For Resale</option>
+                                                                    <option value="For Rent"
+                                                                        {{ old('listing_type', $property->listing_type) == 'For Rent' ? 'selected' : '' }}>
+                                                                        For Rent</option>
+                                                                    <option value="Lease"
+                                                                        {{ old('listing_type', $property->listing_type) == 'Lease' ? 'selected' : '' }}>
+                                                                        Lease</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -128,15 +149,16 @@
                                                                 <div class="input-group">
                                                                     <input type="number" class="form-control"
                                                                         id="price" name="price"
-                                                                        placeholder="e.g. 500000" required>
+                                                                        placeholder="e.g. 500000"
+                                                                        value="{{ old('price', $property->price) }}"
+                                                                        required>
                                                                     <div class="input-group-append">
                                                                         <select class="form-control" id="price_unit"
                                                                             name="price_unit"
                                                                             style="background-color: #d33593; color: #ffffff;">
-                                                                            <option value="₹">₹</option>
-                                                                            {{-- <option value="$">$</option>
-                                                                            <option value="€">€</option>
-                                                                            <option value="£">£</option> --}}
+                                                                            <option value="₹"
+                                                                                {{ old('price_unit', $property->price_unit) == '₹' ? 'selected' : '' }}>
+                                                                                ₹</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -147,7 +169,8 @@
                                                                 <label for="security_deposit">Security Deposit</label>
                                                                 <input type="number" class="form-control"
                                                                     id="security_deposit" name="security_deposit"
-                                                                    placeholder="e.g. 50000">
+                                                                    placeholder="e.g. 50000"
+                                                                    value="{{ old('security_deposit', $property->security_deposit) }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -166,21 +189,24 @@
                                                     <div class="form-group">
                                                         <label for="address">Address*</label>
                                                         <input type="text" class="form-control" id="address"
-                                                            name="address" placeholder="Full address" required>
+                                                            name="address" placeholder="Full address"
+                                                            value="{{ old('address', $property->address) }}" required>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="city">City*</label>
                                                                 <input type="text" class="form-control" id="city"
-                                                                    name="city" placeholder="City" required>
+                                                                    name="city" placeholder="City"
+                                                                    value="{{ old('city', $property->city) }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="state">State*</label>
                                                                 <input type="text" class="form-control" id="state"
-                                                                    name="state" placeholder="State" required>
+                                                                    name="state" placeholder="State"
+                                                                    value="{{ old('state', $property->state) }}" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -189,7 +215,8 @@
                                                             <div class="form-group">
                                                                 <label for="zip_code">ZIP Code</label>
                                                                 <input type="text" class="form-control" id="zip_code"
-                                                                    name="zip_code" placeholder="ZIP/Pincode">
+                                                                    name="zip_code" placeholder="ZIP/Pincode"
+                                                                    value="{{ old('zip_code', $property->zip_code) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -205,14 +232,16 @@
                                                             <div class="form-group">
                                                                 <label for="latitude">Latitude</label>
                                                                 <input type="text" class="form-control" id="latitude"
-                                                                    name="latitude" placeholder="e.g. 28.6139">
+                                                                    name="latitude" placeholder="e.g. 28.6139"
+                                                                    value="{{ old('latitude', $property->latitude) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="longitude">Longitude</label>
                                                                 <input type="text" class="form-control" id="longitude"
-                                                                    name="longitude" placeholder="e.g. 77.2090">
+                                                                    name="longitude" placeholder="e.g. 77.2090"
+                                                                    value="{{ old('longitude', $property->longitude) }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -220,7 +249,8 @@
                                                         <label for="google_map_link">Google Map Link</label>
                                                         <input type="url" class="form-control" id="google_map_link"
                                                             name="google_map_link"
-                                                            placeholder="https://maps.google.com/...">
+                                                            placeholder="https://maps.google.com/..."
+                                                            value="{{ old('google_map_link', $property->google_map_link) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -241,21 +271,24 @@
                                                             <div class="form-group">
                                                                 <label for="bedrooms">Bedrooms</label>
                                                                 <input type="number" class="form-control" id="bedrooms"
-                                                                    name="bedrooms" placeholder="0">
+                                                                    name="bedrooms" placeholder="0"
+                                                                    value="{{ old('bedrooms', $property->bedrooms) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="bathrooms">Bathrooms</label>
                                                                 <input type="number" class="form-control" id="bathrooms"
-                                                                    name="bathrooms" placeholder="0">
+                                                                    name="bathrooms" placeholder="0"
+                                                                    value="{{ old('bathrooms', $property->bathrooms) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="balconies">Balconies</label>
                                                                 <input type="number" class="form-control" id="balconies"
-                                                                    name="balconies" placeholder="0">
+                                                                    name="balconies" placeholder="0"
+                                                                    value="{{ old('balconies', $property->balconies) }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -264,7 +297,8 @@
                                                             <div class="form-group">
                                                                 <label for="floors">Total Floors</label>
                                                                 <input type="number" class="form-control" id="floors"
-                                                                    name="floors" placeholder="e.g. 10">
+                                                                    name="floors" placeholder="e.g. 10"
+                                                                    value="{{ old('floors', $property->floors) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -272,7 +306,8 @@
                                                                 <label for="floor_number">Floor Number</label>
                                                                 <input type="number" class="form-control"
                                                                     id="floor_number" name="floor_number"
-                                                                    placeholder="e.g. 5">
+                                                                    placeholder="e.g. 5"
+                                                                    value="{{ old('floor_number', $property->floor_number) }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -282,7 +317,8 @@
                                                                 <label for="super_area">Super Area (sq.ft)</label>
                                                                 <input type="number" step="0.01" class="form-control"
                                                                     id="super_area" name="super_area"
-                                                                    placeholder="e.g. 1200">
+                                                                    placeholder="e.g. 1200"
+                                                                    value="{{ old('super_area', $property->super_area) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
@@ -290,7 +326,8 @@
                                                                 <label for="carpet_area">Carpet Area (sq.ft)</label>
                                                                 <input type="number" step="0.01" class="form-control"
                                                                     id="carpet_area" name="carpet_area"
-                                                                    placeholder="e.g. 1000">
+                                                                    placeholder="e.g. 1000"
+                                                                    value="{{ old('carpet_area', $property->carpet_area) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
@@ -298,7 +335,8 @@
                                                                 <label for="plot_area">Plot Area (sq.ft)</label>
                                                                 <input type="number" step="0.01" class="form-control"
                                                                     id="plot_area" name="plot_area"
-                                                                    placeholder="e.g. 2400">
+                                                                    placeholder="e.g. 2400"
+                                                                    value="{{ old('plot_area', $property->plot_area) }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -308,7 +346,8 @@
                                                                 <label for="year_built">Year Built</label>
                                                                 <input type="number" class="form-control"
                                                                     id="year_built" name="year_built"
-                                                                    placeholder="e.g. 2015">
+                                                                    placeholder="e.g. 2015"
+                                                                    value="{{ old('year_built', $property->year_built) }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -316,7 +355,8 @@
                                                                 <label for="age_of_property">Age of Property</label>
                                                                 <input type="number" class="form-control"
                                                                     id="age_of_property" name="age_of_property"
-                                                                    placeholder="e.g. 5">
+                                                                    placeholder="e.g. 5"
+                                                                    value="{{ old('age_of_property', $property->age_of_property) }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -336,36 +376,61 @@
                                                         <label for="furnishing">Furnishing</label>
                                                         <select class="form-control" id="furnishing" name="furnishing">
                                                             <option value="">Select Furnishing</option>
-                                                            <option value="Fully Furnished">Fully Furnished</option>
-                                                            <option value="Semi Furnished">Semi Furnished</option>
-                                                            <option value="Unfurnished">Unfurnished</option>
+                                                            <option value="Fully Furnished"
+                                                                {{ old('furnishing', $property->furnishing) == 'Fully Furnished' ? 'selected' : '' }}>
+                                                                Fully Furnished</option>
+                                                            <option value="Semi Furnished"
+                                                                {{ old('furnishing', $property->furnishing) == 'Semi Furnished' ? 'selected' : '' }}>
+                                                                Semi Furnished</option>
+                                                            <option value="Unfurnished"
+                                                                {{ old('furnishing', $property->furnishing) == 'Unfurnished' ? 'selected' : '' }}>
+                                                                Unfurnished</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Features</label>
                                                         <div class="row">
                                                             <div class="col-md-6">
+                                                                @php
+                                                                    $features = is_array(
+                                                                        old(
+                                                                            'features',
+                                                                            json_decode($property->features, true) ??
+                                                                                [],
+                                                                        ),
+                                                                    )
+                                                                        ? old(
+                                                                            'features',
+                                                                            json_decode($property->features, true) ??
+                                                                                [],
+                                                                        )
+                                                                        : [];
+                                                                @endphp
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="Swimming Pool"
+                                                                        {{ in_array('Swimming Pool', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Swimming Pool</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="Gym"
+                                                                        {{ in_array('Gym', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Gym</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="Parking"
+                                                                        {{ in_array('Parking', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Parking</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="Garden"
+                                                                        {{ in_array('Garden', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Garden</label>
                                                                 </div>
@@ -374,24 +439,28 @@
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="Security"
+                                                                        {{ in_array('Security', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Security</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="Lift"
+                                                                        {{ in_array('Lift', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Lift</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="Power Backup"
+                                                                        {{ in_array('Power Backup', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Power Backup</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="features[]" value="WiFi"
+                                                                        {{ in_array('WiFi', $features) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">WiFi</label>
                                                                 </div>
@@ -402,9 +471,25 @@
                                                         <label>Amenities</label>
                                                         <div class="row">
                                                             <div class="col-md-6">
+                                                                @php
+                                                                    $amenities = is_array(
+                                                                        old(
+                                                                            'amenities',
+                                                                            json_decode($property->amenities, true) ??
+                                                                                [],
+                                                                        ),
+                                                                    )
+                                                                        ? old(
+                                                                            'amenities',
+                                                                            json_decode($property->amenities, true) ??
+                                                                                [],
+                                                                        )
+                                                                        : [];
+                                                                @endphp
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="Air Conditioning"
+                                                                        {{ in_array('Air Conditioning', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Air
                                                                         Conditioning</label>
@@ -412,18 +497,21 @@
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="Heating"
+                                                                        {{ in_array('Heating', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Heating</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="TV"
+                                                                        {{ in_array('TV', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">TV</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="Washing Machine"
+                                                                        {{ in_array('Washing Machine', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Washing Machine</label>
                                                                 </div>
@@ -432,24 +520,28 @@
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="Microwave"
+                                                                        {{ in_array('Microwave', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Microwave</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="Refrigerator"
+                                                                        {{ in_array('Refrigerator', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Refrigerator</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="Dishwasher"
+                                                                        {{ in_array('Dishwasher', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Dishwasher</label>
                                                                 </div>
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="amenities[]" value="Balcony"
+                                                                        {{ in_array('Balcony', $amenities) ? 'checked' : '' }}
                                                                         style="accent-color: #d33593;">
                                                                     <label class="form-check-label">Balcony</label>
                                                                 </div>
@@ -474,15 +566,22 @@
                                                         <label for="availability">Availability*</label>
                                                         <select class="form-control" id="availability"
                                                             name="availability" required>
-                                                            <option value="Immediate">Immediate</option>
-                                                            <option value="After Date">After Date</option>
-                                                            <option value="Negotiable">Negotiable</option>
+                                                            <option value="Immediate"
+                                                                {{ old('availability', $property->availability) == 'Immediate' ? 'selected' : '' }}>
+                                                                Immediate</option>
+                                                            <option value="After Date"
+                                                                {{ old('availability', $property->availability) == 'After Date' ? 'selected' : '' }}>
+                                                                After Date</option>
+                                                            <option value="Negotiable"
+                                                                {{ old('availability', $property->availability) == 'Negotiable' ? 'selected' : '' }}>
+                                                                Negotiable</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group" id="available_from_group">
                                                         <label for="available_from">Available From</label>
                                                         <input type="date" class="form-control" id="available_from"
-                                                            name="available_from">
+                                                            name="available_from"
+                                                            value="{{ old('available_from', $property->available_from) }}">
                                                     </div>
 
                                                     <div class="form-group">
@@ -490,20 +589,36 @@
                                                         <select class="form-control" id="preferred_tenants"
                                                             name="preferred_tenants">
                                                             <option value="">Anyone</option>
-                                                            <option value="Family">Family</option>
-                                                            <option value="Professionals">Professionals</option>
-                                                            <option value="Students">Students</option>
-                                                            <option value="Company">Company</option>
+                                                            <option value="Family"
+                                                                {{ old('preferred_tenants', $property->preferred_tenants) == 'Family' ? 'selected' : '' }}>
+                                                                Family</option>
+                                                            <option value="Professionals"
+                                                                {{ old('preferred_tenants', $property->preferred_tenants) == 'Professionals' ? 'selected' : '' }}>
+                                                                Professionals</option>
+                                                            <option value="Students"
+                                                                {{ old('preferred_tenants', $property->preferred_tenants) == 'Students' ? 'selected' : '' }}>
+                                                                Students</option>
+                                                            <option value="Company"
+                                                                {{ old('preferred_tenants', $property->preferred_tenants) == 'Company' ? 'selected' : '' }}>
+                                                                Company</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="property_status">Property Status</label>
                                                         <select class="form-control" id="property_status"
                                                             name="property_status">
-                                                            <option value="Available">Available</option>
-                                                            <option value="Rented">Rented</option>
-                                                            <option value="Sold">Sold</option>
-                                                            <option value="Under Maintenance">Under Maintenance</option>
+                                                            <option value="Available"
+                                                                {{ old('property_status', $property->property_status) == 'Available' ? 'selected' : '' }}>
+                                                                Available</option>
+                                                            <option value="Rented"
+                                                                {{ old('property_status', $property->property_status) == 'Rented' ? 'selected' : '' }}>
+                                                                Rented</option>
+                                                            <option value="Sold"
+                                                                {{ old('property_status', $property->property_status) == 'Sold' ? 'selected' : '' }}>
+                                                                Sold</option>
+                                                            <option value="Under Maintenance"
+                                                                {{ old('property_status', $property->property_status) == 'Under Maintenance' ? 'selected' : '' }}>
+                                                                Under Maintenance</option>
                                                         </select>
                                                     </div>
                                                     <div class="row">
@@ -512,7 +627,9 @@
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input class="custom-control-input" type="checkbox"
                                                                         id="is_featured" name="is_featured"
-                                                                        value="1" style="accent-color: #d33593;">
+                                                                        value="1"
+                                                                        {{ old('is_featured', $property->is_featured) ? 'checked' : '' }}
+                                                                        style="accent-color: #d33593;">
                                                                     <label for="is_featured"
                                                                         class="custom-control-label">Featured
                                                                         Property</label>
@@ -524,7 +641,9 @@
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input class="custom-control-input" type="checkbox"
                                                                         id="is_verified" name="is_verified"
-                                                                        value="1" style="accent-color: #d33593;">
+                                                                        value="1"
+                                                                        {{ old('is_verified', $property->is_verified) ? 'checked' : '' }}
+                                                                        style="accent-color: #d33593;">
                                                                     <label for="is_verified"
                                                                         class="custom-control-label">Verified
                                                                         Property</label>
@@ -545,7 +664,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
-                                                        <label for="image">Main Image*</label>
+                                                        <label for="image">Main Image</label>
                                                         <div class="input-group">
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input"
@@ -555,19 +674,12 @@
                                                                     file</label>
                                                             </div>
                                                         </div>
-
-                                                        <!-- Preview Section -->
-                                                        <div id="image-preview-container" class="mt-2"
-                                                            style="position: relative; display: none;">
-                                                            <img id="image-preview" src="#" alt="Preview"
-                                                                style="max-width: 150px; border: 1px solid #ddd; border-radius: 4px;">
-                                                            <button type="button" onclick="removeImage()"
-                                                                style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
-                                                        </div>
-
-                                                        @error('image')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                        @if ($property->main_image)
+                                                            <div class="mt-2">
+                                                                <img src="{{ asset($property->main_image) }}"
+                                                                    width="100" class="img-thumbnail">
+                                                            </div>
+                                                        @endif
                                                     </div>
 
                                                     <div class="form-group">
@@ -583,13 +695,31 @@
                                                             </div>
                                                         </div>
                                                         <small class="text-muted">You can select multiple images</small>
-                                                        <div class="row mt-2" id="additional_images_preview"></div>
+
+                                                        <!-- Existing Images -->
+                                                        @if ($property->images->count() > 0)
+                                                            <div class="row mt-2">
+                                                                @foreach ($property->images as $image)
+                                                                    <div class="col-md-3 mb-2 position-relative">
+                                                                        <img src="{{ asset($image->image_path) }}"
+                                                                            class="img-thumbnail" width="100">
+                                                                        <a href="{{ route('admin.properties.deleteImage', $image->id) }}"
+                                                                            class="btn btn-danger btn-sm position-absolute"
+                                                                            style="top: 0; right: 0;"
+                                                                            onclick="return confirm('Are you sure?')">×</a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label for="video_url">Video URL</label>
                                                         <input type="url" class="form-control" id="video_url"
-                                                            name="video_url" placeholder="YouTube/Vimeo link">
+                                                            name="video_url" placeholder="YouTube/Vimeo link"
+                                                            value="{{ old('video_url', $property->video_url) }}">
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label for="floor_plan_image">Floor Plan Image</label>
                                                         <div class="input-group">
@@ -601,15 +731,14 @@
                                                                     for="floor_plan_image">Choose file</label>
                                                             </div>
                                                         </div>
-                                                        <div id="floor_plan_preview" class="mt-2"
-                                                            style="display: none; position: relative;">
-                                                            <img id="floor_plan_preview_img" src="#"
-                                                                alt="Floor Plan Preview"
-                                                                style="max-width: 150px; border: 1px solid #ddd; border-radius: 4px;">
-                                                            <button type="button" onclick="removeFloorPlan()"
-                                                                style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
-                                                        </div>
+                                                        @if ($property->floor_plan_image)
+                                                            <div class="mt-2">
+                                                                <img src="{{ asset($property->floor_plan_image) }}"
+                                                                    width="100" class="img-thumbnail">
+                                                            </div>
+                                                        @endif
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label for="brochure">Brochure (PDF)</label>
                                                         <div class="input-group">
@@ -620,16 +749,22 @@
                                                                     file</label>
                                                             </div>
                                                         </div>
+                                                        @if ($property->brochure)
+                                                            <div class="mt-2">
+                                                                <a href="{{ asset($property->brochure) }}"
+                                                                    target="_blank" class="btn btn-sm btn-info">View
+                                                                    Brochure</a>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <!-- Nearby Places & Connectivity -->
-                                    <!-- Nearby Amenities & Connectivity -->
                                     <h4 class="text-muted border-bottom pb-2 mb-3">Nearby Amenities & Connectivity</h4>
                                     <div class="row mt-3">
-
                                         <!-- Nearby Places -->
                                         <div class="col-md-6">
                                             <div class="card card-secondary" style="border-color: #b1b2b1;">
@@ -643,20 +778,23 @@
                                                         <label for="bazar"><i class="fas fa-store"></i> Bazar</label>
                                                         <input type="text" class="form-control" id="bazar"
                                                             name="bazar_distance_km"
-                                                            placeholder="e.g. Main Market (0.5 km)">
+                                                            placeholder="e.g. Main Market (0.5 km)"
+                                                            value="{{ old('bazar_distance_km', $property->bazar_distance_km) }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="hospital"><i class="fas fa-hospital"></i>
                                                             Hospital</label>
                                                         <input type="text" class="form-control" id="hospital"
                                                             name="hospital_distance_km"
-                                                            placeholder="e.g. City Hospital (1.2 km)">
+                                                            placeholder="e.g. City Hospital (1.2 km)"
+                                                            value="{{ old('hospital_distance_km', $property->hospital_distance_km) }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="school"><i class="fas fa-school"></i> School</label>
                                                         <input type="text" class="form-control" id="school"
                                                             name="school_distance_km"
-                                                            placeholder="e.g. Sunrise Public School (1.5 km)">
+                                                            placeholder="e.g. Sunrise Public School (1.5 km)"
+                                                            value="{{ old('school_distance_km', $property->school_distance_km) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -675,222 +813,101 @@
                                                             Stand</label>
                                                         <input type="text" class="form-control" id="bus_stand"
                                                             name="bus_stand_distance_km"
-                                                            placeholder="e.g. Gandhi Maidan Bus Stand (0.8 km)">
+                                                            placeholder="e.g. Gandhi Maidan Bus Stand (0.8 km)"
+                                                            value="{{ old('bus_stand_distance_km', $property->bus_stand_distance_km) }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="junction"><i class="fas fa-train"></i> Railway
                                                             Junction</label>
                                                         <input type="text" class="form-control" id="junction"
                                                             name="junction_distance_km"
-                                                            placeholder="e.g. Patna Junction (1.2 km)">
+                                                            placeholder="e.g. Patna Junction (1.2 km)"
+                                                            value="{{ old('junction_distance_km', $property->junction_distance_km) }}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="airport"><i class="fas fa-plane"></i> Airport</label>
                                                         <input type="text" class="form-control" id="airport"
                                                             name="airport_distance_km"
-                                                            placeholder="e.g. Jay Prakash Airport (7 km)">
+                                                            placeholder="e.g. Patna Airport (5 km)"
+                                                            value="{{ old('airport_distance_km', $property->airport_distance_km) }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
-
-
-
-
-                                    <!-- Additional Information -->
-                                    <div class="row mt-3">
-                                        <div class="col-md-12">
-                                            <div class="card card-secondary" style="border-color: #b1b2b1;">
-                                                <div class="card-header"
-                                                    style="background-color: #717271; color: #ffffff;">
-                                                    <h3 class="card-title">Additional Information</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="form-group">
-                                                        <label for="similar_properties">Similar Properties</label>
-                                                        <select class="form-control select2" id="similar_properties"
-                                                            name="similar_properties[]" multiple="multiple"
-                                                            data-placeholder="Search and select similar properties"
-                                                            style="width: 100%;">
-                                                            @foreach ($properties as $property)
-                                                                <option value="{{ $property->id }}"
-                                                                    {{ in_array($property->id, old('similar_properties', $selectedSimilarProperties ?? [])) ? 'selected' : '' }}>
-                                                                    {{ $property->title }} ({{ $property->property_id }})
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('similar_properties')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                        <!-- Additional Information -->
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="card card-secondary" style="border-color: #b1b2b1;">
+                                                    <div class="card-header"
+                                                        style="background-color: #717271; color: #ffffff;">
+                                                        <h3 class="card-title">Additional Information</h3>
                                                     </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="keyfeatures">Key Features</label>
-                                                    <textarea class="form-control text-editor" id="keyfeatures" name="keyfeatures" rows="3"
-                                                        placeholder="List key features of the property"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="notes">Notes</label>
-                                                    <textarea class="form-control text-editor" id="notes" name="notes" rows="3"
-                                                        placeholder="Any additional notes"></textarea>
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <label for="similar_properties">Similar Properties</label>
+                                                            <select class="form-control select2" id="similar_properties"
+                                                                name="similar_properties[]" multiple="multiple"
+                                                                data-placeholder="Search and select similar properties"
+                                                                style="width: 100%;">
+                                                                {{-- @foreach ($property as $prop)
+                                                                    <option value="{{ $prop->id }}"
+                                                                        {{ in_array($prop->id, old('similar_properties', $property->similarProperties->pluck('id')->toArray() ?? [])) ? 'selected' : '' }}>
+                                                                        {{ $prop->title }} ({{ $prop->property_id }})
+                                                                    </option>
+                                                                @endforeach --}}
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="keyfeatures">Key Features</label>
+                                                            <textarea class="form-control text-editor" id="keyfeatures" name="keyfeatures" rows="3"
+                                                                placeholder="List key features of the property">{{ old('keyfeatures', $property->keyfeatures) }}</textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="notes">Notes</label>
+                                                            <textarea class="form-control text-editor" id="notes" name="notes" rows="3"
+                                                                placeholder="Any additional notes">{{ old('notes', $property->notes) }}</textarea>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <!-- /.card-body -->
 
+                                    <div class="card-footer" style="background-color: #f8f9fa;">
+                                        <button type="submit" class="btn btn-primary"
+                                            style="background-color: #d33593; border-color: #d33593;">Update
+                                            Property</button>
+                                        <a href="{{ route('admin.properties.list') }}" class="btn btn-secondary"
+                                            style="background-color: #717271; border-color: #717271;">Cancel</a>
+                                    </div>
+                            </form>
                         </div>
-                        <!-- /.card-body -->
-
-                        <div class="card-footer" style="background-color: #f8f9fa;">
-                            <button type="submit" class="btn btn-primary"
-                                style="background-color: #d33593; border-color: #d33593;">Submit Property</button>
-                            <button type="reset" class="btn btn-secondary"
-                                style="background-color: #717271; border-color: #717271;">Reset</button>
-                        </div>
-                        </form>
+                        <!-- /.card -->
                     </div>
-                    <!-- /.card -->
                 </div>
             </div>
-    </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </section>
     </div>
-    <!-- /.content-wrapper -->
+
+@section('scripts')
     <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <!-- Summernote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     <script>
-        // Initialize Select2 for similar properties
-        // Error handling for Select2
-        try {
+        $(document).ready(function() {
+            // Initialize Select2
             $('.select2').select2({
                 placeholder: 'Search and select similar properties',
                 allowClear: true
             });
-        } catch (e) {
-            console.error("Select2 initialization error:", e);
-            // Fallback to standard multiple select
-            $('.select2').removeClass('select2').css('width', '100%');
-        }
 
-        // Main image preview
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const previewContainer = document.getElementById('image-preview-container');
-            const previewImage = document.getElementById('image-preview');
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    previewContainer.style.display = 'inline-block';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function removeImage() {
-            const input = document.getElementById('image');
-            const previewContainer = document.getElementById('image-preview-container');
-            const previewImage = document.getElementById('image-preview');
-
-            input.value = '';
-            previewImage.src = '#';
-            previewContainer.style.display = 'none';
-        }
-
-        // Additional images preview
-        function previewAdditionalImages(event) {
-            const files = event.target.files;
-            const previewContainer = document.getElementById('additional_images_preview');
-            previewContainer.innerHTML = '';
-
-            if (files) {
-                for (let i = 0; i < files.length; i++) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const div = document.createElement('div');
-                        div.className = 'col-md-3 mb-2';
-                        div.innerHTML = `
-                            <div style="position: relative;">
-                                <img src="${e.target.result}" alt="Preview"
-                                     style="max-width: 100%; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;">
-                                <button type="button" onclick="removeAdditionalImage(${i})"
-                                    style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
-                            </div>
-                        `;
-                        previewContainer.appendChild(div);
-                    }
-                    reader.readAsDataURL(files[i]);
-                }
-            }
-        }
-
-        function removeAdditionalImage(index) {
-            const input = document.getElementById('property_images');
-            const files = Array.from(input.files);
-            files.splice(index, 1);
-
-            // Create a new DataTransfer object and add the remaining files
-            const dataTransfer = new DataTransfer();
-            files.forEach(file => dataTransfer.items.add(file));
-
-            // Assign the new files back to the input
-            input.files = dataTransfer.files;
-
-            // Trigger the preview function again to update the display
-            const event = new Event('change');
-            input.dispatchEvent(event);
-        }
-
-        // Floor plan preview
-        function previewFloorPlan(event) {
-            const file = event.target.files[0];
-            const previewContainer = document.getElementById('floor_plan_preview');
-            const previewImage = document.getElementById('floor_plan_preview_img');
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    previewContainer.style.display = 'inline-block';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function removeFloorPlan() {
-            const input = document.getElementById('floor_plan_image');
-            const previewContainer = document.getElementById('floor_plan_preview');
-            const previewImage = document.getElementById('floor_plan_preview_img');
-
-            input.value = '';
-            previewImage.src = '#';
-            previewContainer.style.display = 'none';
-        }
-
-        // Auto-generate slug from title
-        document.getElementById('title').addEventListener('input', function() {
-            const title = this.value;
-            const slug = title.toLowerCase()
-                .replace(/[^\w\s-]/g, '') // Remove non-word characters
-                .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-                .replace(/^-+|-+$/g, ''); // Trim hyphens from start and end
-            document.getElementById('slug').value = slug;
-        });
-    </script>
-
-    <!-- Summernote -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <script>
-        $(document).ready(function() {
+            // Initialize Summernote
             $('.text-editor').summernote({
                 height: 150,
                 toolbar: [
@@ -901,173 +918,111 @@
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]
             });
-        });
-    </script>
-    <!-- Select2 CSS (before your custom styles) -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- Your custom styles -->
-    <style>
-        /* Your existing styles */
-        .select2-container--default .select2-selection--multiple {
-            border-color: #b1b2b1;
-            min-height: 38px;
-        }
 
-        .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #d33593;
-            border-color: #d33593;
-            color: white;
-            padding: 0 5px;
-        }
+            // Show/hide available from date based on availability selection
+            $('#availability').change(function() {
+                if ($(this).val() === 'After Date') {
+                    $('#available_from_group').show();
+                } else {
+                    $('#available_from_group').hide();
+                }
+            }).trigger('change');
 
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: white;
-            margin-right: 5px;
-        }
+            // Auto-generate slug from title
+            $('#title').on('input', function() {
+                const title = $(this).val();
+                const slug = title.toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/[\s_-]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                $('#slug').val(slug);
+            });
 
-        .select2-container--default.select2-container--focus .select2-selection--multiple {
-            border-color: #d33593;
-        }
-    </style>
-    <style>
-        .card-primary {
-            border-color: #d33593;
-        }
+            // Image preview functions
+            function previewImage(event) {
+                const file = event.target.files[0];
+                const previewContainer = $('#image-preview-container');
+                const previewImage = $('#image-preview');
 
-        .card-header {
-            background-color: #48254a;
-            color: #ffffff;
-        }
-
-        .btn-primary {
-            background-color: #d33593;
-            border-color: #d33593;
-        }
-
-        .btn-primary:hover {
-            background-color: #b12a7c;
-            border-color: #b12a7c;
-        }
-
-        .btn-secondary {
-            background-color: #717271;
-            border-color: #717271;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a5b5a;
-            border-color: #5a5b5a;
-        }
-
-        .custom-control-input:checked~.custom-control-label::before {
-            background-color: #d33593;
-            border-color: #d33593;
-        }
-
-        .form-check-input:checked {
-            background-color: #d33593;
-            border-color: #d33593;
-        }
-
-        .image-preview {
-            position: relative;
-            display: inline-block;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-
-        .image-preview img {
-            max-width: 100px;
-            max-height: 100px;
-            border: 1px solid #b1b2b1;
-            padding: 2px;
-        }
-
-        .delete-image {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 0.15rem 0.3rem;
-            font-size: 0.7rem;
-            background-color: #dc3545;
-            border: none;
-            border-radius: 0;
-        }
-
-        .note-editor.note-frame {
-            border-color: #b1b2b1;
-        }
-
-        .note-editor.note-frame .note-toolbar {
-            background-color: #f8f9fa;
-            border-bottom-color: #b1b2b1;
-        }
-
-        .additional-image-preview {
-            position: relative;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        .additional-image-preview img {
-            max-width: 100px;
-            max-height: 100px;
-            border: 1px solid #b1b2b1;
-            padding: 2px;
-        }
-
-        .delete-additional-image {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 0.15rem 0.3rem;
-            font-size: 0.7 font-size: 0.7rem;
-            background-color: #dc3545;
-            border: none;
-            border-radius: 0;
-        }
-
-        .select2-container--default .select2-selection--multiple {
-            border-color: #b1b2b1;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #d33593;
-            border-color: #d33593;
-            color: white;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: white;
-        }
-
-        .custom-file-label::after {
-            background-color: #d33593;
-            color: white;
-            border-color: #d33593;
-        }
-</style>
-    <script>
-        /* Show/hide available from date based on availability selection */
-        document.getElementById('availability').addEventListener('change', function() {
-            const availableFromGroup = document.getElementById('available_from_group');
-
-            if (this.value === 'After Date') {
-                availableFromGroup.style.display = 'block';
-            } else {
-                availableFromGroup.style.display = 'none';
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.attr('src', e.target.result);
+                        previewContainer.show();
+                    }
+                    reader.readAsDataURL(file);
+                }
             }
-        });
 
-        // Initialize availability field
-        document.addEventListener('DOMContentLoaded', function() {
-            const availability = document.getElementById('availability');
-            const availableFromGroup = document.getElementById('available_from_group');
+            function previewAdditionalImages(event) {
+                const files = event.target.files;
+                const previewContainer = $('#additional_images_preview');
+                previewContainer.empty();
 
-            if (availability.value !== 'After Date') {
-                availableFromGroup.style.display = 'none';
+                if (files) {
+                    for (let i = 0; i < files.length; i++) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const div = $('<div class="col-md-3 mb-2"></div>');
+                            div.html(`
+                                <div style="position: relative;">
+                                    <img src="${e.target.result}" alt="Preview" style="max-width: 100%; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;">
+                                    <button type="button" onclick="removeAdditionalImage(${i})" style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">×</button>
+                                </div>
+                            `);
+                            previewContainer.append(div);
+                        }
+                        reader.readAsDataURL(files[i]);
+                    }
+                }
+            }
+
+            function previewFloorPlan(event) {
+                const file = event.target.files[0];
+                const previewContainer = $('#floor_plan_preview');
+                const previewImage = $('#floor_plan_preview_img');
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.attr('src', e.target.result);
+                        previewContainer.show();
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            // Make functions available globally
+            window.previewImage = previewImage;
+            window.previewAdditionalImages = previewAdditionalImages;
+            window.previewFloorPlan = previewFloorPlan;
+
+            // Remove image functions
+            window.removeImage = function() {
+                $('#image').val('');
+                $('#image-preview').attr('src', '#');
+                $('#image-preview-container').hide();
+            }
+
+            window.removeAdditionalImage = function(index) {
+                const input = document.getElementById('property_images');
+                const files = Array.from(input.files);
+                files.splice(index, 1);
+
+                const dataTransfer = new DataTransfer();
+                files.forEach(file => dataTransfer.items.add(file));
+                input.files = dataTransfer.files;
+
+                const event = new Event('change');
+                input.dispatchEvent(event);
+            }
+
+            window.removeFloorPlan = function() {
+                $('#floor_plan_image').val('');
+                $('#floor_plan_preview_img').attr('src', '#');
+                $('#floor_plan_preview').hide();
             }
         });
     </script>
-    @endsection
+@endsection
+@endsection

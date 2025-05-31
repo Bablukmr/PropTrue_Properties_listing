@@ -11,8 +11,11 @@ class PropertyInquiryController extends Controller
 {
 
     public function enquiryForm(){
-        return view('admin.enquaryformlist');
+        $inquaries= PropertyInquiry::latest()->get();
+        // dd($inquaries);
+        return view('admin.enquaryformlist', compact('inquaries'));
     }
+
     public function store(Request $request, Property $property)
     {
         $validator = Validator::make($request->all(), [

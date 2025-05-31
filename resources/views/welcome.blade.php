@@ -165,8 +165,8 @@
                         <option class="text-gray-800" value="Commercial"
                             {{ request('property_type') == 'Commercial' ? 'selected' : '' }}>
                             Commercial</option>
-                        <option class="text-gray-800" value="Villa"
-                            {{ request('property_type') == 'Villa' ? 'selected' : '' }}>Villa</option>
+                        {{-- <option class="text-gray-800" value="Villa"
+                            {{ request('property_type') == 'Villa' ? 'selected' : '' }}>Villa</option> --}}
                         <option class="text-gray-800" value="Apartment"
                             {{ request('property_type') == 'Apartment' ? 'selected' : '' }}>Apartment
                         </option>
@@ -195,11 +195,11 @@
                         <option class="text-gray-800" value="For Resale"
                             {{ request('listing_type') == 'For Resale' ? 'selected' : '' }}>For
                             Resale</option>
-                        <option class="text-gray-800" value="For Rent"
+                        {{-- <option class="text-gray-800" value="For Rent"
                             {{ request('listing_type') == 'For Rent' ? 'selected' : '' }}>For Rent
-                        </option>
-                        <option class="text-gray-800" value="Lease"
-                            {{ request('listing_type') == 'Lease' ? 'selected' : '' }}>Lease</option>
+                        </option> --}}
+                        {{-- <option class="text-gray-800" value="Lease"
+                            {{ request('listing_type') == 'Lease' ? 'selected' : '' }}>Lease</option> --}}
                     </select>
                     <!-- Add this hidden input to maintain other search parameters -->
                     @foreach (request()->except('sort') as $key => $value)

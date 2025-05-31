@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /public/admincss
+/public/admincss11
 /storage/*.key
 /storage/pail
 /vendor
