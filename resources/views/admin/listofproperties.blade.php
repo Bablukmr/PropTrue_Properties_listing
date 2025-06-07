@@ -81,7 +81,7 @@
                                                 </td>
                                                 <td>{{ $property->title }}</td>
                                                 <td>{{ $property->address }}</td>
-                                                <td>₹{{ number_format($property->price) }}</td>
+                                                <td>₹{{$property->price}}</td>
                                                 <td>
                                                     <span
                                                         class="badge {{ $property->property_status === 'Available' ? 'badge-success' : 'badge-secondary' }}">
@@ -171,13 +171,15 @@
     <!-- Page specific script -->
     <script>
     $(function() {
-    $("#example1").DataTable({
-        "responsive": true,
-        "lengthChange": true,
-        "autoWidth": false,
-        "lengthMenu": [ [20, 50, 100, 300, 800, 1000], [20, 50, 100, 300, 800, 1000] ],
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+   $("#example1").DataTable({
+    "order": [], // 👈 disables initial sorting
+    "responsive": true,
+    "lengthChange": true,
+    "autoWidth": false,
+    "lengthMenu": [ [20, 50, 100, 300, 800, 1000], [20, 50, 100, 300, 800, 1000] ],
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+})
+
 });
     </script>
 @endsection

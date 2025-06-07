@@ -34,6 +34,7 @@ class Property extends Model
         'longitude',
         'landmark',
         'google_map_link',
+        'rera_id',
 
         // Property Details
         'bedrooms',
@@ -69,6 +70,7 @@ class Property extends Model
         // Additional Info
         'is_featured',
         'is_verified',
+        'pre_launch_property',
         'is_active',
         'property_status',
         'notes',
@@ -91,9 +93,10 @@ class Property extends Model
         'amenities' => 'array',
         'is_featured' => 'boolean',
         'is_verified' => 'boolean',
+        'pre_launch_property' => 'boolean',
         'is_active' => 'boolean',
         'available_from' => 'date',
-        'price' => 'decimal:2',
+
         'security_deposit' => 'decimal:2',
         'super_area' => 'decimal:2',
         'carpet_area' => 'decimal:2',

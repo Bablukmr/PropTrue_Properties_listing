@@ -104,7 +104,7 @@
                         <input type="tel" id="phone" name="phone"
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
                     </div>
-                    <div>
+                    {{-- <div>
                         <label for="interest" class="block text-gray-700 mb-2">I'm interested in</label>
                         <select id="interest" name="interest"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
@@ -112,7 +112,7 @@
                             <option value="selling">Selling a property</option>
 
                         </select>
-                    </div>
+                    </div> --}}
                     <div>
                         <label for="message" class="block text-gray-700 mb-2">Your Message</label>
                         <textarea id="message" name="message" rows="5" required

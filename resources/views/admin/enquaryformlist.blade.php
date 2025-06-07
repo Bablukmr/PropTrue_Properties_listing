@@ -15,7 +15,8 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.container-fluid -->
         </section>
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -61,40 +62,42 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                     @foreach($inquaries as $inquary)
-                                        <tr>
-                                            <td>{{ $inquary->name }}</td>
-                                            <td>{{ $inquary->phone }}</td>
-                                            <td>
-                                                @if($inquary->email)
-                                                    <a href="mailto:{{ $inquary->email }}">{{ $inquary->email }}</a>
-                                                @else
-                                                    N/A
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($inquary->message)
-                                                    {{ $inquary->message }}
-                                                @else
-                                                    N/A
-                                                @endif
-                                            </td>
-                                            <td>{{ $inquary->created_at }}</td>
-                                            <td>
-                                                @if($inquary->property_id)
-                                                    <a target="_blank" href="{{ route('property.show', ['id' => $inquary->property_id]) }}" class="btn btn-info">View Property</a>
-                                                @else
-                                                    N/A
-                                                @endif
-                                            </td>
-                                        </tr>
-                                     @endforeach
+                                        @foreach ($inquaries as $inquary)
+                                            <tr>
+                                                <td>{{ $inquary->name }}</td>
+                                                <td>{{ $inquary->phone }}</td>
+                                                <td>
+                                                    @if ($inquary->email)
+                                                        <a href="mailto:{{ $inquary->email }}">{{ $inquary->email }}</a>
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($inquary->message)
+                                                        {{ $inquary->message }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>{{ $inquary->created_at }}</td>
+                                                <td>
+                                                    @if ($inquary->property_id)
+                                                        <a target="_blank"
+                                                            href="{{ route('property.show', ['id' => $inquary->property_id]) }}"
+                                                            class="btn btn-info">View Property</a>
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
 
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                           <th>Name</th>
+                                            <th>Name</th>
                                             <th>Mobile Number</th>
                                             <th>Email</th>
                                             <th>Message</th>
@@ -143,50 +146,51 @@
 
     <!-- Page specific script -->
     <script>
- $(function() {
-    $("#example1").DataTable({
-        responsive: true,
-        lengthChange: true,
-        autoWidth: false,
-        lengthMenu: [[20, 50, 100, 300, 800, 1000], [20, 50, 100, 300, 800, 1000]],
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                text: '<i class="fas fa-copy"></i> Copy',
-                titleAttr: 'Copy',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'csvHtml5',
-                text: '<i class="fas fa-file-csv"></i> CSV',
-                titleAttr: 'CSV',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> Excel',
-                titleAttr: 'Excel',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> PDF',
-                titleAttr: 'PDF',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Print',
-                titleAttr: 'Print',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'colvis',
-                text: '<i class="fas fa-columns"></i> Column Visibility'
-            }
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-});
+        $(function() {
+            $("#example1").DataTable({
+                responsive: true,
+                lengthChange: true,
+                autoWidth: false,
+                lengthMenu: [
+                    [20, 50, 100, 300, 800, 1000],
+                    [20, 50, 100, 300, 800, 1000]
+                ],
+                buttons: [{
+                        extend: 'copyHtml5',
+                        text: '<i class="fas fa-copy"></i> Copy',
+                        titleAttr: 'Copy',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: '<i class="fas fa-file-csv"></i> CSV',
+                        titleAttr: 'CSV',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> Excel',
+                        titleAttr: 'Excel',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> PDF',
+                        titleAttr: 'PDF',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i> Print',
+                        titleAttr: 'Print',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-columns"></i> Column Visibility'
+                    }
+                ]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
     </script>
 @endsection
-

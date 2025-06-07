@@ -19,7 +19,7 @@
                             'dropdown' => [
                                 'About Us' => '/about-us',
                                 'Our Team' => '/our-team',
-                                'Leadership' => '/leadership',
+                                // 'Leadership' => '/leadership',
 
                                 // 'Testimonials' => '/testimonials',
                             ],
@@ -41,11 +41,11 @@
                         ],
 
                         'Sell' => [
-                            'url' => '/contact',
+                            'url' => '/sell',
                             'dropdown' => null,
                         ],
                         'Blog' => [
-                            'url' => '/#blog',
+                            'url' => '/blogs',
                             'dropdown' => null,
                         ],
                         'Careers' => [

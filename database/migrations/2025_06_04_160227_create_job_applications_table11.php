@@ -8,20 +8,22 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('property_inquiries', function (Blueprint $table) {
+        Schema::create('job_applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('property_id')->constrained()->onDelete('cascade');
+            $table->foreignId('job_opening_id')->constrained()->onDelete('cascade')->nullable();
             $table->string('name');
             $table->string('email');
             $table->string('phone');
+            $table->string('position')->nullable();
             $table->text('message')->nullable();
-            $table->boolean('terms_accepted')->default(false);
+            $table->string('resume_path')->nullable();
+            $table->string('status')->default('pending'); // pending, reviewed, rejected, hired
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('property_inquiries');
+        Schema::dropIfExists('job_applications');
     }
 };

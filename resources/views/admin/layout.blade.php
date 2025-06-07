@@ -5,9 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin | Dashboard</title>
-     <base href="{{asset('admincss')}}/" />
+    <base href="{{ asset('admincss') }}/" />
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -31,18 +32,19 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-          <!-- Navbar -->
+        <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{route('admin.dashboard')}}" class="nav-link">Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
                 </li>
                 <!-- <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{route('admin.form')}}" class="nav-link">Contact</a>
+                    <a href="{{ route('admin.form') }}" class="nav-link">Contact</a>
                 </li> -->
             </ul>
 
@@ -56,7 +58,8 @@
                     <div class="navbar-search-block">
                         <form class="form-inline">
                             <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                                    aria-label="Search">
                                 <div class="input-group-append">
                                     <button class="btn btn-navbar" type="submit">
                                         <i class="fas fa-search"></i>
@@ -107,7 +110,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.logout') }}" role="button"> <i class="fas fa-sign-out-alt"></i>
+                    <a class="nav-link" href="{{ route('admin.logout') }}" role="button"> <i
+                            class="fas fa-sign-out-alt"></i>
                     </a>
 
                 </li>
@@ -140,95 +144,200 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                    <li class="nav-item menu-open">
-                        <a href="/admin/dashboard" class="nav-link active">
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Dashboard
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
 
-                            </p>
-                        </a>
+                    @php
+                        $admin = Auth::guard('admin')->user();
+                    @endphp
 
-                    </li>
+                   
+
+                    @if ($admin->permission->all_property)
+                        <li class="nav-item">
+                            <a href="{{ route('admin.properties.list') }}"
+                                class="nav-link {{ Request::is('admin/properties') ? 'active' : '' }}">
+                                <i class="fas fa-list nav-icon"></i>
+                                <p>All Properties</p>
+                            </a>
+                        </li>
+                    @endif
+
+
+                    @if ($admin->permission->featured_image	)
+                        <li class="nav-item">
+                            <a href="{{ route('admin.properties.indexfetured') }}"
+                                class="nav-link {{ Request::is('admin/propertiesfeatured') ? 'active' : '' }}">
+                                <i class="fas fa-list nav-icon"></i>
+                                <p>Featured Properties</p>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if ($admin->permission->add_now)
                     <li class="nav-item">
-                        <a href="{{ route('admin.properties.list') }}" class="nav-link">
-                            <i class="fas fa-list nav-icon"></i>
-                            <p>All Properties</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.properties.indexfetured') }}" class="nav-link">
-                            <i class="fas fa-list nav-icon"></i>
-                            <p>Featured Properties</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.propertylisting') }}" class="nav-link">
+                        <a href="{{ route('admin.propertylisting') }}"
+                            class="nav-link {{ Request::is('admin/propertylisting') ? 'active' : '' }}">
                             <i class="fas fa-plus-circle nav-icon"></i>
                             <p>Add New Property</p>
                         </a>
                     </li>
+                    @endif
+
+                    @if ($admin->permission->property_image	)
                     <li class="nav-item">
-                        <a href="{{ route('admin.enquiryformlist') }}" class="nav-link">
+                        <a href="{{ route('admin.enquiryformlist') }}"
+                            class="nav-link {{ Request::is('admin/enquiryformlist') ? 'active' : '' }}">
                             <i class="fas fa-envelope-open-text nav-icon"></i>
                             <p>Property Enquiry</p>
                         </a>
                     </li>
+                    @endif
 
+                    @if ($admin->permission->our_team)
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
+                        <a href="{{ route('our_team.index') }}"
+                            class="nav-link {{ Request::is('admin/ourteam') ? 'active' : '' }}">
+                          <i class="fas fa-users nav-icon"></i>
+                            <p>Our Team</p>
+                        </a>
+                    </li>
+                    
+                     <li class="nav-item">
+                        <a href="{{ route('user_permission.index') }}"
+                            class="nav-link {{ Request::is('admin/user-permission') ? 'active' : '' }}">
+                          <i class="fas fa-users nav-icon"></i>
+                            <p>User Permission</p>
+                        </a>
+                    </li>
+                    @endif
+
+                    
+                    <!--<li class="nav-item">-->
+                    <!--    <a href=""-->
+                    <!--        class="nav-link {{ Request::is('admin/blog') ? 'active' : '' }}">-->
+                    <!--      <i class="fas fa-newspaper nav-icon"></i>-->
+
+                    <!--        <p>Blog</p>-->
+                    <!--    </a>-->
+                    <!--</li>-->
+                   
+                    
+                     @if ($admin->permission->blog)
+                     <!-- ====BLOG Master ==== -->
+                    <li
+                        class="nav-item {{ Request::is('admin/blogs*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
+                        <a href="#"
+                            class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
+                            <i class="fas fa-newspaper nav-icon"></i>
                             <p>
-                                Charts
+                                Blog
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="pages/charts/chartjs.html" class="nav-link">
+                                <a href="{{ route('admin.blogs.index') }}"
+                                    class="nav-link {{ Request::is('admin/blogs') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>ChartJS</p>
+                                    <p>Blog List</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/charts/flot.html" class="nav-link">
+                                <a href="{{ route('admin.blogs.indexhome') }}"
+                                    class="nav-link {{ Request::is('admin/blogs/home') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Flot</p>
+                                    <p>Blog List For Home Page</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/charts/inline.html" class="nav-link">
+                                <a href="{{ route('admin.blogs.create') }}"
+                                    class="nav-link {{ Request::is('admin/blogs/create') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Inline</p>
+                                    <p>Create Blog</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="pages/charts/uplot.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>uPlot</p>
-                                </a>
-                            </li>
+
                         </ul>
                     </li>
+                     @endif
+                     
+                      @if ($admin->permission->blog)
+                    <!-- ==== Careers Master ==== -->
+                    <li
+                        class="nav-item {{ Request::is('admin/career*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
+                        <a href="#"
+                            class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
+                                <i class="fas fa-briefcase nav-icon"></i>
 
+                            <p>
+                                Careers
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.career.opening.create') }}"
+                                    class="nav-link {{ Request::is('admin/career/opening/create') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create Openings</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.career.opening') }}"
+                                    class="nav-link {{ Request::is('admin/career/opening') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Openings</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.career.joinussubmitionlist') }}"
+                                    class="nav-link {{ Request::is('admin/career/joinussubmitionlist') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Join Us Submition</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.career.associateussubmitionlist') }}"
+                                    class="nav-link {{ Request::is('admin/career/associateussubmitionlist') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> Associates Us Submition </p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    @endif
+
+                    
                     <li class="nav-item">
                         <a href="{{ route('admin.logout') }}" class="nav-link">
                             <i class="fas fa-sign-out-alt nav-icon"></i>
                             <p>Logout</p>
                         </a>
                     </li>
-
+                    <!-- Add other nav-items similarly -->
                 </ul>
             </nav>
+
             <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-
+     @if ($admin)
+                        Welcome, {{ $admin->name }}
+                        Blog Permission: {{ $admin->permission->blog ?? 'Not set' }}
+                    @else
+                        Not logged in as admin.
+                    @endif
     @yield('content')
     <!-- /.content-wrapper -->
 
@@ -247,7 +356,7 @@
     <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
- <!-- ./wrapper -->
+    <!-- ./wrapper -->
 
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>

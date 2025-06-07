@@ -528,149 +528,257 @@
                     </a>
                 </div>
 
-                <!-- Overview -->
+                <!-- Property Overview Section -->
                 <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
                     style="animation-delay: 0.6s">
                     <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
                         <i class="fa-solid fa-clipboard-list text-brand-primary mr-3"></i>Property Overview
                     </h3>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 text-textClr-secondary">
-                        <div class="flex items-center space-x-3">
-                            <div class="icon-bg-circle rounded-full px-4 py-3">
-                                <i class="fa-solid fa-building text-brand-primary text-xl"></i>
+                        @if ($property->property_type)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full px-4 py-3">
+                                    <i class="fa-solid fa-building text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Property Type</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->property_type }}
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm">Property Type</p>
-                                <p class="font-semibold text-textClr-primary text-md">
-                                    {{ $property->property_type }}
-                                </p>
+                        @endif
+
+                        @if ($property->super_area)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full px-4 py-3">
+                                    <i class="fa-solid fa-chart-area text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Super Area</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->super_area }}
+                                        sq.ft.</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="icon-bg-circle rounded-full px-4 py-3">
-                                <i class="fa-solid fa-chart-area text-brand-primary text-xl"></i>
+                        @endif
+
+                        @if ($property->carpet_area)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full px-4 py-3">
+                                    <i class="fa-solid fa-ruler-combined text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Carpet Area</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->carpet_area }}
+                                        sq.ft.</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm">Super Area</p>
-                                <p class="font-semibold text-textClr-primary text-md">
-                                    {{ $property->super_area }}sq.ft.
-                                </p>
+                        @endif
+
+                        @if ($property->furnishing)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full p-3">
+                                    <i class="fa-solid fa-couch text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Furnishing</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->furnishing }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="icon-bg-circle rounded-full p-3">
-                                <i class="fa-solid fa-couch text-brand-primary text-xl"></i>
+                        @endif
+
+                        @if ($property->bedrooms)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full p-3">
+                                    <i class="fa-solid fa-bed text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Bedrooms</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->bedrooms }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm">Furnishing</p>
-                                <p class="font-semibold text-textClr-primary text-md">
-                                    Fully Furnished
-                                </p>
+                        @endif
+
+                        @if ($property->bathrooms)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full p-3">
+                                    <i class="fa-solid fa-bath text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Bathrooms</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->bathrooms }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="icon-bg-circle rounded-full py-3 px-3">
-                                <i class="fa-solid fa-users text-brand-primary text-xl"></i>
+                        @endif
+
+                        @if ($property->balconies)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full p-3">
+                                    <i class="fa-solid fa-door-open text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Balconies</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->balconies }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm">Preferred Tenants</p>
-                                <p class="font-semibold text-textClr-primary text-md">
-                                    Family, Professionals
-                                </p>
+                        @endif
+
+                        @if ($property->floors)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full p-3">
+                                    <i class="fa-solid fa-building text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Total Floors</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->floors }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="icon-bg-circle rounded-full px-4 py-3">
-                                <i class="fa-solid fa-calendar-check text-brand-primary text-xl"></i>
+                        @endif
+
+                        @if ($property->floor_number)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full p-3">
+                                    <i class="fa-solid fa-layer-group text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Floor Number</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->floor_number }}
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm">Availability</p>
-                                <p class="font-semibold text-textClr-primary text-md">
-                                    Immediate
-                                </p>
+                        @endif
+
+                        @if ($property->availability)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full px-4 py-3">
+                                    <i class="fa-solid fa-calendar-check text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Availability</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->availability }}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="icon-bg-circle rounded-full py-3 px-4">
-                                <i class="fa-solid fa-shield-halved text-brand-primary text-xl"></i>
+                        @endif
+
+                        @if ($property->year_built)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full py-3 px-4">
+                                    <i class="fa-solid fa-calendar-alt text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Year Built</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->year_built }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm">Security Deposit</p>
-                                <p class="font-semibold text-textClr-primary text-md">
-                                    ₹30,000
-                                </p>
+                        @endif
+
+                        @if ($property->rera_id)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full py-3 px-4">
+                                    <i class="fa-solid fa-id-badge text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">RERA ID</p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->rera_id }}</p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </section>
+<!-- Amenities & Features Section -->
+@php
+    // Convert features to array if it's a string
+    $features = [];
+    if (!empty($property->features)) {
+        if (is_string($property->features)) {
+            $features = json_decode($property->features, true) ?? [];
+        } elseif (is_array($property->features)) {
+            $features = $property->features;
+        }
+    }
 
-                <!-- Description -->
-                <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
-                    style="animation-delay: 0.7s">
-                    <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
-                        <i class="fa-solid fa-align-left text-brand-primary mr-3"></i>Detailed Description
-                    </h3>
-                    <div class="space-y-4 text-textClr-secondary leading-relaxed">
-                        <p>
-                            {{ $property->description }}
-                        </p>
+    // Convert amenities to array if it's a string
+    $amenities = [];
+    if (!empty($property->amenities)) {
+        if (is_string($property->amenities)) {
+            $amenities = json_decode($property->amenities, true) ?? [];
+        } elseif (is_array($property->amenities)) {
+            $amenities = $property->amenities;
+        }
+    }
 
+    // Merge both arrays
+    $allFeatures = array_merge($features, $amenities);
+
+    $iconMap = [
+        'Swimming Pool' => 'fa-person-swimming',
+        'Gym' => 'fa-dumbbell',
+        'Parking' => 'fa-car',
+        'Garden' => 'fa-tree',
+        'Security' => 'fa-user-shield',
+        'Lift' => 'fa-elevator',
+        'Elevator' => 'fa-elevator',
+        'Lift/Elevator' => 'fa-elevator',
+        'Power Backup' => 'fa-bolt',
+        'WiFi' => 'fa-wifi',
+        'Air Conditioning' => 'fa-wind',
+        'Heating' => 'fa-temperature-high',
+        'TV' => 'fa-tv',
+        'Washing Machine' => 'fa-soap',
+        'Microwave' => 'fa-fire-burner',
+        'Refrigerator' => 'fa-snowflake',
+        'Dishwasher' => 'fa-dishwasher',
+        'Balcony' => 'fa-mountain-sun',
+        'Club House' => 'fa-house-chimney',
+        'Play Area' => 'fa-child-reaching',
+        'Intercom' => 'fa-phone',
+        'Fire Safety' => 'fa-fire-extinguisher',
+        'Shopping Center' => 'fa-cart-shopping',
+        'Maintenance Staff' => 'fa-users-gear',
+        'Rain Water Harvesting' => 'fa-cloud-rain',
+        'Vaastu Compliant' => 'fa-om',
+        'Pet Friendly' => 'fa-paw',
+        'Wheelchair Accessible' => 'fa-wheelchair',
+        'Servant Room' => 'fa-user-tie',
+        'Park' => 'fa-tree',
+        'Jogging Track' => 'fa-person-running',
+        'Community Hall' => 'fa-people-roof',
+        'Banquet Hall' => 'fa-utensils',
+        'CCTV Surveillance' => 'fa-camera',
+        'Visitor Parking' => 'fa-square-parking',
+        'Modular Kitchen' => 'fa-kitchen-set',
+        'Modular Wardrobe' => 'fa-wardrobe',
+        'Fans' => 'fa-fan',
+        'Curtains' => 'fa-curtains',
+        'Modular Bathroom' => 'fa-bath',
+        'Exhaust Fan' => 'fa-fan',
+        'Gas Pipeline' => 'fa-fire',
+        'Water Heater' => 'fa-water',
+        'Modular Lights' => 'fa-lightbulb',
+        'Modular Switches' => 'fa-toggle-on',
+        'Modular Doors' => 'fa-door-open'
+    ];
+@endphp
+
+@if (!empty($allFeatures))
+    <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
+        style="animation-delay: 0.8s">
+        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-8">
+            <i class="fa-solid fa-stars text-brand-primary mr-3"></i>Amenities & Features
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-3 text-textClr-secondary">
+            @foreach ($allFeatures as $item)
+                @if (!empty($item))
+                    <div class="flex items-center space-x-3 group">
+                        <i class="fa-solid {{ $iconMap[$item] ?? 'fa-circle-check' }} text-brand-primary text-xl group-hover:animate-pulse"></i>
+                        <span>{{ $item }}</span>
                     </div>
-                </section>
-                <!-- Key Features -->
-                <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
-                    style="animation-delay: 0.7s">
-                    <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
-                        <i class="fa-solid fa-list-check text-brand-primary mr-3"></i>Key Features
-                    </h3>
-                    <ul class="space-y-3 text-textClr-secondary leading-relaxed list-none">
-                        {{ $property->keyfeatures }}
-                    </ul>
-                </section>
-
-
-                @php
-                    $iconMap = [
-                        'Swimming Pool' => 'fa-person-swimming',
-                        'Gym' => 'fa-dumbbell',
-                        'Parking' => 'fa-car',
-                        'Garden' => 'fa-tree',
-                        'Security' => 'fa-user-shield',
-                        'Lift' => 'fa-elevator',
-                        'Power Backup' => 'fa-bolt',
-                        'WiFi' => 'fa-wifi',
-                        'Air Conditioning' => 'fa-wind',
-                        'Heating' => 'fa-temperature-high',
-                        'TV' => 'fa-tv',
-                        'Washing Machine' => 'fa-soap',
-                        'Microwave' => 'fa-fire-burner',
-                        'Refrigerator' => 'fa-snowflake',
-                        'Dishwasher' => 'fa-dishwasher',
-                        'Balcony' => 'fa-mountain-sun',
-                    ];
-                @endphp
-
-                @if (!empty($property->features) || !empty($property->amenities))
-                    <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
-                        style="animation-delay: 0.8s">
-                        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-8">
-                            <i class="fa-solid fa-stars text-brand-primary mr-3"></i>Amenities & Features
-                        </h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-3 text-textClr-secondary">
-                            @foreach (array_merge($property->features ?? [], $property->amenities ?? []) as $item)
-                                @if (!empty($item))
-                                    <div class="flex items-center space-x-3 group">
-                                        <i
-                                            class="fa-solid {{ $iconMap[$item] ?? 'fa-circle-question' }} text-brand-primary text-xl group-hover:animate-pulse"></i>
-                                        <span>{{ $item }}</span>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    </section>
                 @endif
-
-
+            @endforeach
+        </div>
+    </section>
+@endif
                 <!-- Location -->
                 <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
                     style="animation-delay: 0.9s">
@@ -679,7 +787,7 @@
                     </h3>
 
                     <div class="rounded-lg overflow-hidden shadow-lg mb-8">
-                        @php
+                        {{-- @php
                             $mapUrl = null;
                             $defaultCity = $property->city;
                             $apiKey = 'AIzaSyAfS-bCjy7PCM5Z-79SZyaMJNgBByvzN6o'; // Replace with your actual API key
@@ -710,12 +818,12 @@
                                     "https://www.google.com/maps/embed/v1/place?key={$apiKey}&q=" .
                                     urlencode($defaultCity);
                             }
-                        @endphp
+                        @endphp --}}
 
-                        @if ($mapUrl)
-                            <iframe src="{{ $mapUrl }}" width="100%" height="400" style="border:0"
-                                allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                                class="rounded-lg"></iframe>
+                        @if ($property->google_map_link)
+                            <iframe src="{{ $property->google_map_link }}" width="100%" height="400"
+                                style="border:0" allowfullscreen loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade" class="rounded-lg"></iframe>
                         @else
                             <div class="text-center text-gray-500 py-16">
                                 <i class="fa-solid fa-map-location-dot fa-2x mb-3"></i>
@@ -724,7 +832,17 @@
                         @endif
                     </div>
 
+                    <!--Notes -->
 
+                    <section class="bg-brand-light p-8 rounded-xl  animated-element animate-slide-in-left"
+                        style="animation-delay: 0.7s">
+                        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
+                            <i class="fa-solid fa-list-check text-brand-primary mr-3"></i>Notes
+                        </h3>
+                        <ul class="space-y-3 text-textClr-secondary leading-relaxed list-none">
+                            {!! $property->notes !!}
+                        </ul>
+                    </section>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
                         <!-- Nearby Places -->
@@ -899,348 +1017,165 @@
             <span id="currentImageNum">1</span> / <span id="totalImages">7</span>
         </div>
     </div>
-
-    <!-- Similar Properties -->
-    <section id="featured-properties" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section Heading -->
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                    Similar Properties
-                </h2>
-                <div class="mx-auto w-24 h-1 bg-gradient-to-r from-primary to-primary-dark rounded-full mb-6"></div>
-                <p class="text-gray-500 max-w-3xl mx-auto text-lg">
-                    Explore our handpicked selection of premium properties. Each listing is carefully vetted to ensure
-                    quality and value for our clients.
-                </p>
-            </div>
-
-            <!-- Property Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <!-- Card 1 -->
-                <div
-                    class="property-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994" alt="Luxury Condo"
-                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
-                        <div class="absolute top-4 left-4 flex flex-col space-y-2">
-                            <span class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full animate-pulse">
-                                Featured
-                            </span>
-                            <span class="bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                                Hot Deal
-                            </span>
-                        </div>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md">
-                            <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold text-gray-800">Luxury Sea View Condo</h3>
-                            <span class="bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded">New</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-3 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Bandra West, Mumbai
-                        </p>
-                        <div class="flex items-center text-sm text-gray-600 mb-4 space-x-4">
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                                    </path>
-                                </svg>
-                                3 BHK
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                2023
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
-                                    </path>
-                                </svg>
-                                1800 sqft
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-primary">₹2.75 Cr</span>
-                            <a href="{{ route('propertydetails.index') }}"
-                                class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                                View
-                            </a>
-                        </div>
-                    </div>
+    @if ($similarProperties->count() > 0)
+        <!-- Featured Properties -->
+        <section id="featured-properties" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Heading -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                        Similar Properties
+                    </h2>
+                    <div class="mx-auto w-24 h-1 bg-gradient-to-r from-primary to-primary-dark rounded-full mb-6"></div>
+                    <p class="text-gray-500 max-w-3xl mx-auto text-lg">
+                        Explore our handpicked selection of premium properties. Each listing is carefully vetted to ensure
+                        quality and value for our clients.
+                    </p>
                 </div>
 
-                <!-- Card 2 -->
-                <div
-                    class="property-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Modern Villa"
-                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                                Verified
-                            </span>
+                <!-- Property Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    @foreach ($similarProperties as $property)
+                        <div
+                            class="property-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
+                            <div class="relative h-60 overflow-hidden">
+                                @if ($property->main_image)
+                                    <img src="{{ asset($property->main_image) }}" alt="{{ $property->title }}"
+                                        class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
+                                @else
+                                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <span class="text-gray-500">No Image Available</span>
+                                    </div>
+                                @endif
+
+                                <div class="absolute top-4 left-4 flex flex-col space-y-2">
+                                    @if ($property->is_featured)
+                                        <span
+                                            class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full animate-pulse">
+                                            Featured
+                                        </span>
+                                    @endif
+                                    @if ($property->property_status === 'Available')
+                                        <span class="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                            Available
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div
+                                    class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md">
+                                    <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="p-6">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-xl font-bold text-gray-800">{{ $property->title }}</h3>
+                                    @if ($property->is_verified)
+                                        <span
+                                            class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded ">Verified</span>
+                                    @endif
+                                </div>
+
+                                <p class="text-sm text-gray-500 mb-3 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    {{ $property->city }}, {{ $property->state }}
+                                </p>
+                                <p class="text-sm text-gray-500 mb-3 flex items-center">
+                                    @if ($property->year_built)
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                                </path>
+                                            </svg>
+                                            {{ $property->year_built }}
+                                        </span>
+                                    @endif
+                                </p>
+
+                                <div class="flex items-center text-sm text-gray-600 mb-4 space-x-4">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                            </path>
+                                        </svg>
+                                        {{ $property->bedrooms }} BHK
+                                    </span>
+
+                                    {{-- @if ($property->year_built)
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                                </path>
+                                            </svg>
+                                            {{ $property->year_built }}
+                                        </span>
+                                    @endif --}}
+
+                                    @if ($property->super_area)
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
+                                                </path>
+                                            </svg>
+                                            {{ $property->super_area }} sqft
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xl font-bold text-primary">
+                                        ₹{{ $property->price }}
+                                        {{-- @if ($property->price_unit)
+                                            <span class="text-sm font-normal">{{ $property->price_unit }}</span>
+                                        @endif --}}
+                                    </span>
+                                    <a href="{{ route('property.show', $property->id) }}"
+                                        class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
+                                        </svg>
+                                        View
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md">
-                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold text-gray-800">Modern Luxury Villa</h3>
-                            <span
-                                class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Premium</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-3 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Whitefield, Bangalore
-                        </p>
-                        <div class="flex items-center text-sm text-gray-600 mb-4 space-x-4">
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                                    </path>
-                                </svg>
-                                4 BHK
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                2022
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
-                                    </path>
-                                </svg>
-                                3200 sqft
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-primary">₹4.2 Cr</span>
-                            <a href="{{ route('propertydetails.index') }}"
-                                class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                                View
-                            </a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
-                <!-- Card 3 -->
-                <div
-                    class="property-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6" alt="Penthouse"
-                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                                Luxury
-                            </span>
-                        </div>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md">
-                            <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold text-gray-800">Skyline Penthouse</h3>
-                            <span
-                                class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">Exclusive</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-3 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Worli, Mumbai
-                        </p>
-                        <div class="flex items-center text-sm text-gray-600 mb-4 space-x-4">
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                                    </path>
-                                </svg>
-                                5 BHK
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                2021
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
-                                    </path>
-                                </svg>
-                                4500 sqft
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-primary">₹8.5 Cr</span>
-                            <a href="{{ route('propertydetails.index') }}"
-                                class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                                View
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div
-                    class="property-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf" alt="Family Home"
-                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                                Family Home
-                            </span>
-                        </div>
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md">
-                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold text-gray-800">Spacious Family Home</h3>
-                            <span
-                                class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Popular</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-3 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Gurgaon, Delhi NCR
-                        </p>
-                        <div class="flex items-center text-sm text-gray-600 mb-4 space-x-4">
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                                    </path>
-                                </svg>
-                                3 BHK
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                2020
-                            </span>
-                            <span class="flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
-                                    </path>
-                                </svg>
-                                2100 sqft
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-primary">₹1.85 Cr</span>
-                            <a href="{{ route('propertydetails.index') }}"
-                                class="text-sm bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                    </path>
-                                </svg>
-                                View
-                            </a>
-                        </div>
-                    </div>
+                <!-- View All Button -->
+                <div class="text-center mt-12">
+                    <a href="{{ route('property.search') }}"
+                        class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-md">
+                        View All Properties
+                    </a>
                 </div>
             </div>
-
-            <!-- View All Button -->
-            <div class="text-center mt-12">
-                <button
-                    class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-md">
-                    View All Properties
-                </button>
-            </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     <script>
         // Basic animation reveal (can be enhanced with Intersection Observer)
