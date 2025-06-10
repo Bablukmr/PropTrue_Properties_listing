@@ -58,11 +58,12 @@
                                             <th>Email</th>
                                             <th>Message</th>
                                             <th>Date and Time</th>
+                                            <th>Properties Name</th>
                                             <th>View Properties</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($inquaries as $inquary)
+                                        @foreach ($inquaries     as $inquary)
                                             <tr>
                                                 <td>{{ $inquary->name }}</td>
                                                 <td>{{ $inquary->phone }}</td>
@@ -83,6 +84,14 @@
                                                 <td>{{ $inquary->created_at }}</td>
                                                 <td>
                                                     @if ($inquary->property_id)
+                                                        {{ $inquary->property->title ?? 'N/A' }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>
+
+                                                    @if ($inquary->property_id)
                                                         <a target="_blank"
                                                             href="{{ route('property.show', ['id' => $inquary->property_id]) }}"
                                                             class="btn btn-info">View Property</a>
@@ -102,6 +111,7 @@
                                             <th>Email</th>
                                             <th>Message</th>
                                             <th>Date and Time</th>
+                                             <th>Properties Name</th>
                                             <th>View Properties</th>
                                         </tr>
                                     </tfoot>

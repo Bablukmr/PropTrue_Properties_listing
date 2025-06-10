@@ -34,6 +34,7 @@ class Property extends Model
         'longitude',
         'landmark',
         'google_map_link',
+        'rera_status',
         'rera_id',
 
         // Property Details
@@ -97,10 +98,10 @@ class Property extends Model
         'is_active' => 'boolean',
         'available_from' => 'date',
 
-        'security_deposit' => 'decimal:2',
-        'super_area' => 'decimal:2',
-        'carpet_area' => 'decimal:2',
-        'plot_area' => 'decimal:2',
+        // 'security_deposit' => 'decimal:2',
+        // 'super_area' => 'decimal:2',
+        // 'carpet_area' => 'decimal:2',
+        // 'plot_area' => 'decimal:2',
     ];
 
     // public function images()

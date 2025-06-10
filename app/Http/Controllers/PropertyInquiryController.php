@@ -11,8 +11,10 @@ class PropertyInquiryController extends Controller
 {
 
     public function enquiryForm(){
-        $inquaries= PropertyInquiry::latest()->get();
+        // $inquaries= PropertyInquiry::latest()->get();
         // dd($inquaries);
+            $inquaries = PropertyInquiry::with('property')->latest()->get();
+
         return view('admin.enquaryformlist', compact('inquaries'));
     }
 
