@@ -72,12 +72,6 @@
                                                             class="form-control" id="title" name="title"
                                                             placeholder="e.g. Beautiful 3 BHK Apartment" required>
                                                     </div>
-                                                    {{-- <div class="form-group">
-                                                        <label for="slug">Slug*</label>
-                                                        <input value="{{ old('slug', $property->slug) }}" type="text"
-                                                            class="form-control" id="slug" name="slug"
-                                                            placeholder="e.g. beautiful-3bhk-apartment" required>
-                                                    </div> --}}
                                                     <div class="form-group">
                                                         <label for="description">Description*</label>
                                                         <textarea class="form-control text-editor" id="description" name="description" rows="3"
@@ -125,8 +119,18 @@
                                                                 <label for="listing_type">Listing Type*</label>
                                                                 <select class="form-control" id="listing_type"
                                                                     name="listing_type" required>
-                                                                    <option value="">Select Type</option>
+                                                                    {{-- <option value="">Select Type</option> --}}
                                                                     <option value="For Sale"
+                                                                        {{ old('listing_type', $property->listing_type) == 'Project' ? 'selected' : '' }}>
+                                                                        Project</option>
+                                                                    <option value="For Resale"
+                                                                        {{ old('listing_type', $property->listing_type) == 'For Resale' ? 'selected' : '' }}>
+                                                                        For Resale</option>
+                                                                    <option value="Pre Launch"
+                                                                        {{ old('listing_type', $property->listing_type) == 'Pre Launch' ? 'selected' : '' }}>
+                                                                        Pre Launch</option>
+
+                                                                    {{-- <option value="For Sale"
                                                                         {{ old('listing_type', $property->listing_type) == 'For Sale' ? 'selected' : '' }}>
                                                                         For Sale</option>
                                                                     <option value="For Resale"
@@ -137,61 +141,107 @@
                                                                         For Rent</option>
                                                                     <option value="Lease"
                                                                         {{ old('listing_type', $property->listing_type) == 'Lease' ? 'selected' : '' }}>
-                                                                        Lease</option>
+                                                                        Lease</option> --}}
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                          <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="price">Price Range*</label>
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control"
-                                                                        id="price" name="price"  value="{{ old('price', $property->price )}}"
+                                                                        id="price" name="price"
+                                                                        value="{{ old('price', $property->price) }}"
                                                                         placeholder="e.g. 50L-70L" required>
                                                                     <div class="input-group-append">
                                                                         <select class="form-control" id="price_unit"
                                                                             name="price_unit"
                                                                             style="background-color: #d33593; color: #ffffff;">
                                                                             <option value="₹">₹</option>
-
                                                                         </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        {{-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="rera_id">RERA ID</label>
-                                                                <input value="{{ old('rera_id', $property->rera_id) }}" type="text"
-                                                                    class="form-control" id="rera_id" name="rera_id"
+                                                                <input value="{{ old('rera_id', $property->rera_id) }}"
+                                                                    type="text" class="form-control" id="rera_id"
+                                                                    name="rera_id"
+                                                                    placeholder="e.g. RERA registration number">
+                                                            </div>
+                                                        </div> --}}
+                                                    </div>
+
+                                                    @php
+                                                        $reraStatus =
+                                                            old('rera_status') ?? ($property->rera_status ?? '');
+                                                        $reraId = old('rera_id') ?? ($property->rera_id ?? '');
+                                                    @endphp
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="rera_status">RERA Status</label>
+                                                                <select class="form-control" id="rera_status"
+                                                                    name="rera_status" onchange="handleReraChange()">
+                                                                    <option value=""> -- Select RERA Status --
+                                                                    </option>
+                                                                    <option value="approved"
+                                                                        {{ $reraStatus == 'approved' ? 'selected' : '' }}>
+                                                                        RERA Approved</option>
+                                                                    <option value="applied"
+                                                                        {{ $reraStatus == 'applied' ? 'selected' : '' }}>
+                                                                        RERA Applied</option>
+                                                                    <option value="not_applicable"
+                                                                        {{ $reraStatus == 'not_applicable' ? 'selected' : '' }}>
+                                                                        RERA Not Applicable</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6" id="rera_id_wrapper"
+                                                            style="display: none;">
+                                                            <div class="form-group">
+                                                                <label for="rera_id" id="rera_id_label">RERA ID</label>
+                                                                <input type="text" class="form-control" id="rera_id"
+                                                                    name="rera_id" value="{{ $reraId }}"
                                                                     placeholder="e.g. beautiful-3bhk-apartment">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                        <!--<div class="col-md-6">-->
-                                                        <!--    <div class="form-group">-->
-                                                        <!--        <label for="price">Price*</label>-->
-                                                        <!--        <div class="input-group">-->
-                                                        <!--            <input type="text" class="form-control"-->
-                                                        <!--                id="price" name="price"-->
-                                                        <!--                placeholder="e.g. 500000"-->
-                                                        <!--                value="{{ old('price', $property->price) }}"-->
-                                                        <!--                required>-->
-                                                        <!--            <div class="input-group-append">-->
-                                                        <!--                <select class="form-control" id="price_unit"-->
-                                                        <!--                    name="price_unit"-->
-                                                        <!--                    style="background-color: #d33593; color: #ffffff;">-->
-                                                        <!--                    <option value="₹"-->
-                                                        <!--                        {{ old('price_unit', $property->price_unit) == '₹' ? 'selected' : '' }}>-->
-                                                        <!--                        ₹</option>-->
-                                                        <!--                </select>-->
-                                                        <!--            </div>-->
-                                                        <!--        </div>-->
-                                                        <!--    </div>-->
-                                                        <!--</div>-->
+
+                                                    <script>
+                                                        function handleReraChange() {
+                                                            const status = document.getElementById("rera_status").value;
+                                                            const wrapper = document.getElementById("rera_id_wrapper");
+                                                            const label = document.getElementById("rera_id_label");
+                                                            const input = document.getElementById("rera_id");
+
+                                                            if (status === "approved") {
+                                                                wrapper.style.display = "block";
+                                                                label.textContent = "RERA ID";
+                                                                input.placeholder = "e.g. beautiful-3bhk-apartment";
+                                                            } else if (status === "applied") {
+                                                                wrapper.style.display = "block";
+                                                                label.textContent = "RERA Registration Number";
+                                                                input.placeholder = "e.g. REG12345678";
+                                                            } else {
+                                                                wrapper.style.display = "none";
+                                                            }
+                                                        }
+
+                                                        document.addEventListener("DOMContentLoaded", function() {
+                                                            handleReraChange();
+                                                        });
+                                                    </script>
+
+
+
+                                                    <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="security_deposit">Security Deposit</label>
@@ -406,24 +456,19 @@
                                                             <option value="">Select Furnishing</option>
                                                             <option value="Fully Furnished"
                                                                 {{ old('furnishing', $property->furnishing) == 'Fully Furnished' ? 'selected' : '' }}>
-                                                                Fully Furnished
-                                                            </option>
+                                                                Fully Furnished</option>
                                                             <option value="Semi Furnished"
                                                                 {{ old('furnishing', $property->furnishing) == 'Semi Furnished' ? 'selected' : '' }}>
-                                                                Semi Furnished
-                                                            </option>
+                                                                Semi Furnished</option>
                                                             <option value="Unfurnished"
                                                                 {{ old('furnishing', $property->furnishing) == 'Unfurnished' ? 'selected' : '' }}>
-                                                                Unfurnished
-                                                            </option>
+                                                                Unfurnished</option>
                                                             <option value="Furnished"
                                                                 {{ old('furnishing', $property->furnishing) == 'Furnished' ? 'selected' : '' }}>
-                                                                Furnished
-                                                            </option>
+                                                                Furnished</option>
                                                             <option value="Partially Furnished"
                                                                 {{ old('furnishing', $property->furnishing) == 'Partially Furnished' ? 'selected' : '' }}>
-                                                                Partially Furnished
-                                                            </option>
+                                                                Partially Furnished</option>
                                                         </select>
                                                     </div>
 
@@ -674,7 +719,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -690,31 +734,42 @@
                                                 <div class="card-body">
                                                     <div class="form-group">
                                                         <label for="image">Main Image* (700x450 PX)</label>
+
+                                                        <!-- Show current image if it exists -->
+                                                        @if ($property->main_image)
+                                                            <div class="mb-3">
+                                                                <p class="text-muted">Current Image:</p>
+                                                                <img src="{{ asset($property->main_image) }}"
+                                                                    width="200" class="img-thumbnail">
+                                                                <input type="hidden" name="existing_main_image"
+                                                                    value="{{ $property->main_image }}">
+                                                            </div>
+                                                        @endif
+
                                                         <div class="input-group">
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input"
-                                                                    id="image" name="main_image" accept="image/*"
-                                                                    onchange="previewImage(event)">
-                                                                <label class="custom-file-label" for="image">Choose
-                                                                    file</label>
+                                                                    id="image" name="main_image" accept="image/*">
+                                                                <label class="custom-file-label" for="image">
+                                                                    @if ($property->main_image)
+                                                                        Replace Image
+                                                                    @else
+                                                                        Choose Image
+                                                                    @endif
+                                                                </label>
                                                             </div>
                                                         </div>
-                                                        @if ($property->main_image)
-                                                            <div class="mt-2">
-                                                                <img src="{{ asset($property->main_image) }}"
-                                                                    width="100" class="img-thumbnail">
-                                                            </div>
-                                                        @endif
+                                                        <small class="text-muted">Leave blank to keep current image</small>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="property_images">Additional Images (1200x800 PX)</label>
+                                                        <label for="property_images">Additional Images (1200x800
+                                                            PX)</label>
                                                         <div class="input-group">
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input"
                                                                     id="property_images" name="property_images[]"
-                                                                    accept="image/*" multiple
-                                                                    onchange="previewAdditionalImages(event)">
+                                                                    accept="image/*" multiple>
                                                                 <label class="custom-file-label"
                                                                     for="property_images">Choose files</label>
                                                             </div>
@@ -732,6 +787,8 @@
                                                                             class="btn btn-danger btn-sm position-absolute"
                                                                             style="top: 0; right: 0;"
                                                                             onclick="return confirm('Are you sure?')">×</a>
+                                                                        <input type="hidden" name="existing_images[]"
+                                                                            value="{{ $image->id }}">
                                                                     </div>
                                                                 @endforeach
                                                             </div>
@@ -745,24 +802,28 @@
                                                             value="{{ old('video_url', $property->video_url) }}">
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <label for="floor_plan_image">Floor Plan Image</label>
-                                                        <div class="input-group">
-                                                            <div class="custom-file">
-                                                                <input type="file" class="custom-file-input"
-                                                                    id="floor_plan_image" name="floor_plan_image"
-                                                                    accept="image/*" onchange="previewFloorPlan(event)">
-                                                                <label class="custom-file-label"
-                                                                    for="floor_plan_image">Choose file</label>
-                                                            </div>
-                                                        </div>
-                                                        @if ($property->floor_plan_image)
-                                                            <div class="mt-2">
-                                                                <img src="{{ asset($property->floor_plan_image) }}"
-                                                                    width="100" class="img-thumbnail">
-                                                            </div>
-                                                        @endif
-                                                    </div>
+                                                    <!--<div class="form-group">-->
+                                                    <!--    <label for="floor_plan_image">Floor Plan Image</label>-->
+                                                    <!--    <div class="input-group">-->
+                                                    <!--        <div class="custom-file">-->
+                                                    <!--            <input type="file" class="custom-file-input"-->
+                                                    <!--                id="floor_plan_image" name="floor_plan_image"-->
+                                                    <!--                accept="image/*">-->
+                                                    <!--            <label class="custom-file-label"-->
+                                                    <!--                for="floor_plan_image">Choose file</label>-->
+                                                    <!--        </div>-->
+                                                    <!--    </div>-->
+                                                    <!--    @if ($property->floor_plan_image)
+    -->
+                                                    <!--        <div class="mt-2">-->
+                                                    <!--            <img src="{{ asset($property->floor_plan_image) }}"-->
+                                                    <!--                width="100" class="img-thumbnail">-->
+                                                    <!--            <input type="hidden" name="existing_floor_plan"-->
+                                                    <!--                value="{{ $property->floor_plan_image }}">-->
+                                                    <!--        </div>-->
+                                                    <!--
+    @endif-->
+                                                    <!--</div>-->
 
                                                     <div class="form-group">
                                                         <label for="brochure">Brochure (PDF)</label>
@@ -779,6 +840,8 @@
                                                                 <a href="{{ asset($property->brochure) }}"
                                                                     target="_blank" class="btn btn-sm btn-info">View
                                                                     Brochure</a>
+                                                                <input type="hidden" name="existing_brochure"
+                                                                    value="{{ $property->brochure }}">
                                                             </div>
                                                         @endif
                                                     </div>
@@ -859,45 +922,42 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Additional Information -->
-                                        <div class="row mt-3">
-                                            <div class="col-md-12">
-                                                <div class="card card-secondary" style="border-color: #b1b2b1;">
-                                                    <div class="card-header"
-                                                        style="background-color: #717271; color: #ffffff;">
-                                                        <h3 class="card-title">Additional Information</h3>
+                                    </div>
+
+                                    <!-- Additional Information -->
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <div class="card card-secondary" style="border-color: #b1b2b1;">
+                                                <div class="card-header"
+                                                    style="background-color: #717271; color: #ffffff;">
+                                                    <h3 class="card-title">Additional Information</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="similar_properties">Similar Properties</label>
+                                                        <select class="form-control select2" id="similar_properties"
+                                                            name="similar_properties[]" multiple="multiple"
+                                                            data-placeholder="Search and select similar properties"
+                                                            style="width: 100%;">
+                                                            @foreach ($properties as $prop)
+                                                                @if ($prop->id != $property->id)
+                                                                    <option value="{{ $prop->id }}"
+                                                                        {{ in_array($prop->id, old('similar_properties', $property->similarProperties->pluck('id')->toArray() ?? [])) ? 'selected' : '' }}>
+                                                                        {{ $prop->title }} ({{ $prop->property_id }})
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <div class="form-group">
-                                                            <label for="similar_properties">Similar Properties</label>
-                                                            <select class="form-control select2" id="similar_properties"
-                                                                name="similar_properties[]" multiple="multiple"
-                                                                data-placeholder="Search and select similar properties"
-                                                                style="width: 100%;">
-                                                                @foreach ($properties as $prop)
-                                                                    @if ($prop->id != $property->id)
-                                                                        {{-- Don't show current property --}}
-                                                                        <option value="{{ $prop->id }}"
-                                                                            {{ in_array($prop->id, old('similar_properties', $property->similarProperties->pluck('id')->toArray() ?? [])) ? 'selected' : '' }}>
-                                                                            {{ $prop->title }} ({{ $prop->property_id }})
-                                                                        </option>
-                                                                    @endif
-                                                                @endforeach
-                                                            </select>
-                                                            @error('similar_properties')
-                                                                <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="keyfeatures">Key Features</label>
-                                                            <textarea class="form-control text-editor" id="keyfeatures" name="keyfeatures" rows="3"
-                                                                placeholder="List key features of the property">{{ old('keyfeatures', $property->keyfeatures) }}</textarea>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="notes">Notes</label>
-                                                            <textarea class="form-control text-editor" id="notes" name="notes" rows="3"
-                                                                placeholder="Any additional notes">{{ old('notes', $property->notes) }}</textarea>
-                                                        </div>
+                                                    <div class="form-group">
+                                                        <label for="keyfeatures">Key Features</label>
+                                                        <textarea class="form-control text-editor" id="keyfeatures" name="keyfeatures" rows="3"
+                                                            placeholder="List key features of the property">{{ old('keyfeatures', $property->keyfeatures) }}</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="notes">Notes</label>
+                                                        <textarea class="form-control text-editor" id="notes" name="notes" rows="3"
+                                                            placeholder="Any additional notes">{{ old('notes', $property->notes) }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -922,6 +982,7 @@
     </div>
 
 @endsection
+
 @section('extraJs')
     <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -930,48 +991,6 @@
     <!-- Summernote -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-    <style>
-        /* Select2 custom styling */
-        .select2-container--default .select2-selection--multiple {
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            min-height: 38px;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #d33593;
-            border-color: #d33593;
-            color: white;
-            padding: 0 5px;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: white;
-            margin-right: 5px;
-        }
-
-        .select2-container--default.select2-container--focus .select2-selection--multiple {
-            border-color: #d33593;
-            box-shadow: 0 0 0 0.2rem rgba(211, 53, 147, 0.25);
-        }
-
-        /* Summernote custom styling */
-        .note-editor.note-frame {
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-        }
-
-        .note-editor.note-frame .note-toolbar {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #ced4da;
-        }
-
-        .note-editor.note-frame .note-statusbar {
-            background-color: #f8f9fa;
-            border-top: 1px solid #ced4da;
-        }
-    </style>
 
     <script>
         $(document).ready(function() {
@@ -983,30 +1002,7 @@
                 theme: 'classic'
             });
 
-            // Initialize Summernote for notes editor
-            $('.summernote').summernote({
-                height: 200,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontname', ['fontname']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'hr']],
-                    ['view', ['fullscreen', 'codeview']],
-                    ['help', ['help']]
-                ],
-                callbacks: {
-                    onInit: function() {
-                        // Fix for AdminLTE3 conflict
-                        $('.note-editor').css('margin-bottom', '0');
-                    }
-                }
-            });
-
-            // Initialize other text editors
+            // Initialize Summernote for text editors
             $('.text-editor').summernote({
                 height: 150,
                 toolbar: [
@@ -1018,7 +1014,20 @@
                 ]
             });
 
-            // [Rest of your existing JavaScript code]
+            // Show/hide available_from field based on availability selection
+            $('#availability').change(function() {
+                if ($(this).val() === 'After Date') {
+                    $('#available_from_group').show();
+                } else {
+                    $('#available_from_group').hide();
+                }
+            }).trigger('change');
+
+            // Update file input labels when files are selected
+            $('.custom-file-input').on('change', function() {
+                let fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
         });
     </script>
 @endsection

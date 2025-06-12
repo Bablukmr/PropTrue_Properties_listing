@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Create Form</li>
+                        <li class="breadcrumb-item active">Edit Form</li>
                     </ol>
                 </div>
             </div>
@@ -39,22 +39,27 @@
                                     <label class="form-check-label" for="all_property">All Property</label>
                                 </div>
 
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="featured_image" id="featured_image" value="1"
-                                        {{ old('featured_image', $permission->featured_image ?? false) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="featured_image">Featured Image</label>
+                               <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="featured_property" id="featured_property" value="1"
+                                        {{ old('featured_property', $permission->featured_property ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="featured_property">Featured Property</label>
                                 </div>
 
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="add_now" id="add_now" value="1"
-                                        {{ old('add_now', $permission->add_now ?? false) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="add_now">Add Now</label>
+                                    <input class="form-check-input" type="checkbox" name="add_new_property" id="add_new_property" value="1"
+                                        {{ old('add_new_property', $permission->add_new_property ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="add_new_property">Add New Property</label>
                                 </div>
-
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" name="property_image" id="property_image" value="1"
-                                        {{ old('property_image', $permission->property_image ?? false) ? 'checked' : '' }}>
+                                        {{ old('property_image', $permission->enquiry ?? false) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="property_image">Property Image</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="enquiry" id="enquiry" value="1"
+                                        {{ old('enquiry', $permission->enquiry ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="enquiry">Enquiry</label>
                                 </div>
 
                                 <div class="form-check mb-2">
@@ -67,6 +72,18 @@
                                     <input class="form-check-input" type="checkbox" name="blog" id="blog" value="1"
                                         {{ old('blog', $permission->blog ?? false) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="blog">Blog</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="career" id="career" value="1"
+                                        {{ old('career', $permission->career ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="career">Career</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="legal" id="legal" value="1"
+                                        {{ old('legal', $permission->legal ?? false) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="legal">Legal</label>
                                 </div>
 
                                 <button type="submit" class="btn btn-success mt-3">Save Permissions</button>

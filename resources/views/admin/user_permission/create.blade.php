@@ -42,7 +42,7 @@
                                 </select>
                             </div>
 
-                            @foreach(['all_property', 'featured_image', 'add_now', 'property_image', 'our_team', 'blog'] as $permission)
+                            @foreach(['all_property', 'featured_property', 'add_new_property', 'enquiry', 'our_team', 'blog','career','legal'] as $permission)
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" name="{{ $permission }}" id="{{ $permission }}" value="1">
                                 <label class="form-check-label" for="{{ $permission }}">

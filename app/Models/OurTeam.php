@@ -16,6 +16,7 @@ class OurTeam extends Model
         'employee_name',
         'designation',
         'short_desc',
+        'user_tb',
         'user_id',
         'password',
         'joining_date',

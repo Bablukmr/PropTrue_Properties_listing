@@ -11,11 +11,13 @@ class UserPermission extends Model
     protected $fillable = [
         'user_id',
         'all_property',
-        'featured_image',
-        'add_now',
-        'property_image',
+        'featured_property',
+        'add_new_property',
+        'enquiry',
         'our_team',
         'blog',
+        'career',
+        'legal',
     ];
 
     public $timestamps = false;

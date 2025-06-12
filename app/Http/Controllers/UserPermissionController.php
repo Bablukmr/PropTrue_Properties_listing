@@ -31,15 +31,17 @@ class UserPermissionController extends Controller
         $data = $request->only([
             'user_id',
             'all_property',
-            'featured_image',
-            'add_now',
-            'property_image',
+            'featured_property',
+            'add_new_property',
+            'enquiry',
             'our_team',
             'blog',
+            'career',
+            'legal',
         ]);
 
         // Convert checkbox nulls to 0
-        foreach (['all_property', 'featured_image', 'add_now', 'property_image', 'our_team', 'blog'] as $field) {
+        foreach (['all_property', 'featured_property', 'add_new_property', 'enquiry', 'our_team', 'blog','career','legal'] as $field) {
             $data[$field] = $request->has($field) ? 1 : 0;
         }
 
@@ -58,20 +60,24 @@ class UserPermissionController extends Controller
 
     public function update(Request $request, $userId)
     {
-        $data = $request->only([
+         $permissionKeys = [
             'all_property',
-            'featured_image',
-            'add_now',
-            'property_image',
+            'featured_property',
+            'add_new_property',
+            'enquiry',
             'our_team',
             'blog',
-        ]);
+            'career',
+            'legal',
+        ];
 
         // Convert checkbox nulls to 0
-        foreach ($data as $key => $value) {
-            $data[$key] = $value ? 1 : 0;
-        }
+        $data = [];
 
+        foreach ($permissionKeys as $key) {
+            $data[$key] = $request->has($key) ? 1 : 0;
+        }
+    
         UserPermission::updateOrCreate(
             ['user_id' => $userId],
             $data

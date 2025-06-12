@@ -41,9 +41,9 @@ class PropertyListingController extends Controller
 
         return view('admin.propertylisting', compact('properties'));
     }
+
     public function sell()
     {
-
         return view('pages.sell');
     }
 
@@ -59,21 +59,28 @@ class PropertyListingController extends Controller
         $title = 'Featured Properties'; // Set a title for the view
         return view('admin.listofproperties', compact('properties', 'title'));
     }
+    public function fetured_search()
+    {
+        $query = Property::query()->where('is_active', true);
+        $query->where('is_featured', true);
+        // dd($query->get());
+        $properties = $query->paginate(5);
+        return view('fetured-search', compact('query', 'properties'));
+    }
+
     public function search(Request $request)
     {
         $query = Property::query()->where('is_active', true);
 
-        // Search by property type
         if ($request->filled('property_type')) {
             $query->where('property_type', $request->property_type);
         }
 
-        // Search by listing type
         if ($request->filled('listing_type')) {
             $query->where('listing_type', $request->listing_type);
         }
 
-        // General search (title, city, address)
+        // General text search
         if ($request->filled('search')) {
             $searchTerm = $request->search;
             $query->where(function ($q) use ($searchTerm) {
@@ -83,7 +90,8 @@ class PropertyListingController extends Controller
                     ->orWhere('address', 'like', "%{$searchTerm}%");
             });
         }
-        // Apply sorting
+
+        // Sorting
         $sort = $request->get('sort', 'newest');
         switch ($sort) {
             case 'newest':
@@ -115,7 +123,7 @@ class PropertyListingController extends Controller
                 break;
         }
 
-        // Get paginated results
+        // Paginate
         $properties = $query->paginate(5);
 
         return view('search-results', [
@@ -214,6 +222,7 @@ class PropertyListingController extends Controller
                 'price' => $validatedData['price'],
                 'price_unit' => $validatedData['price_unit'] ?? '₹',
                 'security_deposit' => $validatedData['security_deposit'] ?? null,
+                'rera_status' => $validatedData['rera_status'],
                 'rera_id' => $validatedData['rera_id'],
                 // Location Details
                 'address' => $validatedData['address'],
@@ -344,6 +353,7 @@ class PropertyListingController extends Controller
                 'title' => $validatedData['title'],
                 'description' => $validatedData['description'],
                 // 'slug' => $validatedData['slug'],
+                'rera_status' => $validatedData['rera_status'],
                 'rera_id' => $validatedData['rera_id'],
                 'property_type' => $validatedData['property_type'],
                 'listing_type' => $validatedData['listing_type'],
@@ -447,9 +457,11 @@ class PropertyListingController extends Controller
             'description' => 'required|string',
             // 'slug' => 'nullable|string|unique:full_property_schema,slug',
             'property_type' => 'required|in:Apartment,Villa,Residential Plot,Commercial,Penthouse,House,Condo,Townhouse',
-            'listing_type' => 'required|in:For Rent,For Sale,Lease',
+            'listing_type' => 'required|in:For Rent,For Sale,For Resale,Lease,Pre Launch,Project',
+            'Project',
             'price' => 'nullable|string|max:200',
             'price_unit' => 'nullable|string',
+            'rera_status' => 'nullable',
             'rera_id' => 'nullable|string',
             'security_deposit' => 'nullable|numeric|min:0',
 
@@ -463,16 +475,16 @@ class PropertyListingController extends Controller
             'google_map_link' => 'nullable|url',
 
             // Property Details
-            'bedrooms' => 'nullable|integer|min:0',
-            'bathrooms' => 'nullable|integer|min:0',
-            'balconies' => 'nullable|integer|min:0',
-            'floors' => 'nullable|integer|min:0',
-            'floor_number' => 'nullable|integer|min:0',
-            'super_area' => 'nullable|numeric|min:0',
-            'carpet_area' => 'nullable|numeric|min:0',
-            'plot_area' => 'nullable|numeric|min:0',
-            'year_built' => 'nullable|integer|min:1800|max:' . date('Y'),
-            'age_of_property' => 'nullable|integer|min:0',
+            'bedrooms' => 'nullable|string|max:100',
+            'bathrooms' => 'nullable|string|max:100',
+            'balconies' => 'nullable|string|max:100',
+            'floors' => 'nullable|string|max:100',
+            'floor_number' => 'nullable|string|max:100',
+            'super_area' => 'nullable|string|max:100',
+            'carpet_area' => 'nullable|string|max:100',
+            'plot_area' => 'nullable|string|max:100',
+            'year_built' => 'nullable|string|max:100',
+            'age_of_property' => 'nullable|string|max:100',
 
             // Furnishing
             'furnishing' => 'nullable|in:Fully Furnished,Semi Furnished,Unfurnished',
@@ -485,11 +497,11 @@ class PropertyListingController extends Controller
 
             // Availability
             'availability' => 'required|in:Immediate,After Date,Negotiable',
-            'available_from' => 'nullable|required_if:availability,After Date|date|after_or_equal:today',
+            'available_from' => 'nullable',
             'preferred_tenants' => 'nullable|in:Family,Professionals,Students,Company,Anyone',
 
             // Media
-            'main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             'property_images' => 'nullable|array',
             'property_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
             'video_url' => 'nullable|url',
