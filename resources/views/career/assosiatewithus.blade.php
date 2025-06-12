@@ -113,17 +113,19 @@
                 </div>
             </div>
         </div>
-        {{-- //error --}}
-        @if (session('error'))
-            <div class="bg-red-100 text-red-800 p-4 rounded-lg max-w-4xl mx-auto mt-8">
-                <p class="font-semibold">{{ session('error') }}</p>
-            </div>
-        @endif
-        @if (session('success'))
-            <div class="bg-green-100 text-green-800 p-4 rounded-lg max-w-4xl mx-auto mt-8">
-                <p class="font-semibold">{{ session('success') }}</p>
-            </div>
-        @endif
+   <script src="https://unpkg.com/alpinejs" defer></script>
+@if (session('success') || session('error'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 4000)" 
+        x-show="show"
+        x-transition
+        class="fixed bottom-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white 
+               {{ session('success') ? 'bg-green-500' : 'bg-red-500' }}"
+    >
+        {{ session('success') ?? session('error') }}
+    </div>
+@endif
         <!-- Application Form -->
         <div class="bg-gray-100 py-16">
             <div class="container mx-auto px-4 max-w-4xl">

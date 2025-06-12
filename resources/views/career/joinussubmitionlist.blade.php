@@ -42,7 +42,7 @@
                         <!-- /.card -->
                         <div class="card">
                             <div class="card-header w-100 d-flex justify-content-between align-items-center">
-                                <h3 class="card-title mb-0">Applicant List</h3>
+                                <h3 class="card-title mb-0">Join Us Applicant List</h3>
 
                             </div>
                             <!-- /.card-header -->

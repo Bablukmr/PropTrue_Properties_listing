@@ -314,11 +314,11 @@
         <!-- Breadcrumbs and Title (Modified) -->
         <div class="mb-12 animated-element animate-fade-in-up" style="animation-delay: 0.2s">
             <div class="flex items-center text-sm text-textClr-secondary mb-4">
-                <a href="#" class="hover:text-brand-primary transition">Home</a>
+                <a href="/" class="hover:text-brand-primary transition">Home</a>
+                {{-- <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> --}}
+                {{-- <a href="#" class="hover:text-brand-primary transition"> {{ $property->city }}</a> --}}
                 <i class="fa-solid fa-chevron-right mx-2 text-xs"></i>
-                <a href="#" class="hover:text-brand-primary transition">Patna</a>
-                <i class="fa-solid fa-chevron-right mx-2 text-xs"></i>
-                <span class="text-textClr-primary">Kankarbagh - 2 BHK Flat</span>
+                <span class="text-textClr-primary"> {{ $property->title }}</span>
             </div>
             <div class="flex flex-col md:flex-row md:items-center justify-between">
                 <div>
@@ -333,7 +333,7 @@
                 <div class="flex flex-col items-start md:items-end mt-6 md:mt-0">
                     <div
                         class="bg-primary hover:bg-primary-dark cursor-pointer text-white text-2xl font-bold rounded-lg py-3 px-6 shadow-lg">
-                        ₹{{ $property->price }}<span class="text-sm font-normal ml-1"></span>
+                        ₹ {{ $property->price }}<span class="text-sm font-normal ml-1"></span>
                     </div>
                     <div class="flex items-center space-x-4 mt-4">
                         <button aria-label="Add to Favorites"
@@ -673,7 +673,7 @@
                             </div>
                         @endif
 
-                        @if ($property->rera_id)
+                        {{-- @if ($property->rera_id)
                             <div class="flex items-center space-x-3">
                                 <div class="icon-bg-circle rounded-full py-3 px-4">
                                     <i class="fa-solid fa-id-badge text-brand-primary text-xl"></i>
@@ -683,102 +683,128 @@
                                     <p class="font-semibold text-textClr-primary text-md">{{ $property->rera_id }}</p>
                                 </div>
                             </div>
+                        @endif --}}
+                        @if ($property->rera_status && $property->rera_status !== 'not_applicable')
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full py-3 px-4">
+                                    <i class="fa-solid fa-id-badge text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">
+                                        {{ $property->rera_status == 'approved' ? 'RERA ID' : 'RERA Registration Number' }}
+                                    </p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->rera_id }}</p>
+                                </div>
+                            </div>
                         @endif
+
                     </div>
                 </section>
-<!-- Amenities & Features Section -->
-@php
-    // Convert features to array if it's a string
-    $features = [];
-    if (!empty($property->features)) {
-        if (is_string($property->features)) {
-            $features = json_decode($property->features, true) ?? [];
-        } elseif (is_array($property->features)) {
-            $features = $property->features;
-        }
-    }
+                <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
+                    style="animation-delay: 0.7s">
+                    <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
+                        <i class="fa-solid fa-list-check text-brand-primary mr-3"></i>Key Features
+                    </h3>
+                    <ul class="space-y-3 text-textClr-secondary leading-relaxed list-none">
+                        {!! $property->keyfeatures !!}
+                    </ul>
+                </section>
 
-    // Convert amenities to array if it's a string
-    $amenities = [];
-    if (!empty($property->amenities)) {
-        if (is_string($property->amenities)) {
-            $amenities = json_decode($property->amenities, true) ?? [];
-        } elseif (is_array($property->amenities)) {
-            $amenities = $property->amenities;
-        }
-    }
+                <!-- Amenities & Features Section -->
+                @php
+                    // Convert features to array if it's a string
+                    $features = [];
+                    if (!empty($property->features)) {
+                        if (is_string($property->features)) {
+                            $features = json_decode($property->features, true) ?? [];
+                        } elseif (is_array($property->features)) {
+                            $features = $property->features;
+                        }
+                    }
 
-    // Merge both arrays
-    $allFeatures = array_merge($features, $amenities);
+                // Convert amenities to array if it's a string
+                    $amenities = [];
+                    if (!empty($property->amenities)) {
+                        if (is_string($property->amenities)) {
+                            $amenities = json_decode($property->amenities, true) ?? [];
+                        } elseif (is_array($property->amenities)) {
+                            $amenities = $property->amenities;
+                        }
+                    }
 
-    $iconMap = [
-        'Swimming Pool' => 'fa-person-swimming',
-        'Gym' => 'fa-dumbbell',
-        'Parking' => 'fa-car',
-        'Garden' => 'fa-tree',
-        'Security' => 'fa-user-shield',
-        'Lift' => 'fa-elevator',
-        'Elevator' => 'fa-elevator',
-        'Lift/Elevator' => 'fa-elevator',
-        'Power Backup' => 'fa-bolt',
-        'WiFi' => 'fa-wifi',
-        'Air Conditioning' => 'fa-wind',
-        'Heating' => 'fa-temperature-high',
-        'TV' => 'fa-tv',
-        'Washing Machine' => 'fa-soap',
-        'Microwave' => 'fa-fire-burner',
-        'Refrigerator' => 'fa-snowflake',
-        'Dishwasher' => 'fa-dishwasher',
-        'Balcony' => 'fa-mountain-sun',
-        'Club House' => 'fa-house-chimney',
-        'Play Area' => 'fa-child-reaching',
-        'Intercom' => 'fa-phone',
-        'Fire Safety' => 'fa-fire-extinguisher',
-        'Shopping Center' => 'fa-cart-shopping',
-        'Maintenance Staff' => 'fa-users-gear',
-        'Rain Water Harvesting' => 'fa-cloud-rain',
-        'Vaastu Compliant' => 'fa-om',
-        'Pet Friendly' => 'fa-paw',
-        'Wheelchair Accessible' => 'fa-wheelchair',
-        'Servant Room' => 'fa-user-tie',
-        'Park' => 'fa-tree',
-        'Jogging Track' => 'fa-person-running',
-        'Community Hall' => 'fa-people-roof',
-        'Banquet Hall' => 'fa-utensils',
-        'CCTV Surveillance' => 'fa-camera',
-        'Visitor Parking' => 'fa-square-parking',
-        'Modular Kitchen' => 'fa-kitchen-set',
-        'Modular Wardrobe' => 'fa-wardrobe',
-        'Fans' => 'fa-fan',
-        'Curtains' => 'fa-curtains',
-        'Modular Bathroom' => 'fa-bath',
-        'Exhaust Fan' => 'fa-fan',
-        'Gas Pipeline' => 'fa-fire',
-        'Water Heater' => 'fa-water',
-        'Modular Lights' => 'fa-lightbulb',
-        'Modular Switches' => 'fa-toggle-on',
-        'Modular Doors' => 'fa-door-open'
-    ];
-@endphp
+                    // Merge both arrays
+                    $allFeatures = array_merge($features, $amenities);
 
-@if (!empty($allFeatures))
-    <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
-        style="animation-delay: 0.8s">
-        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-8">
-            <i class="fa-solid fa-stars text-brand-primary mr-3"></i>Amenities & Features
-        </h3>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-3 text-textClr-secondary">
-            @foreach ($allFeatures as $item)
-                @if (!empty($item))
-                    <div class="flex items-center space-x-3 group">
-                        <i class="fa-solid {{ $iconMap[$item] ?? 'fa-circle-check' }} text-brand-primary text-xl group-hover:animate-pulse"></i>
-                        <span>{{ $item }}</span>
-                    </div>
+                    $iconMap = [
+                        'Swimming Pool' => 'fa-person-swimming',
+                        'Gym' => 'fa-dumbbell',
+                        'Parking' => 'fa-car',
+                        'Garden' => 'fa-tree',
+                        'Security' => 'fa-user-shield',
+                        'Lift' => 'fa-elevator',
+                        'Elevator' => 'fa-elevator',
+                        'Lift/Elevator' => 'fa-elevator',
+                        'Power Backup' => 'fa-bolt',
+                        'WiFi' => 'fa-wifi',
+                        'Air Conditioning' => 'fa-wind',
+                        'Heating' => 'fa-temperature-high',
+                        'TV' => 'fa-tv',
+                        'Washing Machine' => 'fa-soap',
+                        'Microwave' => 'fa-fire-burner',
+                        'Refrigerator' => 'fa-snowflake',
+                        'Dishwasher' => 'fa-dishwasher',
+                        'Balcony' => 'fa-mountain-sun',
+                        'Club House' => 'fa-house-chimney',
+                        'Play Area' => 'fa-child-reaching',
+                        'Intercom' => 'fa-phone',
+                        'Fire Safety' => 'fa-fire-extinguisher',
+                        'Shopping Center' => 'fa-cart-shopping',
+                        'Maintenance Staff' => 'fa-users-gear',
+                        'Rain Water Harvesting' => 'fa-cloud-rain',
+                        'Vaastu Compliant' => 'fa-om',
+                        'Pet Friendly' => 'fa-paw',
+                        'Wheelchair Accessible' => 'fa-wheelchair',
+                        'Servant Room' => 'fa-user-tie',
+                        'Park' => 'fa-tree',
+                        'Jogging Track' => 'fa-person-running',
+                        'Community Hall' => 'fa-people-roof',
+                        'Banquet Hall' => 'fa-utensils',
+                        'CCTV Surveillance' => 'fa-camera',
+                        'Visitor Parking' => 'fa-square-parking',
+                        'Modular Kitchen' => 'fa-kitchen-set',
+                        'Modular Wardrobe' => 'fa-wardrobe',
+                        'Fans' => 'fa-fan',
+                        'Curtains' => 'fa-curtains',
+                        'Modular Bathroom' => 'fa-bath',
+                        'Exhaust Fan' => 'fa-fan',
+                        'Gas Pipeline' => 'fa-fire',
+                        'Water Heater' => 'fa-water',
+                        'Modular Lights' => 'fa-lightbulb',
+                        'Modular Switches' => 'fa-toggle-on',
+                        'Modular Doors' => 'fa-door-open',
+                    ];
+                @endphp
+
+                @if (!empty($allFeatures))
+                    <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
+                        style="animation-delay: 0.8s">
+                        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-8">
+                            <i class="fa-solid fa-stars text-brand-primary mr-3"></i>Amenities & Features
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-3 text-textClr-secondary">
+                            @foreach ($allFeatures as $item)
+                                @if (!empty($item))
+                                    <div class="flex items-center space-x-3 group">
+                                        <i
+                                            class="fa-solid {{ $iconMap[$item] ?? 'fa-circle-check' }} text-brand-primary text-xl group-hover:animate-pulse"></i>
+                                        <span>{{ $item }}</span>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </section>
                 @endif
-            @endforeach
-        </div>
-    </section>
-@endif
+
                 <!-- Location -->
                 <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
                     style="animation-delay: 0.9s">
@@ -843,6 +869,15 @@
                             {!! $property->notes !!}
                         </ul>
                     </section>
+                     <section class="bg-brand-light p-8 rounded-xl  animated-element animate-slide-in-left"
+                    style="animation-delay: 0.7s">
+                    <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
+                        <i class="fa-solid fa-file-lines text-brand-primary mr-3"></i>Description
+                    </h3>
+                    <ul class="space-y-3 text-textClr-secondary leading-relaxed list-none">
+                        {!! $property->description !!}
+                    </ul>
+                </section>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
                         <!-- Nearby Places -->

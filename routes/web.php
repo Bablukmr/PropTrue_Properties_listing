@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\EnquiryController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PropertyDetailsController;
 use App\Http\Controllers\PropertyInquiryController;
@@ -32,8 +33,10 @@ Route::get('/searchs', [
     'search'
 ])->name('propertydetails.search');
 
+
 Route::get('/', [PropertyListingController::class, 'indexwelcome'])->name('home');
 Route::get('/search', [PropertyListingController::class, 'search'])->name('property.search');
+Route::get('/fetured-search', [PropertyListingController::class, 'fetured_search'])->name('property.fetured-search');
 Route::get('/sell', [PropertyListingController::class, 'sell'])->name('property.sell');
 Route::post('/properties/{property}/inquiry', [PropertyInquiryController::class, 'store'])
     ->name('property.inquiry.store');
@@ -46,9 +49,25 @@ Route::get('/blogs/{id}', [BlogController::class, 'details'])->name('blog.detail
 Route::get('/join-us', [CareerController::class, 'joinus'])->name('joinus');
 Route::post('/join-us/apply', [CareerController::class, 'storeApplication'])->name('joinus.apply');
 Route::get('/associates-us', [CareerController::class, 'assosiatewithus'])->name('assosiatewithus');
+
 //  Route::post('/store', [EnquiryController::class, 'store'])->name('property.sell.store');
 
- Route::post('/sell-property', [EnquiryController::class, 'store'])->name('property.sell.store');
+
+//  Route::post('/store', [EnquiryController::class, 'store'])->name('property.sell.store');
+
+
+// Change this line in web.php:
+// Route::post('/store', [EnquiryController::class, 'store'])->name('property.sell.store');
+
+// To this:
+Route::post('/sell', [EnquiryController::class, 'clientStore'])->name('property.sell.store');
+// Add this new route for contact form submissions
+Route::post('/contact', [EnquiryController::class, 'contactStore'])->name('contact.store');
+
+// Legal routes
+Route::get('/privacy-policy', [LegalController::class, 'privacypolicy'])->name('legal.privacypolicy');
+Route::get('/rera-disclaimer', [LegalController::class, 'reradisclaimer'])->name('legal.reradisclaimer');
+Route::get('terms-condition', [LegalController::class, 'termscondition'])->name('legal.termscondition');
 // Admin routes
 Route::group(['prefix' => 'admin'], function () {
     // Routes for guests (e.g., login, register)
@@ -149,6 +168,7 @@ Route::group(['prefix' => 'admin'], function () {
         // Route::get('sell', [EnquiryController::class, 'index'])->name('admin.property.sell');
 
         // Inside admin routes group
+        Route::get('contact', [EnquiryController::class, 'indexcontact'])->name('admin.property.indexcontact');
         Route::prefix('sell')->group(function () {
             Route::get('/', [EnquiryController::class, 'index'])->name('admin.property.sell');
             Route::get('/create', [EnquiryController::class, 'create'])->name('admin.property.sell.create');
