@@ -64,10 +64,14 @@ Route::post('/sell', [EnquiryController::class, 'clientStore'])->name('property.
 // Add this new route for contact form submissions
 Route::post('/contact', [EnquiryController::class, 'contactStore'])->name('contact.store');
 
+<<<<<<< HEAD
 // Legal routes
 Route::get('/privacy-policy', [LegalController::class, 'privacypolicy'])->name('legal.privacypolicy');
 Route::get('/rera-disclaimer', [LegalController::class, 'reradisclaimer'])->name('legal.reradisclaimer');
 Route::get('terms-condition', [LegalController::class, 'termscondition'])->name('legal.termscondition');
+=======
+
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
 // Admin routes
 Route::group(['prefix' => 'admin'], function () {
     // Routes for guests (e.g., login, register)

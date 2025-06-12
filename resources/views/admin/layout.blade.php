@@ -206,6 +206,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+<<<<<<< HEAD
                                   <li class="nav-item">
                             <a href="{{ route('admin.enquiryformlist') }}"
                                 class="nav-link {{ Request::is('admin/enquiryformlist') ? 'active' : '' }}">
@@ -213,6 +214,8 @@
                                 <p>Property Enquiry</p>
                             </a>
                         </li>
+=======
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
                                 <li class="nav-item">
                                     <a href="{{ route('admin.property.sell') }}"
                                         class="nav-link {{ Request::is('admin/sell') ? 'active' : '' }}">
@@ -221,7 +224,17 @@
                                     </a>
                                 </li>
                                   {{-- @if ($admin->permission->property_image) --}}
+<<<<<<< HEAD
 
+=======
+                        <li class="nav-item">
+                            <a href="{{ route('admin.enquiryformlist') }}"
+                                class="nav-link {{ Request::is('admin/enquiryformlist') ? 'active' : '' }}">
+                                <i class="fas fa-envelope-open-text nav-icon"></i>
+                                <p>Property Enquiry</p>
+                            </a>
+                        </li>
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
                     {{-- @endif --}}
                                 <li class="nav-item">
                                     <a href="{{ route('admin.property.indexcontact') }}"

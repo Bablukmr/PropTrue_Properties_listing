@@ -90,11 +90,21 @@
             <!-- Legal -->
             <div class="flex flex-col">
                 <h3 class="font-semibold text-lg text-gray-300 mb-4">Legal</h3>
+<<<<<<< HEAD
                 <a href="/privacy-policy" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Privacy
                     Policy</a>
                     <a href="/rera-disclaimer" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">RERA Disclaimer</a>
                 <a href="/terms-condition" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Terms & Conditions</a>
                 {{-- <a href="#" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Cookie Policy</a> --}}
+=======
+                <a href="#" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Privacy
+                    Policy</a>
+                <a href="#" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Terms of
+                    Service</a>
+                {{-- <a href="#" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Cookie Policy</a> --}}
+                <a href="#" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">GDPR
+                    Compliance</a>
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
                 {{-- <a href="#" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Accessibility Statement</a> --}}
                 {{-- <a href="#" class="text-gray-400 hover:text-teal-500 transition duration-300 mb-2">Sitemap</a> --}}
             </div>
@@ -176,7 +186,11 @@
         <!-- Copyright -->
         <div class="mt-12 border-t border-gray-700 pt-6 text-center text-gray-400 text-sm">
             <p>&copy; 2025 PropTru, Inc. All rights reserved. Various trademarks held by their respective owners.</p>
+<<<<<<< HEAD
             <p class="mt-2">Design and Develop By: <a href="https://filliptechnologies.com/" target="_blank">Fillip Technologies</a></p>
+=======
+            <p class="mt-2">Design and Develop By: Fillip Technologies</p>
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
         </div>
     </div>
 </footer>
