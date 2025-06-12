@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Models\Legal;
+=======
+use App\Models\cr;
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
 use Illuminate\Http\Request;
 
 class LegalController extends Controller
@@ -14,6 +18,7 @@ class LegalController extends Controller
     {
         return view('pages.privacypolicy');
     }
+<<<<<<< HEAD
 
     public function reradisclaimer()
     {
@@ -22,11 +27,18 @@ class LegalController extends Controller
         return view('pages.reradisclaimer', compact('legal'));
     }
 
+=======
+    public function reradisclaimer()
+    {
+        return view('pages.reradisclaimer');
+    }
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
     public function termscondition()
     {
         return view('pages.termscondition');
     }
 
+<<<<<<< HEAD
         public function adminreradisclaimer()
     {
         // Always get record with ID 1
@@ -49,4 +61,7 @@ class LegalController extends Controller
 
         return redirect()->route('admin.reradesclemar')->with('success', 'Page updated successfully.');
     }
+=======
+
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
 }

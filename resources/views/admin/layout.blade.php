@@ -170,7 +170,11 @@
                     @endif
 
 
+<<<<<<< HEAD
                     @if ($admin->permission->featured_property)
+=======
+                    @if ($admin->permission->featured_image)
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                         <li class="nav-item">
                             <a href="{{ route('admin.properties.indexfetured') }}"
                                 class="nav-link {{ Request::is('admin/propertiesfeatured') ? 'active' : '' }}">
@@ -180,7 +184,11 @@
                         </li>
                     @endif
 
+<<<<<<< HEAD
                     @if ($admin->permission->add_new_property)
+=======
+                    @if ($admin->permission->add_now)
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                         <li class="nav-item">
                             <a href="{{ route('admin.propertylisting') }}"
                                 class="nav-link {{ Request::is('admin/propertylisting') ? 'active' : '' }}">
@@ -193,7 +201,11 @@
 
 
 
+<<<<<<< HEAD
                      @if ($admin->permission->enquiry)
+=======
+                    {{-- @if ($admin->permission->blog) --}}
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                         <!-- ====BLOG Master ==== -->
                         <li
                             class="nav-item {{ Request::is('admin/sell*','admin/contact*','admin/enquiryformlist*') ? 'menu-open' : '' }}">
@@ -206,6 +218,19 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                                  <li class="nav-item">
+                            <a href="{{ route('admin.enquiryformlist') }}"
+                                class="nav-link {{ Request::is('admin/enquiryformlist') ? 'active' : '' }}">
+                                <i class="fas fa-envelope-open-text nav-icon"></i>
+                                <p>Property Enquiry</p>
+                            </a>
+                        </li>
+=======
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                                 <li class="nav-item">
                                     <a href="{{ route('admin.property.sell') }}"
                                         class="nav-link {{ Request::is('admin/sell') ? 'active' : '' }}">
@@ -213,7 +238,14 @@
                                         <p>Sell Enquiry List</p>
                                     </a>
                                 </li>
+<<<<<<< HEAD
 
+=======
+                                  {{-- @if ($admin->permission->property_image) --}}
+<<<<<<< HEAD
+
+=======
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                         <li class="nav-item">
                             <a href="{{ route('admin.enquiryformlist') }}"
                                 class="nav-link {{ Request::is('admin/enquiryformlist') ? 'active' : '' }}">
@@ -221,7 +253,12 @@
                                 <p>Property Enquiry</p>
                             </a>
                         </li>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
+                    {{-- @endif --}}
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                                 <li class="nav-item">
                                     <a href="{{ route('admin.property.indexcontact') }}"
                                         class="nav-link {{ Request::is('admin/contact') ? 'active' : '' }}">
@@ -240,7 +277,11 @@
 
                             </ul>
                         </li>
+<<<<<<< HEAD
                      @endif
+=======
+                    {{-- @endif --}}
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                     @if ($admin->permission->our_team)
                         <li class="nav-item">
                             <a href="{{ route('our_team.index') }}"
@@ -309,7 +350,11 @@
                         </li>
                     @endif
 
+<<<<<<< HEAD
                     @if ($admin->permission->career)
+=======
+                    @if ($admin->permission->blog)
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                         <!-- ==== Careers Master ==== -->
                         <li
                             class="nav-item {{ Request::is('admin/career*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
@@ -354,6 +399,7 @@
 
                             </ul>
                         </li>
+<<<<<<< HEAD
                     @endif
                     @if ($admin->permission->legal)
                         <!-- ==== Careers Master ==== -->
@@ -395,6 +441,11 @@
                         </li>
                     @endif
 
+=======
+                    @endif
+
+
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
                     <li class="nav-item">
                         <a href="{{ route('admin.logout') }}" class="nav-link">
                             <i class="fas fa-sign-out-alt nav-icon"></i>

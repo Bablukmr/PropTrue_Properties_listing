@@ -64,10 +64,20 @@ Route::post('/sell', [EnquiryController::class, 'clientStore'])->name('property.
 // Add this new route for contact form submissions
 Route::post('/contact', [EnquiryController::class, 'contactStore'])->name('contact.store');
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
 // Legal routes
 Route::get('/privacy-policy', [LegalController::class, 'privacypolicy'])->name('legal.privacypolicy');
 Route::get('/rera-disclaimer', [LegalController::class, 'reradisclaimer'])->name('legal.reradisclaimer');
 Route::get('terms-condition', [LegalController::class, 'termscondition'])->name('legal.termscondition');
+<<<<<<< HEAD
+=======
+=======
+
+>>>>>>> 5920c52aed519dcafc7d8809b6fe0a3d306ac77d
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
 // Admin routes
 Route::group(['prefix' => 'admin'], function () {
     // Routes for guests (e.g., login, register)
@@ -179,6 +189,7 @@ Route::group(['prefix' => 'admin'], function () {
         // Route::get('sell', [EnquiryController::class, 'index'])->name('admin.property.sell');
 
         // Inside admin routes group
+<<<<<<< HEAD
         Route::middleware('check.permission:enquiry')->group(function () {
             Route::get('contact', [EnquiryController::class, 'indexcontact'])->name('admin.property.indexcontact');
             Route::prefix('sell')->group(function () {
@@ -192,6 +203,19 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::delete('/{enquiry}/images/{imageIndex}', [EnquiryController::class, 'deleteImage'])
                     ->name('admin.property.sell.deleteImage');
             });
+=======
+        Route::get('contact', [EnquiryController::class, 'indexcontact'])->name('admin.property.indexcontact');
+        Route::prefix('sell')->group(function () {
+            Route::get('/', [EnquiryController::class, 'index'])->name('admin.property.sell');
+            Route::get('/create', [EnquiryController::class, 'create'])->name('admin.property.sell.create');
+            Route::post('/store', [EnquiryController::class, 'store'])->name('admin.property.sell.store');
+            Route::get('/{enquiry}', [EnquiryController::class, 'show'])->name('admin.property.sell.show');
+            Route::get('/{enquiry}/edit', [EnquiryController::class, 'edit'])->name('admin.property.sell.edit');
+            Route::put('/{enquiry}', [EnquiryController::class, 'update'])->name('admin.property.sell.update');
+            Route::delete('/{enquiry}', [EnquiryController::class, 'destroy'])->name('admin.property.sell.destroy');
+            Route::delete('/{enquiry}/images/{imageIndex}', [EnquiryController::class, 'deleteImage'])
+                ->name('admin.property.sell.deleteImage');
+>>>>>>> c064af744503fdee7092411cf6609f224464ed1d
         });
 
         // For displaying the form (GET request)
