@@ -96,8 +96,9 @@
                                                                 <select class="form-control" id="listing_type"
                                                                     name="listing_type" required>
                                                                     {{-- <option value="">Select Type</option> --}}
-                                                                    <option value="For Sale">For Sale</option>
+                                                                    <option value="Project">Project</option>
                                                                     <option value="For Resale">For Resale</option>
+                                                                    <option value="Pre Launch">Pre Launch</option>
                                                                     {{-- <option value="For Rent">For Rent</option> --}}
                                                                     {{-- <option value="Lease">Lease</option> --}}
                                                                 </select>
@@ -110,43 +111,92 @@
                                                             class="form-control" id="title" name="title"
                                                             placeholder="e.g. Beautiful 3 BHK Apartment" required>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="price">Price Range*</label>
-                                                                <div class="input-group">
-                                                                    <input type="text" class="form-control"
-                                                                        id="price" name="price"
-                                                                        placeholder="e.g. 50L-70L" required>
-                                                                    <div class="input-group-append">
-                                                                        <select class="form-control" id="price_unit"
-                                                                            name="price_unit"
-                                                                            style="background-color: #d33593; color: #ffffff;">
-                                                                            <option value="₹">₹</option>
-                                                                            {{-- <option value="$">$</option>
-                                                                            <option value="€">€</option>
-                                                                            <option value="£">£</option> --}}
-                                                                        </select>
-                                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="price">Price Range*</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="price"
+                                                                    name="price" placeholder="e.g. 50L-70L" required>
+                                                                <div class="input-group-append">
+                                                                    <select class="form-control" id="price_unit"
+                                                                        name="price_unit"
+                                                                        style="background-color: #d33593; color: #ffffff;">
+                                                                        <option value="₹">₹</option>
+                                                                        {{-- <option value="$">$</option>
+                                                                        <option value="€">€</option>
+                                                                        <option value="£">£</option> --}}
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
+
+
+                                                    <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="rera_id">RERA ID</label>
+                                                                <label for="rera_status">RERA Status</label>
+                                                                <select class="form-control" id="rera_status"
+                                                                    name="rera_status" onchange="handleReraChange()">
+                                                                    <option value=""> -- Select RERA Status --
+                                                                    </option>
+                                                                    <option value="approved"
+                                                                        {{ old('rera_status') == 'approved' ? 'selected' : '' }}>
+                                                                        RERA Approved</option>
+                                                                    <option value="applied"
+                                                                        {{ old('rera_status') == 'applied' ? 'selected' : '' }}>
+                                                                        RERA Applied</option>
+                                                                    <option value="not_applicable"
+                                                                        {{ old('rera_status') == 'not_applicable' ? 'selected' : '' }}>
+                                                                        RERA Not Applicable</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6" id="rera_id_wrapper"
+                                                            style="display: none;">
+                                                            <div class="form-group">
+                                                                <label for="rera_id" id="rera_id_label">RERA ID</label>
                                                                 <input value="{{ old('rera_id') }}" type="text"
                                                                     class="form-control" id="rera_id" name="rera_id"
                                                                     placeholder="e.g. beautiful-3bhk-apartment">
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <script>
+                                                        function handleReraChange() {
+                                                            const status = document.getElementById("rera_status").value;
+                                                            const wrapper = document.getElementById("rera_id_wrapper");
+                                                            const label = document.getElementById("rera_id_label");
+                                                            const input = document.getElementById("rera_id");
+
+                                                            if (status === "approved") {
+                                                                wrapper.style.display = "block";
+                                                                label.textContent = "RERA ID";
+                                                                input.placeholder = "e.g. beautiful-3bhk-apartment";
+                                                            } else if (status === "applied") {
+                                                                wrapper.style.display = "block";
+                                                                label.textContent = "RERA Registration Number";
+                                                                input.placeholder = "e.g. REG12345678";
+                                                            } else {
+                                                                wrapper.style.display = "none";
+                                                            }
+                                                        }
+
+                                                        // Trigger change on page load if old value is set
+                                                        document.addEventListener("DOMContentLoaded", function() {
+                                                            handleReraChange();
+                                                        });
+                                                    </script>
+
+
+
                                                     <div class="form-group">
-                                                        <label for="description">Description*</label>
+                                                        <label for="description">Properties Description*</label>
                                                         <textarea class="form-control text-editor" id="description" name="description" rows="3"
                                                             placeholder="Detailed description of the property" required>{{ old('description') }}</textarea>
                                                     </div>
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -233,24 +283,31 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="master_properties_detais">Master Property Details</label>
+                                                                <input type="text" class="form-control" id="master_properties_detais"
+                                                                    name="master_properties_detais" placeholder="3-4 BHK, ..">
+                                                            </div>
+                                                        </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="bedrooms">Bedrooms</label>
-                                                                <input type="number" class="form-control" id="bedrooms"
+                                                                <input type="text" class="form-control" id="bedrooms"
                                                                     name="bedrooms" placeholder="0">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="bathrooms">Bathrooms</label>
-                                                                <input type="number" class="form-control" id="bathrooms"
+                                                                <input type="text" class="form-control" id="bathrooms"
                                                                     name="bathrooms" placeholder="0">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="balconies">Balconies</label>
-                                                                <input type="number" class="form-control" id="balconies"
+                                                                <input type="text" class="form-control" id="balconies"
                                                                     name="balconies" placeholder="0">
                                                             </div>
                                                         </div>
@@ -259,14 +316,14 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="floors">Total Floors</label>
-                                                                <input type="number" class="form-control" id="floors"
+                                                                <input type="text" class="form-control" id="floors"
                                                                     name="floors" placeholder="e.g. 10">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="floor_number">Floor Number</label>
-                                                                <input type="number" class="form-control"
+                                                                <input type="text" class="form-control"
                                                                     id="floor_number" name="floor_number"
                                                                     placeholder="e.g. 5">
                                                             </div>
@@ -276,7 +333,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="super_area">Super Area (sq.ft)</label>
-                                                                <input type="number" step="0.01" class="form-control"
+                                                                <input type="text" step="0.01" class="form-control"
                                                                     id="super_area" name="super_area"
                                                                     placeholder="e.g. 1200">
                                                             </div>
@@ -284,7 +341,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="carpet_area">Carpet Area (sq.ft)</label>
-                                                                <input type="number" step="0.01" class="form-control"
+                                                                <input type="text" step="0.01" class="form-control"
                                                                     id="carpet_area" name="carpet_area"
                                                                     placeholder="e.g. 1000">
                                                             </div>
@@ -292,7 +349,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="plot_area">Plot Area (sq.ft)</label>
-                                                                <input type="number" step="0.01" class="form-control"
+                                                                <input type="text" step="0.01" class="form-control"
                                                                     id="plot_area" name="plot_area"
                                                                     placeholder="e.g. 2400">
                                                             </div>
@@ -302,7 +359,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="year_built">Year Built</label>
-                                                                <input type="number" class="form-control"
+                                                                <input type="text" class="form-control"
                                                                     id="year_built" name="year_built"
                                                                     placeholder="e.g. 2015">
                                                             </div>
@@ -310,9 +367,24 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="age_of_property">Age of Property</label>
-                                                                <input type="number" class="form-control"
+                                                                <input type="text" class="form-control"
                                                                     id="age_of_property" name="age_of_property"
                                                                     placeholder="e.g. 5">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="rera_qr">RERA QR Code</label>
+                                                                <input type="file" class="form-control" id="rera_qr"
+                                                                    name="rera_qr" accept=".jpg, .jpeg, .png">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="rera_site_url">RERA Site</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="rera_site_url" name="rera_site_url"
+                                                                    placeholder="www.example.com/rera">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -434,7 +506,8 @@
                                                                 @foreach ($amenitiesList as $amenity)
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="checkbox"
-                                                                            name="amenities[]" value="{{ $amenity }}"
+                                                                            name="amenities[]"
+                                                                            value="{{ $amenity }}"
                                                                             style="accent-color: #d33593;">
                                                                         <label
                                                                             class="form-check-label">{{ $amenity }}</label>
@@ -465,10 +538,16 @@
                                                         <label for="availability">Availability*</label>
                                                         <select class="form-control" id="availability"
                                                             name="availability" required>
-                                                            <option value="Immediate">Immediate</option>
-                                                            <option value="After Date">After Date</option>
-                                                            <option value="Negotiable">Negotiable</option>
+                                                            <option value="Immediate">Ready To Move</option>
+                                                            <option value="After Date">Under Construction</option>
+                                                            {{-- <option value="Negotiable">Negotiable</option> --}}
                                                         </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="availability_text">Availability Text (possetion
+                                                            Date)</label>
+                                                        <input type="text" class="form-control" id="availability_text"
+                                                            name="availability_text" placeholder="22 Aug 2025">
                                                     </div>
                                                     <div class="form-group" id="available_from_group">
                                                         <label for="available_from">Available From</label>
@@ -575,7 +654,8 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="property_images">Additional Images (1200x800 PX)</label>
+                                                        <label for="property_images">Additional Images (1200x800
+                                                            PX)</label>
                                                         <div class="input-group">
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input"
@@ -594,26 +674,26 @@
                                                         <input type="url" class="form-control" id="video_url"
                                                             name="video_url" placeholder="YouTube/Vimeo link">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="floor_plan_image">Floor Plan Image</label>
-                                                        <div class="input-group">
-                                                            <div class="custom-file">
-                                                                <input type="file" class="custom-file-input"
-                                                                    id="floor_plan_image" name="floor_plan_image"
-                                                                    accept="image/*" onchange="previewFloorPlan(event)">
-                                                                <label class="custom-file-label"
-                                                                    for="floor_plan_image">Choose file</label>
-                                                            </div>
-                                                        </div>
-                                                        <div id="floor_plan_preview" class="mt-2"
-                                                            style="display: none; position: relative;">
-                                                            <img id="floor_plan_preview_img" src="#"
-                                                                alt="Floor Plan Preview"
-                                                                style="max-width: 150px; border: 1px solid #ddd; border-radius: 4px;">
-                                                            <button type="button" onclick="removeFloorPlan()"
-                                                                style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
-                                                        </div>
-                                                    </div>
+                                                    <!--<div class="form-group">-->
+                                                    <!--    <label for="floor_plan_image">Floor Plan Image</label>-->
+                                                    <!--    <div class="input-group">-->
+                                                    <!--        <div class="custom-file">-->
+                                                    <!--            <input type="file" class="custom-file-input"-->
+                                                    <!--                id="floor_plan_image" name="floor_plan_image"-->
+                                                    <!--                accept="image/*" onchange="previewFloorPlan(event)">-->
+                                                    <!--            <label class="custom-file-label"-->
+                                                    <!--                for="floor_plan_image">Choose file</label>-->
+                                                    <!--        </div>-->
+                                                    <!--    </div>-->
+                                                    <!--    <div id="floor_plan_preview" class="mt-2"-->
+                                                    <!--        style="display: none; position: relative;">-->
+                                                    <!--        <img id="floor_plan_preview_img" src="#"-->
+                                                    <!--            alt="Floor Plan Preview"-->
+                                                    <!--            style="max-width: 150px; border: 1px solid #ddd; border-radius: 4px;">-->
+                                                    <!--        <button type="button" onclick="removeFloorPlan()"-->
+                                                    <!--            style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>-->
+                                                    <!--    </div>-->
+                                                    <!--</div>-->
                                                     <div class="form-group">
                                                         <label for="brochure">Brochure (PDF)</label>
                                                         <div class="input-group">

@@ -46,7 +46,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">User Permission</h3>
+                            <h3 class="card-title">Our Team</h3>
                         </div>
                              <div class="card-body">
                          <form action="{{ route('our_team.store') }}" method="POST" enctype="multipart/form-data">
@@ -63,6 +63,16 @@
             <label for="designation" class="form-label">Designation <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="designation" name="designation" required value="{{ old('designation') }}">
         </div>
+        
+        {{-- User Type --}}
+            <div class="mb-3">
+                <label for="user_type" class="form-label">User Type <span class="text-danger">*</span></label>
+                <select id="user_type" name="user_type" class="form-control" required>
+                    <option value="">Select User Type</option>
+                    <option value="1" {{ old('user_type') == '1' ? 'selected' : '' }}>Leadership</option>
+                    <option value="2" {{ old('user_type') == '2' ? 'selected' : '' }}>Key People</option>
+                </select>
+            </div>
 
         {{-- Short Description --}}
         <div class="mb-3">

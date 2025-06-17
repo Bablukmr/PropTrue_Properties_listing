@@ -42,6 +42,17 @@
             <label class="form-label">Designation</label>
             <input type="text" class="form-control" name="designation" value="{{ old('designation', $our_team->designation) }}" required>
         </div>
+        
+        
+        {{-- User Type --}}
+        <div class="mb-3">
+            <label for="user_type" class="form-label">User Type <span class="text-danger">*</span></label>
+            <select id="user_type" name="user_type" class="form-control" required>
+                <option value="">Select User Type</option>
+                <option value="1" {{ (old('user_type', $our_team->user_type) == '1') ? 'selected' : '' }}>Leadership</option>
+                <option value="2" {{ (old('user_type', $our_team->user_type) == '2') ? 'selected' : '' }}>Key People</option>
+            </select>
+        </div>
 
          {{-- Short Description --}}
         <div class="mb-3">

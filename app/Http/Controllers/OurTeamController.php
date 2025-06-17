@@ -37,6 +37,7 @@ class OurTeamController extends Controller
             'linkedin'      => 'nullable|url',
             'instagram'     => 'nullable|url',
             'status'        => 'boolean',
+            'user_type'       => 'required|in:1,2',
         ]);
 
         $data = $request->all();
@@ -50,7 +51,7 @@ class OurTeamController extends Controller
             ]);
 
            
-            // $data['user_table_id'] = $user->id; 
+            $data['user_tb'] = $user->id; 
         }
 
         // Upload image
@@ -101,6 +102,7 @@ class OurTeamController extends Controller
             'linkedin'      => 'nullable|url',
             'instagram'     => 'nullable|url',
             'status'        => 'boolean',
+            'user_type'     => 'required|in:1,2',
         ]);
 
         $data = $request->except(['employee_image', 'password']);
@@ -155,6 +157,14 @@ class OurTeamController extends Controller
 
     public function destroy(OurTeam $our_team)
     {
+        $userId = $our_team->user_id;
+        $usertb = $our_team->user_tb;
+
+        // Delete related user permissions
+        \DB::table('user_permission')->where('user_id', $usertb)->delete();
+    
+        // Delete user from users table
+        \App\Models\User::where('email', $userId)->delete();
         $our_team->delete();
         return redirect()->route('our_team.index')->with('success', 'Team member deleted.');
     }

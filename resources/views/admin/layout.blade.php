@@ -122,8 +122,8 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            <a href="/" class="brand-link">
+                <img src="/sico.png" alt="PropTrue" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">PropTrue</span>
             </a>
@@ -157,7 +157,7 @@
                         $admin = Auth::guard('admin')->user();
                     @endphp
 
-                   
+
 
                     @if ($admin->permission->all_property)
                         <li class="nav-item">
@@ -170,7 +170,7 @@
                     @endif
 
 
-                    @if ($admin->permission->featured_image	)
+                    @if ($admin->permission->featured_property)
                         <li class="nav-item">
                             <a href="{{ route('admin.properties.indexfetured') }}"
                                 class="nav-link {{ Request::is('admin/propertiesfeatured') ? 'active' : '' }}">
@@ -180,45 +180,93 @@
                         </li>
                     @endif
 
-                    @if ($admin->permission->add_now)
-                    <li class="nav-item">
-                        <a href="{{ route('admin.propertylisting') }}"
-                            class="nav-link {{ Request::is('admin/propertylisting') ? 'active' : '' }}">
-                            <i class="fas fa-plus-circle nav-icon"></i>
-                            <p>Add New Property</p>
-                        </a>
-                    </li>
+                    @if ($admin->permission->add_new_property)
+                        <li class="nav-item">
+                            <a href="{{ route('admin.propertylisting') }}"
+                                class="nav-link {{ Request::is('admin/propertylisting') ? 'active' : '' }}">
+                                <i class="fas fa-plus-circle nav-icon"></i>
+                                <p>Add New Property</p>
+                            </a>
+                        </li>
                     @endif
 
-                    @if ($admin->permission->property_image	)
-                    <li class="nav-item">
-                        <a href="{{ route('admin.enquiryformlist') }}"
-                            class="nav-link {{ Request::is('admin/enquiryformlist') ? 'active' : '' }}">
-                            <i class="fas fa-envelope-open-text nav-icon"></i>
-                            <p>Property Enquiry</p>
-                        </a>
-                    </li>
-                    @endif
 
+
+
+                     @if ($admin->permission->enquiry)
+                        <!-- ====BLOG Master ==== -->
+                        <li
+                            class="nav-item {{ Request::is('admin/sell*','admin/contact*','admin/enquiryformlist*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
+                                <i class="fas fa-envelope-open-text nav-icon"></i>
+                                <p>
+                                    Sell & Contact Enquiry
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.property.sell') }}"
+                                        class="nav-link {{ Request::is('admin/sell') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Sell Enquiry List</p>
+                                    </a>
+                                </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.enquiryformlist') }}"
+                                class="nav-link {{ Request::is('admin/enquiryformlist') ? 'active' : '' }}">
+                                <i class="fas fa-envelope-open-text nav-icon"></i>
+                                <p>Property Enquiry</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.contactdetails.index') }}"
+                                class="nav-link {{ Request::is('admin/contactdetails') ? 'active' : '' }}">
+                                <i class="fas fa-envelope-open-text nav-icon"></i>
+                                <p>Phone, Email Update</p>
+                            </a>
+                        </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.property.indexcontact') }}"
+                                        class="nav-link {{ Request::is('admin/contact') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Contact Us List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.property.sell.create') }}"
+                                        class="nav-link {{ Request::is('admin/sell/create') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create Sell</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                     @endif
                     @if ($admin->permission->our_team)
-                    <li class="nav-item">
-                        <a href="{{ route('our_team.index') }}"
-                            class="nav-link {{ Request::is('admin/ourteam') ? 'active' : '' }}">
-                          <i class="fas fa-users nav-icon"></i>
-                            <p>Our Team</p>
-                        </a>
-                    </li>
-                    
-                     <li class="nav-item">
-                        <a href="{{ route('user_permission.index') }}"
-                            class="nav-link {{ Request::is('admin/user-permission') ? 'active' : '' }}">
-                          <i class="fas fa-users nav-icon"></i>
-                            <p>User Permission</p>
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a href="{{ route('our_team.index') }}"
+                                class="nav-link {{ Request::is('admin/ourteam') ? 'active' : '' }}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>Our Team</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('user_permission.index') }}"
+                                class="nav-link {{ Request::is('admin/user-permission') ? 'active' : '' }}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>User Permission</p>
+                            </a>
+                        </li>
                     @endif
 
-                    
+
                     <!--<li class="nav-item">-->
                     <!--    <a href=""-->
                     <!--        class="nav-link {{ Request::is('admin/blog') ? 'active' : '' }}">-->
@@ -227,95 +275,122 @@
                     <!--        <p>Blog</p>-->
                     <!--    </a>-->
                     <!--</li>-->
-                   
-                    
-                     @if ($admin->permission->blog)
-                     <!-- ====BLOG Master ==== -->
-                    <li
-                        class="nav-item {{ Request::is('admin/blogs*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
-                        <a href="#"
-                            class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
-                            <i class="fas fa-newspaper nav-icon"></i>
-                            <p>
-                                Blog
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.blogs.index') }}"
-                                    class="nav-link {{ Request::is('admin/blogs') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Blog List</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.blogs.indexhome') }}"
-                                    class="nav-link {{ Request::is('admin/blogs/home') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Blog List For Home Page</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.blogs.create') }}"
-                                    class="nav-link {{ Request::is('admin/blogs/create') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Create Blog</p>
-                                </a>
-                            </li>
 
-                        </ul>
-                    </li>
-                     @endif
-                     
-                      @if ($admin->permission->blog)
-                    <!-- ==== Careers Master ==== -->
-                    <li
-                        class="nav-item {{ Request::is('admin/career*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
-                        <a href="#"
-                            class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
-                                <i class="fas fa-briefcase nav-icon"></i>
 
-                            <p>
-                                Careers
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.career.opening.create') }}"
-                                    class="nav-link {{ Request::is('admin/career/opening/create') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Create Openings</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.career.opening') }}"
-                                    class="nav-link {{ Request::is('admin/career/opening') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All Openings</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.career.joinussubmitionlist') }}"
-                                    class="nav-link {{ Request::is('admin/career/joinussubmitionlist') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Join Us Submition</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.career.associateussubmitionlist') }}"
-                                    class="nav-link {{ Request::is('admin/career/associateussubmitionlist') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p> Associates Us Submition </p>
-                                </a>
-                            </li>
+                    @if ($admin->permission->blog)
+                        <!-- ====BLOG Master ==== -->
+                        <li
+                            class="nav-item {{ Request::is('admin/blogs*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
+                                <i class="fas fa-newspaper nav-icon"></i>
+                                <p>
+                                    Blog
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.blogs.index') }}"
+                                        class="nav-link {{ Request::is('admin/blogs') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Blog List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.blogs.indexhome') }}"
+                                        class="nav-link {{ Request::is('admin/blogs/home') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Blog List For Home Page</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.blogs.create') }}"
+                                        class="nav-link {{ Request::is('admin/blogs/create') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create Blog</p>
+                                    </a>
+                                </li>
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
                     @endif
 
-                    
+                    @if ($admin->permission->career)
+                        <!-- ==== Careers Master ==== -->
+                        <li
+                            class="nav-item {{ Request::is('admin/career*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
+                                <i class="fas fa-briefcase nav-icon"></i>
+
+                                <p>
+                                    Careers
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.career.opening.create') }}"
+                                        class="nav-link {{ Request::is('admin/career/opening/create') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create Openings</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.career.opening') }}"
+                                        class="nav-link {{ Request::is('admin/career/opening') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Openings</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.career.joinussubmitionlist') }}"
+                                        class="nav-link {{ Request::is('admin/career/joinussubmitionlist') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p> Join Us Submition</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.career.associateussubmitionlist') }}"
+                                        class="nav-link {{ Request::is('admin/career/associateussubmitionlist') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p> Associates Us Submition </p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    @endif
+
+                  @if ($admin->permission->legal)
+                        <!-- ==== Careers Master ==== -->
+                        <li
+                            class="nav-item {{ Request::is('admin/rera-disclaimer*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request::is('admin/timeslot*', 'admin/prices*', 'admin/disabled_dates*', 'admin/booking_dates*') ? 'active' : '' }}">
+                                <i class="fas fa-briefcase nav-icon"></i>
+
+                                <p>
+                                    Legal
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.reradesclemar') }}"
+                                        class="nav-link {{ Request::is('admin/rera-disclaimer') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>RERA Desclamer</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                    @endif
+
+
                     <li class="nav-item">
                         <a href="{{ route('admin.logout') }}" class="nav-link">
                             <i class="fas fa-sign-out-alt nav-icon"></i>
@@ -332,12 +407,7 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-     @if ($admin)
-                        Welcome, {{ $admin->name }}
-                        Blog Permission: {{ $admin->permission->blog ?? 'Not set' }}
-                    @else
-                        Not logged in as admin.
-                    @endif
+
     @yield('content')
     <!-- /.content-wrapper -->
 

@@ -34,10 +34,14 @@ class Property extends Model
         'longitude',
         'landmark',
         'google_map_link',
+        'rera_status',
         'rera_id',
+        'rera_site_url',
+        'rera_qr',
 
         // Property Details
         'bedrooms',
+        'master_properties_detais',
         'bathrooms',
         'balconies',
         'floors',
@@ -47,6 +51,7 @@ class Property extends Model
         'plot_area',
         'year_built',
         'age_of_property',
+        'availability_text',
 
         // Furnishing
         'furnishing',
@@ -97,10 +102,10 @@ class Property extends Model
         'is_active' => 'boolean',
         'available_from' => 'date',
 
-        'security_deposit' => 'decimal:2',
-        'super_area' => 'decimal:2',
-        'carpet_area' => 'decimal:2',
-        'plot_area' => 'decimal:2',
+        // 'security_deposit' => 'decimal:2',
+        // 'super_area' => 'decimal:2',
+        // 'carpet_area' => 'decimal:2',
+        // 'plot_area' => 'decimal:2',
     ];
 
     // public function images()

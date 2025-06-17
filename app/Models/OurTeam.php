@@ -15,7 +15,9 @@ class OurTeam extends Model
     protected $fillable = [
         'employee_name',
         'designation',
+        'user_type',
         'short_desc',
+        'user_tb',
         'user_id',
         'password',
         'joining_date',

@@ -314,11 +314,11 @@
         <!-- Breadcrumbs and Title (Modified) -->
         <div class="mb-12 animated-element animate-fade-in-up" style="animation-delay: 0.2s">
             <div class="flex items-center text-sm text-textClr-secondary mb-4">
-                <a href="#" class="hover:text-brand-primary transition">Home</a>
+                <a href="/" class="hover:text-brand-primary transition">Home</a>
+                {{-- <i class="fa-solid fa-chevron-right mx-2 text-xs"></i> --}}
+                {{-- <a href="#" class="hover:text-brand-primary transition"> {{ $property->city }}</a> --}}
                 <i class="fa-solid fa-chevron-right mx-2 text-xs"></i>
-                <a href="#" class="hover:text-brand-primary transition">Patna</a>
-                <i class="fa-solid fa-chevron-right mx-2 text-xs"></i>
-                <span class="text-textClr-primary">Kankarbagh - 2 BHK Flat</span>
+                <span class="text-textClr-primary"> {{ $property->title }}</span>
             </div>
             <div class="flex flex-col md:flex-row md:items-center justify-between">
                 <div>
@@ -333,7 +333,7 @@
                 <div class="flex flex-col items-start md:items-end mt-6 md:mt-0">
                     <div
                         class="bg-primary hover:bg-primary-dark cursor-pointer text-white text-2xl font-bold rounded-lg py-3 px-6 shadow-lg">
-                        ₹{{ $property->price }}<span class="text-sm font-normal ml-1"></span>
+                        ₹ {{ $property->price }}<span class="text-sm font-normal ml-1"></span>
                     </div>
                     <div class="flex items-center space-x-4 mt-4">
                         <button aria-label="Add to Favorites"
@@ -364,15 +364,22 @@
                 </div>
             </div>
             <div class="flex items-center gap-3 mt-6">
-                <span
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-brand-primary/20 text-brand-primary">
-                    <i class="fa-solid fa-shield-check mr-1.5"></i>Verified Listing
-                </span>
-                <span
+                @if ($property->is_verified)
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-brand-primary/20 text-brand-primary">
+                        <i class="fa-solid fa-shield-check mr-1.5"></i>Verified Listing
+                    </span>
+                @endif
+                @if ($property->is_featured)
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-brand-secondary/20 text-brand-secondary">
+                        <i class="fa-solid fa-star mr-1.5"></i>Featured Property
+                    </span>
+                @endif
+                {{-- <span
                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-brand-secondary/20 text-brand-secondary">
-                    <i class="fa-solid fa-calendar-check mr-1.5"></i>Immediate
-                    Availability
-                </span>
+                    <i class="fa-solid fa-calendar-check mr-1.5"></i>Availability
+                </span> --}}
             </div>
         </div>
 
@@ -656,6 +663,9 @@
                                 <div>
                                     <p class="text-sm">Availability</p>
                                     <p class="font-semibold text-textClr-primary text-md">{{ $property->availability }}
+                                        @if ($property->availability_text)
+                                            ({{ $property->availability_text }})
+                                        @endif
                                     </p>
                                 </div>
                             </div>
@@ -672,8 +682,20 @@
                                 </div>
                             </div>
                         @endif
+                        @if ($property->master_properties_detais)
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full py-3 px-4">
+                                    <i class="fa-solid fa-calendar-alt text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Details</p>
+                                    <p class="font-semibold text-textClr-primary text-md">
+                                        {{ $property->master_properties_detais }}</p>
+                                </div>
+                            </div>
+                        @endif
 
-                        @if ($property->rera_id)
+                        {{-- @if ($property->rera_id)
                             <div class="flex items-center space-x-3">
                                 <div class="icon-bg-circle rounded-full py-3 px-4">
                                     <i class="fa-solid fa-id-badge text-brand-primary text-xl"></i>
@@ -683,102 +705,156 @@
                                     <p class="font-semibold text-textClr-primary text-md">{{ $property->rera_id }}</p>
                                 </div>
                             </div>
+                        @endif --}}
+                        @if ($property->rera_status && $property->rera_status !== 'not_applicable')
+                            <div class="flex items-center space-x-3">
+                                <div class="icon-bg-circle rounded-full py-3 px-4">
+                                    <i class="fa-solid fa-id-badge text-brand-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm">
+                                        {{ $property->rera_status == 'approved' ? 'RERA ID' : 'RERA Registration Number' }}
+                                    </p>
+                                    <p class="font-semibold text-textClr-primary text-md">{{ $property->rera_id }}</p>
+                                </div>
+                            </div>
                         @endif
+
                     </div>
                 </section>
-<!-- Amenities & Features Section -->
-@php
-    // Convert features to array if it's a string
-    $features = [];
-    if (!empty($property->features)) {
-        if (is_string($property->features)) {
-            $features = json_decode($property->features, true) ?? [];
-        } elseif (is_array($property->features)) {
-            $features = $property->features;
-        }
-    }
+                @if ($property->rera_qr || $property->rera_site_url)
+                    <section class="bg-brand-light p-8 rounded-xl shadow-md animated-element animate-slide-in-left"
+                        style="animation-delay: 0.7s">
+                        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
+                            🏢 RERA Details
+                        </h3>
+                        <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+                            <!-- QR Code with download -->
+                            <div class="flex flex-col items-center gap-2">
+                                <img src="{{ asset('/' . $property->rera_qr) }}" alt="RERA QR Code"
+                                    class="max-h-28 rounded border border-gray-300 shadow-sm">
+                                <a href="{{ asset('/' . $property->rera_qr) }}" download
+                                    class="text-sm text-white bg-primary hover:bg-primary-dark px-2 font-thin py-1 rounded transition-all">
+                                    Download_QR
+                                </a>
+                            </div>
 
-    // Convert amenities to array if it's a string
-    $amenities = [];
-    if (!empty($property->amenities)) {
-        if (is_string($property->amenities)) {
-            $amenities = json_decode($property->amenities, true) ?? [];
-        } elseif (is_array($property->amenities)) {
-            $amenities = $property->amenities;
-        }
-    }
-
-    // Merge both arrays
-    $allFeatures = array_merge($features, $amenities);
-
-    $iconMap = [
-        'Swimming Pool' => 'fa-person-swimming',
-        'Gym' => 'fa-dumbbell',
-        'Parking' => 'fa-car',
-        'Garden' => 'fa-tree',
-        'Security' => 'fa-user-shield',
-        'Lift' => 'fa-elevator',
-        'Elevator' => 'fa-elevator',
-        'Lift/Elevator' => 'fa-elevator',
-        'Power Backup' => 'fa-bolt',
-        'WiFi' => 'fa-wifi',
-        'Air Conditioning' => 'fa-wind',
-        'Heating' => 'fa-temperature-high',
-        'TV' => 'fa-tv',
-        'Washing Machine' => 'fa-soap',
-        'Microwave' => 'fa-fire-burner',
-        'Refrigerator' => 'fa-snowflake',
-        'Dishwasher' => 'fa-dishwasher',
-        'Balcony' => 'fa-mountain-sun',
-        'Club House' => 'fa-house-chimney',
-        'Play Area' => 'fa-child-reaching',
-        'Intercom' => 'fa-phone',
-        'Fire Safety' => 'fa-fire-extinguisher',
-        'Shopping Center' => 'fa-cart-shopping',
-        'Maintenance Staff' => 'fa-users-gear',
-        'Rain Water Harvesting' => 'fa-cloud-rain',
-        'Vaastu Compliant' => 'fa-om',
-        'Pet Friendly' => 'fa-paw',
-        'Wheelchair Accessible' => 'fa-wheelchair',
-        'Servant Room' => 'fa-user-tie',
-        'Park' => 'fa-tree',
-        'Jogging Track' => 'fa-person-running',
-        'Community Hall' => 'fa-people-roof',
-        'Banquet Hall' => 'fa-utensils',
-        'CCTV Surveillance' => 'fa-camera',
-        'Visitor Parking' => 'fa-square-parking',
-        'Modular Kitchen' => 'fa-kitchen-set',
-        'Modular Wardrobe' => 'fa-wardrobe',
-        'Fans' => 'fa-fan',
-        'Curtains' => 'fa-curtains',
-        'Modular Bathroom' => 'fa-bath',
-        'Exhaust Fan' => 'fa-fan',
-        'Gas Pipeline' => 'fa-fire',
-        'Water Heater' => 'fa-water',
-        'Modular Lights' => 'fa-lightbulb',
-        'Modular Switches' => 'fa-toggle-on',
-        'Modular Doors' => 'fa-door-open'
-    ];
-@endphp
-
-@if (!empty($allFeatures))
-    <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
-        style="animation-delay: 0.8s">
-        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-8">
-            <i class="fa-solid fa-stars text-brand-primary mr-3"></i>Amenities & Features
-        </h3>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-3 text-textClr-secondary">
-            @foreach ($allFeatures as $item)
-                @if (!empty($item))
-                    <div class="flex items-center space-x-3 group">
-                        <i class="fa-solid {{ $iconMap[$item] ?? 'fa-circle-check' }} text-brand-primary text-xl group-hover:animate-pulse"></i>
-                        <span>{{ $item }}</span>
-                    </div>
+                            <!-- RERA Site Link -->
+                            <div class="text-center md:text-left">
+                                <p class="text-sm font-thin text-gray-600 mb-1">Official RERA Website:</p>
+                                <a href="{{ $property->rera_site_url }}" target="_blank"
+                                    class="text-blue-700 hover:underline break-all">
+                                    {{ $property->rera_site_url }}
+                                </a>
+                            </div>
+                    </section>
                 @endif
-            @endforeach
-        </div>
-    </section>
-@endif
+
+                <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
+                    style="animation-delay: 0.7s">
+                    <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
+                        <i class="fa-solid fa-list-check text-brand-primary mr-3"></i>Key Features
+                    </h3>
+                    <ul class="space-y-3 text-textClr-secondary leading-relaxed list-none">
+                        {!! $property->keyfeatures !!}
+                    </ul>
+                </section>
+
+                <!-- Amenities & Features Section -->
+                @php
+                    // Convert features to array if it's a string
+$features = [];
+if (!empty($property->features)) {
+    if (is_string($property->features)) {
+        $features = json_decode($property->features, true) ?? [];
+    } elseif (is_array($property->features)) {
+        $features = $property->features;
+    }
+}
+
+// Convert amenities to array if it's a string
+                    $amenities = [];
+                    if (!empty($property->amenities)) {
+                        if (is_string($property->amenities)) {
+                            $amenities = json_decode($property->amenities, true) ?? [];
+                        } elseif (is_array($property->amenities)) {
+                            $amenities = $property->amenities;
+                        }
+                    }
+
+                    // Merge both arrays
+                    $allFeatures = array_merge($features, $amenities);
+
+                    $iconMap = [
+                        'Swimming Pool' => 'fa-person-swimming',
+                        'Gym' => 'fa-dumbbell',
+                        'Parking' => 'fa-car',
+                        'Garden' => 'fa-tree',
+                        'Security' => 'fa-user-shield',
+                        'Lift' => 'fa-elevator',
+                        'Elevator' => 'fa-elevator',
+                        'Lift/Elevator' => 'fa-elevator',
+                        'Power Backup' => 'fa-bolt',
+                        'WiFi' => 'fa-wifi',
+                        'Air Conditioning' => 'fa-wind',
+                        'Heating' => 'fa-temperature-high',
+                        'TV' => 'fa-tv',
+                        'Washing Machine' => 'fa-soap',
+                        'Microwave' => 'fa-fire-burner',
+                        'Refrigerator' => 'fa-snowflake',
+                        'Dishwasher' => 'fa-dishwasher',
+                        'Balcony' => 'fa-mountain-sun',
+                        'Club House' => 'fa-house-chimney',
+                        'Play Area' => 'fa-child-reaching',
+                        'Intercom' => 'fa-phone',
+                        'Fire Safety' => 'fa-fire-extinguisher',
+                        'Shopping Center' => 'fa-cart-shopping',
+                        'Maintenance Staff' => 'fa-users-gear',
+                        'Rain Water Harvesting' => 'fa-cloud-rain',
+                        'Vaastu Compliant' => 'fa-om',
+                        'Pet Friendly' => 'fa-paw',
+                        'Wheelchair Accessible' => 'fa-wheelchair',
+                        'Servant Room' => 'fa-user-tie',
+                        'Park' => 'fa-tree',
+                        'Jogging Track' => 'fa-person-running',
+                        'Community Hall' => 'fa-people-roof',
+                        'Banquet Hall' => 'fa-utensils',
+                        'CCTV Surveillance' => 'fa-camera',
+                        'Visitor Parking' => 'fa-square-parking',
+                        'Modular Kitchen' => 'fa-kitchen-set',
+                        'Modular Wardrobe' => 'fa-wardrobe',
+                        'Fans' => 'fa-fan',
+                        'Curtains' => 'fa-curtains',
+                        'Modular Bathroom' => 'fa-bath',
+                        'Exhaust Fan' => 'fa-fan',
+                        'Gas Pipeline' => 'fa-fire',
+                        'Water Heater' => 'fa-water',
+                        'Modular Lights' => 'fa-lightbulb',
+                        'Modular Switches' => 'fa-toggle-on',
+                        'Modular Doors' => 'fa-door-open',
+                    ];
+                @endphp
+
+                @if (!empty($allFeatures))
+                    <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
+                        style="animation-delay: 0.8s">
+                        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-8">
+                            <i class="fa-solid fa-stars text-brand-primary mr-3"></i>Amenities & Features
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-3 text-textClr-secondary">
+                            @foreach ($allFeatures as $item)
+                                @if (!empty($item))
+                                    <div class="flex items-center space-x-3 group">
+                                        <i
+                                            class="fa-solid {{ $iconMap[$item] ?? 'fa-circle-check' }} text-brand-primary text-xl group-hover:animate-pulse"></i>
+                                        <span>{{ $item }}</span>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </section>
+                @endif
+
                 <!-- Location -->
                 <section class="bg-brand-light p-8 rounded-xl shadow-property animated-element animate-slide-in-left"
                     style="animation-delay: 0.9s">
@@ -841,6 +917,15 @@
                         </h3>
                         <ul class="space-y-3 text-textClr-secondary leading-relaxed list-none">
                             {!! $property->notes !!}
+                        </ul>
+                    </section>
+                    <section class="bg-brand-light p-8 rounded-xl  animated-element animate-slide-in-left"
+                        style="animation-delay: 0.7s">
+                        <h3 class="font-display text-2xl font-bold text-textClr-primary flex items-center mb-6">
+                            <i class="fa-solid fa-file-lines text-brand-primary mr-3"></i>Description
+                        </h3>
+                        <ul class="space-y-3 text-textClr-secondary leading-relaxed list-none">
+                            {!! $property->description !!}
                         </ul>
                     </section>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -925,7 +1010,7 @@
                         <div>
                             <label for="email" class="block text-sm font-medium text-textClr-secondary mb-1">Email
                                 Address</label>
-                            <input type="email" id="email" name="email"
+                            <input type="email" id="email" name="email" required
                                 class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
                                 placeholder="Email" value="{{ old('email') }}" />
                             @error('email')
@@ -935,8 +1020,10 @@
                         <div>
                             <label for="phone" class="block text-sm font-medium text-textClr-secondary mb-1">Phone
                                 Number *</label>
-                            <input type="tel" id="phone" name="phone" required
-                                class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
+                            <input type="tel" id="phone" name="phone" required inputmode="tel"
+                                pattern="^(\+91[\-\s]?)?[6-9]\d{9}$" maxlength="14" {{-- +91‑9876543210 is 14 chars --}}
+                                class="w-full px-4 py-2.5 bg-brand-dark border border-brand-light/50 rounded-md
+                                       focus:outline-none focus:ring-2 focus:ring-brand-primary text-textClr-primary"
                                 placeholder="Phone Number" value="{{ old('phone') }}" />
                             @error('phone')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -965,6 +1052,7 @@
                         </div>
 
                         <!-- reCAPTCHA -->
+                        <!--<div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>-->
                         <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
                         @error('g-recaptcha-response')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -983,9 +1071,32 @@
                     @endif
                 </div>
 
-                @push('scripts')
-                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                @endpush
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+                @if (session('success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: @json(session('success')),
+                            confirmButtonColor: '#3085d6'
+                        });
+                    </script>
+                @endif
+
+                @if ($errors->any())
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops…',
+                            html: 'Please correct the highlighted fields and try again.',
+                            confirmButtonColor: '#d33'
+                        });
+                    </script>
+                @endif
+
 
             </aside>
         </div>
@@ -1055,7 +1166,8 @@
                                             Featured
                                         </span>
                                     @endif
-                                    @if ($property->property_status === 'Available')
+
+                                    @if ($property->availability === 'Immediate')
                                         <span class="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                                             Available
                                         </span>

@@ -57,6 +57,7 @@
                                     <th>Name</th>
                                     <th>Designation</th>
                                     <th>User ID</th>
+                                    <th>User Type</th>
                                     <th>Joining Date</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -68,6 +69,13 @@
                                         <td>{{ $member->employee_name }}</td>
                                         <td>{{ $member->designation }}</td>
                                         <td>{{ $member->user_id }}</td>
+                                        <td>
+                                            @if ($member->user_type==1)
+                                                <span class="badge bg-success">Leadership</span>
+                                            @elseif ($member->user_type==2)
+                                                <span class="badge bg-warning">Key People</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $member->joining_date }}</td>
                                         <td>
                                             @if ($member->status)

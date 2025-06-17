@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@yield('title', 'PropTrue')</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@yield('title', 'PropTrue')</title>
     <meta name="description" content="@yield('description', 'PropTrue - Your Real Estate Partner')" />
     <meta name="keywords" content="@yield('keywords', 'real estate, property, buying, selling, renting')" />
     <meta name="author" content="@yield('author', 'Your Name')" />
@@ -20,15 +21,17 @@
     <meta name="twitter:creator" content="@yield('twitter_creator', '@yourtwitterhandle')" />
     <link rel="canonical" href="@yield('canonical', url()->current())" />
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  {{-- Optional: <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-  @yield('head')
+    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- Optional: <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+    @yield('head')
 </head>
+
 <body>
 
-  @include('includes.header')
+    @include('includes.header')
     @yield('content')
-  @include('includes.footer')
+    @include('includes.footer')
 
 </body>
+
 </html>

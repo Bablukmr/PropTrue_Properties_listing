@@ -116,9 +116,9 @@
                     </div>
                 </form>
 
-                <p class="mb-1 text-center">
-                    <a href="#">I forgot my password</a>
-                </p>
+                <!--<p class="mb-1 text-center">-->
+                <!--    <a href="#">I forgot my password</a>-->
+                <!--</p>-->
             </div>
         </div>
     </div>

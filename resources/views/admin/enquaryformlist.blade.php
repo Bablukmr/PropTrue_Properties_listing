@@ -37,8 +37,6 @@
         <!-- Main content -->
         {{-- Add New properties --}}
 
-
-
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -58,6 +56,7 @@
                                             <th>Email</th>
                                             <th>Message</th>
                                             <th>Date and Time</th>
+                                            <th>Properties Name</th>
                                             <th>View Properties</th>
                                         </tr>
                                     </thead>
@@ -83,6 +82,14 @@
                                                 <td>{{ $inquary->created_at }}</td>
                                                 <td>
                                                     @if ($inquary->property_id)
+                                                        {{ $inquary->property->title ?? 'N/A' }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>
+
+                                                    @if ($inquary->property_id)
                                                         <a target="_blank"
                                                             href="{{ route('property.show', ['id' => $inquary->property_id]) }}"
                                                             class="btn btn-info">View Property</a>
@@ -102,6 +109,7 @@
                                             <th>Email</th>
                                             <th>Message</th>
                                             <th>Date and Time</th>
+                                            <th>Properties Name</th>
                                             <th>View Properties</th>
                                         </tr>
                                     </tfoot>
