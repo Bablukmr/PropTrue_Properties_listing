@@ -1,24 +1,24 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>General Form</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Create Form</li>
-                    </ol>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>General Form</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Create Form</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-      @if (session('success'))
+        @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Success!</strong> {{ session('success') }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -40,103 +40,138 @@
             </div>
         @endif
 
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">User Permission</h3>
-                        </div>
-                             <div class="card-body">
-                         <form action="{{ route('our_team.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Our Team</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('our_team.store') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
 
-        {{-- Employee Name --}}
-        <div class="mb-3">
-            <label for="employee_name" class="form-label">Employee Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="employee_name" name="employee_name" required value="{{ old('employee_name') }}">
-        </div>
+                                    {{-- Employee Name --}}
+                                    <div class="mb-3">
+                                        <label for="employee_name" class="form-label">Employee Name <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="employee_name" name="employee_name"
+                                            required value="{{ old('employee_name') }}">
+                                    </div>
 
-        {{-- Designation --}}
-        <div class="mb-3">
-            <label for="designation" class="form-label">Designation <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="designation" name="designation" required value="{{ old('designation') }}">
-        </div>
+                                    {{-- Designation --}}
+                                    <div class="mb-3">
+                                        <label for="designation" class="form-label">Designation <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="designation" name="designation"
+                                            required value="{{ old('designation') }}">
+                                    </div>
 
-        {{-- Short Description --}}
-        <div class="mb-3">
-            <label for="short_desc" class="form-label">Short Description <span class="text-danger">*</span></label>
-            <textarea class="form-control" id="short_desc" name="short_desc" required></textarea>
-        </div>
+                                    {{-- User Type --}}
+                                    <div class="mb-3">
+                                        <label for="user_type" class="form-label">User Type <span
+                                                class="text-danger">*</span></label>
+                                        <select id="user_type" name="user_type" class="form-control" required>
+                                            <option value="">Select User Type</option>
+                                            <option value="1" {{ old('user_type') == '1' ? 'selected' : '' }}>
+                                                Leadership</option>
+                                            <option value="2" {{ old('user_type') == '2' ? 'selected' : '' }}>Key
+                                                People</option>
+                                        </select>
+                                    </div>
 
-        {{-- User ID --}}
-        <div class="mb-3">
-            <label for="user_id" class="form-label">User ID <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="user_id" name="user_id" required value="{{ old('user_id') }}">
-        </div>
+                                    {{-- Short Description --}}
+                                    <div class="mb-3">
+                                        <label for="short_desc" class="form-label">Short Description <span
+                                                class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="short_desc" name="short_desc" required></textarea>
+                                    </div>
 
-        {{-- Password --}}
-        <div class="mb-3">
-            <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
+                                    {{-- User ID --}}
+                                    <div class="mb-3">
+                                        <label for="user_id" class="form-label">User ID <span
+                                                class="text-danger"></span></label>
+                                        <input type="text" class="form-control" id="user_id" name="user_id"
+                                            value="{{ old('user_id') }}">
+                                    </div>
 
-        {{-- Joining Date --}}
-        <div class="mb-3">
-            <label for="joining_date" class="form-label">Joining Date</label>
-            <input type="date" class="form-control" id="joining_date" name="joining_date" value="{{ old('joining_date') }}">
-        </div>
+                                    {{-- Password --}}
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password <span
+                                                class="text-danger"></span></label>
+                                        <input type="password" class="form-control" id="password" name="password">
+                                    </div>
 
-        {{-- Profile Image --}}
-        <div class="mb-3">
-            <label for="employee_image" class="form-label">Profile Image</label>
-            <input type="file" class="form-control" id="employee_image" name="employee_image" accept="image/*">
-        </div>
+                                    {{-- Joining Date --}}
+                                    <div class="mb-3">
+                                        <label for="joining_date" class="form-label">Joining Date</label>
+                                        <input type="date" class="form-control" id="joining_date" name="joining_date"
+                                            value="{{ old('joining_date') }}">
+                                    </div>
 
-        {{-- Social Media Links --}}
-        <div class="mb-3">
-            <label for="fb_id" class="form-label">Facebook URL</label>
-            <input type="url" class="form-control" id="fb_id" name="fb_id" value="{{ old('fb_id') }}">
-        </div>
+                                    {{-- Profile Image --}}
+                                    <div class="mb-3">
+                                        <label for="employee_image" class="form-label">Profile Image</label>
+                                        <input type="file" class="form-control" id="employee_image"
+                                            name="employee_image" accept="image/*">
+                                    </div>
 
-        <div class="mb-3">
-            <label for="twitter" class="form-label">Twitter URL</label>
-            <input type="url" class="form-control" id="twitter" name="twitter" value="{{ old('twitter') }}">
-        </div>
+                                    {{-- Social Media Links --}}
+                                    <div class="mb-3">
+                                        <label for="fb_id" class="form-label">Facebook URL</label>
+                                        <input type="url" class="form-control" id="fb_id" name="fb_id_link"
+                                            value="{{ old('fb_id_link') }}">
+                                    </div>
 
-        <div class="mb-3">
-            <label for="linkedin" class="form-label">LinkedIn URL</label>
-            <input type="url" class="form-control" id="linkedin" name="linkedin" value="{{ old('linkedin') }}">
-        </div>
+                                    <div class="mb-3">
+                                        <label for="twitter" class="form-label">Twitter URL</label>
+                                        <input type="url" class="form-control" id="twitter" name="twitter_link"
+                                            value="{{ old('twitter_link') }}">
+                                    </div>
 
-        <div class="mb-3">
-            <label for="instagram" class="form-label">Instagram URL</label>
-            <input type="url" class="form-control" id="instagram" name="instagram" value="{{ old('instagram') }}">
-        </div>
+                                    <div class="mb-3">
+                                        <label for="linkedin" class="form-label">LinkedIn URL</label>
+                                        <input type="url" class="form-control" id="linkedin" name="linkedin_link"
+                                            value="{{ old('linkedin_link') }}">
+                                    </div>
 
-        {{-- Status --}}
-        <div class="form-check mb-3">
-            <input type="hidden" name="status" value="0">
-            <input type="checkbox" class="form-check-input" id="status" name="status" value="1" {{ old('status', true) ? 'checked' : '' }}>
-            <label class="form-check-label" for="status">Active</label>
-        </div>
+                                    <div class="mb-3">
+                                        <label for="instagram" class="form-label">Instagram URL</label>
+                                        <input type="url" class="form-control" id="instagram" name="instagram_link"
+                                            value="{{ old('instagram_link') }}">
+                                    </div>
 
-        <button type="submit" class="btn btn-primary">Add Team Member</button>
-    </form>
+                                    {{-- Status --}}
+                                    <div class="form-check mb-3">
+                                        <input type="hidden" name="status" value="0">
+                                        <input type="checkbox" class="form-check-input" id="status" name="status"
+                                            value="1" {{ old('status', true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="status">Active</label>
+                                    </div>
+                                  <div class="form-check mb-3">
+    <input type="hidden" name="display_on_team" value="0">
+    <input type="checkbox" class="form-check-input" id="display_on_team"
+           name="display_on_team" value="1"
+           {{ old('display_on_team', true) ? 'checked' : '' }}>
+    <label class="form-check-label" for="display_on_team">Display on Team Page</label>
+</div>
+                                    <button type="submit" class="btn btn-primary">Add Team Member</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 @endsection
 
 @section('styles')
     <!-- Select2 and Bootstrap 4 theme -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css"
+        rel="stylesheet" />
     <style>
         .select2-container--default .select2-selection--multiple {
             border: 1px solid #b1b2b1;

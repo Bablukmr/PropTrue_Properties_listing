@@ -1,89 +1,91 @@
 @extends('admin.layout')
 
 @section('content')
-    <div class="container my-4">
-        <h2>Create New Blog</h2>
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong> Please check the form for errors.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            {{-- Title --}}
-            <div class="mb-3">
-                <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="title" name="title" required
-                    value="{{ old('title') }}">
-            </div>
-
-            {{-- Image --}}
-            <div class="mb-3">
-                <label for="image" class="form-label">Blog Image</label>
-                <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                <div id="image-preview-container" class="mt-2" style="position: relative; display: none;">
-                    <img id="image-preview" src="#" alt="Preview"
-                        style="max-width: 150px; border: 1px solid #ddd; border-radius: 4px;">
-                    <button type="button" onclick="removeImage()"
-                        style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
+    <div class="content-wrapper">
+        <div class="container p-3">
+            <h2>Create New Blog</h2>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> Please check the form for errors.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-            {{-- Short Description --}}
-            <div class="mb-3">
-                <label for="short_description" class="form-label">Short Description <span
-                        class="text-danger">*</span></label>
-                <textarea class="form-control " name="short_description" rows="3" required>{{ old('short_description') }}</textarea>
-            </div>
+            <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-            {{-- Content --}}
-            <div class="mb-3">
-                <label for="content" class="form-label">Full Content <span class="text-danger">*</span></label>
-                <textarea id="content" name="content" class="form-control text-editor" rows="6" required>{{ old('content') }}</textarea>
-            </div>
+                {{-- Title --}}
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="title" name="title" required
+                        value="{{ old('title') }}">
+                </div>
 
-            {{-- Date --}}
-            <div class="mb-3">
-                <label for="date" class="form-label">Date *</label>
-                <input type="date" class="form-control" id="date" name="date" value="{{ old('date') }}"
-                    required>
-            </div>
+                {{-- Image --}}
+                <div class="mb-3">
+                    <label for="image" class="form-label">Blog Image</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <div id="image-preview-container" class="mt-2" style="position: relative; display: none;">
+                        <img id="image-preview" src="#" alt="Preview"
+                            style="max-width: 150px; border: 1px solid #ddd; border-radius: 4px;">
+                        <button type="button" onclick="removeImage()"
+                            style="position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px;">&times;</button>
+                    </div>
+                </div>
 
-            {{-- Hashtags --}}
-            <div class="mb-3">
-                <label for="hashtags" class="form-label">Hashtags (comma separated)</label>
-                <input type="text" class="form-control" name="hashtags" value="{{ old('hashtags') }}">
-            </div>
+                {{-- Short Description --}}
+                <div class="mb-3">
+                    <label for="short_description" class="form-label">Short Description <span
+                            class="text-danger">*</span></label>
+                    <textarea class="form-control " name="short_description" rows="3" required>{{ old('short_description') }}</textarea>
+                </div>
 
-            {{-- Show on Home --}}
-            <div class="form-check mb-3">
-                <input type="hidden" name="show_on_home" value="0">
+                {{-- Content --}}
+                <div class="mb-3">
+                    <label for="content" class="form-label">Full Content <span class="text-danger">*</span></label>
+                    <textarea id="content" name="content" class="form-control text-editor" rows="6" required>{{ old('content') }}</textarea>
+                </div>
 
-                <input type="checkbox" class="form-check-input" id="show_on_home" name="show_on_home" value="1"
-                    {{ old('show_on_home', isset($blog) && $blog->show_on_home ? true : false) ? 'checked' : '' }}>
-                <label class="form-check-label" for="show_on_home">Show on Home Page</label>
-            </div>
+                {{-- Date --}}
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date *</label>
+                    <input type="date" class="form-control" id="date" name="date" value="{{ old('date') }}"
+                        required>
+                </div>
 
-            <button type="submit" class="btn btn-primary">Create Blog</button>
-        </form>
+                {{-- Hashtags --}}
+                <div class="mb-3">
+                    <label for="hashtags" class="form-label">Hashtags (comma separated)</label>
+                    <input type="text" class="form-control" name="hashtags" value="{{ old('hashtags') }}">
+                </div>
+
+                {{-- Show on Home --}}
+                <div class="form-check mb-3">
+                    <input type="hidden" name="show_on_home" value="0">
+
+                    <input type="checkbox" class="form-check-input" id="show_on_home" name="show_on_home" value="1"
+                        {{ old('show_on_home', isset($blog) && $blog->show_on_home ? true : false) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="show_on_home">Show on Home Page</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Blog</button>
+            </form>
+        </div>
     </div>
 @endsection
 

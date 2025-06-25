@@ -19,7 +19,7 @@ class PropertyDetailsController extends Controller
 
     public function index($id)
     {
-        $property = Property::with(['images', 'owner'])->findOrFail($id);
+        $property = Property::with(['images', 'owner','facilities'])->findOrFail($id);
         // dd($property);
         // All images for this property
         $propertyimagesall = PropertyImage::where('property_id', $id)->get();
@@ -39,12 +39,14 @@ class PropertyDetailsController extends Controller
                     ?? $similar->images->first();
                 return $similar;
             });
-        // dd($propertyimagesall);
+            $facilities = $property->facilities;
+        // dd($facilities);
         return view('propertydetails', compact(
             'property',
             'propertyimagesall',
             'featuredImage',
-            'similarProperties'
+            'similarProperties',
+            'facilities'
         ));
     }
 

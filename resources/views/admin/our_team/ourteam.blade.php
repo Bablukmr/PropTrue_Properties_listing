@@ -38,78 +38,101 @@
 
 
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <!-- /.card -->
-                <div class="card">
-                    <div class="card-header w-100 d-flex justify-content-between align-items-center">
-                        <h3 class="card-title">Our Team Members</h3>
-                        <a href="{{ route('our_team.create') }}" class="btn btn-success">Add New</a>
-                    </div>
-                    <!-- /.card-header -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- /.card -->
+                        <div class="card">
+                            <div class="card-header w-100 d-flex justify-content-between align-items-center">
+                                <h3 class="card-title">Our Team Members</h3>
+                                <a href="{{ route('our_team.create') }}" class="btn btn-success">Add New</a>
+                            </div>
+                            <!-- /.card-header -->
 
-                    <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Designation</th>
-                                    <th>User ID</th>
-                                    <th>Joining Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($members as $member)
-                                    <tr>
-                                        <td>{{ $member->employee_name }}</td>
-                                        <td>{{ $member->designation }}</td>
-                                        <td>{{ $member->user_id }}</td>
-                                        <td>{{ $member->joining_date }}</td>
-                                        <td>
-                                            @if ($member->status)
-                                                <span class="badge bg-success">Active</span>
-                                            @else
-                                                <span class="badge bg-danger">Inactive</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            
-                                            <a href="{{ route('our_team.edit', $member->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                            <form action="{{ route('our_team.destroy', $member->id) }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Designation</th>
-                                    <th>User ID</th>
-                                    <th>Joining Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Designation</th>
+                                            <th>User ID</th>
+                                            <th>User Type</th>
+                                            <th>Joining Date</th>
+                                            <th>Status</th>
+                                            <th>Display on Page</th> {{-- 👈 Add this line --}}
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($members as $member)
+                                            <tr>
+                                                <td>{{ $member->employee_name }}</td>
+                                                <td>{{ $member->designation }}</td>
+                                                <td>{{ $member->user_id }}</td>
+                                                <td>
+                                                    @if ($member->user_type == 1)
+                                                        <span class="badge bg-success">Leadership</span>
+                                                    @elseif ($member->user_type == 2)
+                                                        <span class="badge bg-warning">Key People</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $member->joining_date }}</td>
+                                                <td>
+                                                    @if ($member->status)
+                                                        <span class="badge bg-success">Active</span>
+                                                    @else
+                                                        <span class="badge bg-danger">Inactive</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($member->display_on_team)
+                                                        <span class="badge bg-primary">Yes</span>
+                                                    @else
+                                                        <span class="badge bg-secondary">No</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('our_team.edit', $member->id) }}"
+                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                    <form action="{{ route('our_team.destroy', $member->id) }}"
+                                                        method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Are you sure?')">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Designation</th>
+                                            <th>User ID</th>
+                                            <th>User Type</th>
+                                            <th>Joining Date</th>
+                                            <th>Status</th>
+                                            <th>Display on Team</th> {{-- 👈 Add this line --}}
+                                            <th>Actions</th>
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
                     </div>
-                    <!-- /.card-body -->
+                    <!-- /.col -->
                 </div>
-                <!-- /.card -->
+                <!-- /.row -->
             </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
+            <!-- /.container-fluid -->
+        </section>
         <!-- /.content -->
     </div>
 @endsection
@@ -139,50 +162,51 @@
 
     <!-- Page specific script -->
     <script>
- $(function() {
-    $("#example1").DataTable({
-        responsive: true,
-        lengthChange: true,
-        autoWidth: false,
-        lengthMenu: [[20, 50, 100, 300, 800, 1000], [20, 50, 100, 300, 800, 1000]],
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                text: '<i class="fas fa-copy"></i> Copy',
-                titleAttr: 'Copy',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'csvHtml5',
-                text: '<i class="fas fa-file-csv"></i> CSV',
-                titleAttr: 'CSV',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> Excel',
-                titleAttr: 'Excel',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> PDF',
-                titleAttr: 'PDF',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Print',
-                titleAttr: 'Print',
-                title: 'Enquiry_Form_List'
-            },
-            {
-                extend: 'colvis',
-                text: '<i class="fas fa-columns"></i> Column Visibility'
-            }
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-});
+        $(function() {
+            $("#example1").DataTable({
+                responsive: true,
+                lengthChange: true,
+                autoWidth: false,
+                lengthMenu: [
+                    [20, 50, 100, 300, 800, 1000],
+                    [20, 50, 100, 300, 800, 1000]
+                ],
+                buttons: [{
+                        extend: 'copyHtml5',
+                        text: '<i class="fas fa-copy"></i> Copy',
+                        titleAttr: 'Copy',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: '<i class="fas fa-file-csv"></i> CSV',
+                        titleAttr: 'CSV',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> Excel',
+                        titleAttr: 'Excel',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> PDF',
+                        titleAttr: 'PDF',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i> Print',
+                        titleAttr: 'Print',
+                        title: 'Enquiry_Form_List'
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-columns"></i> Column Visibility'
+                    }
+                ]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
     </script>
 @endsection
-

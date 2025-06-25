@@ -136,6 +136,7 @@ class CareerController extends Controller
         'message' => 'nullable|string',
         'agree' => 'required|accepted',
         'application_types' => 'required|in:join,associate',
+         'g-recaptcha-response' => 'required|captcha',
     ]);
 
     try {

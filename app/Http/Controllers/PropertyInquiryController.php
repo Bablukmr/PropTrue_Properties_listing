@@ -11,7 +11,7 @@ class PropertyInquiryController extends Controller
 {
 
     public function enquiryForm(){
-        $inquaries= PropertyInquiry::latest()->get();
+        $inquaries = PropertyInquiry::with('property')->latest()->get();
         // dd($inquaries);
         return view('admin.enquaryformlist', compact('inquaries'));
     }
@@ -24,15 +24,15 @@ class PropertyInquiryController extends Controller
             'phone' => 'required|string|max:20',
             'message' => 'nullable|string',
             'terms' => 'required|accepted',
-            'g-recaptcha-response' => 'required|recaptcha'
+            'g-recaptcha-response' => 'required|captcha',
         ]);
 
-        // if ($validator->fails()) {
-        //     return redirect()
-        //         ->back()
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         PropertyInquiry::create([
             'property_id' => $property->id,

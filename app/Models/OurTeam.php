@@ -15,7 +15,9 @@ class OurTeam extends Model
     protected $fillable = [
         'employee_name',
         'designation',
+        'user_type',
         'short_desc',
+        'user_tb',
         'user_id',
         'password',
         'joining_date',
@@ -25,6 +27,7 @@ class OurTeam extends Model
         'linkedin_link',
         'instagram_link',
         'status',
+        'display_on_team',
     ];
 
     public function user()

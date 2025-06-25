@@ -1,130 +1,174 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Edit Form</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Edit  Form</li>
-                    </ol>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Edit Form</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Edit Form</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Our Team</h3>
-                        </div>
-                             <div class="card-body">
-                         <form action="{{ route('our_team.update', $our_team->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Our Team</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('our_team.update', $our_team->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
 
-        {{-- Employee Name --}}
-        <div class="mb-3">
-            <label class="form-label">Employee Name</label>
-            <input type="text" class="form-control" name="employee_name" value="{{ old('employee_name', $our_team->employee_name) }}" required>
-        </div>
+                                    {{-- Employee Name --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Employee Name</label>
+                                        <input type="text" class="form-control" name="employee_name"
+                                            value="{{ old('employee_name', $our_team->employee_name) }}" required>
+                                    </div>
 
-        {{-- Designation --}}
-        <div class="mb-3">
-            <label class="form-label">Designation</label>
-            <input type="text" class="form-control" name="designation" value="{{ old('designation', $our_team->designation) }}" required>
-        </div>
+                                    {{-- Designation --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Designation</label>
+                                        <input type="text" class="form-control" name="designation"
+                                            value="{{ old('designation', $our_team->designation) }}" required>
+                                    </div>
 
-         {{-- Short Description --}}
-        <div class="mb-3">
-            <label for="short_desc" class="form-label">Short Description <span class="text-danger">*</span></label>
-            <textarea class="form-control" id="short_desc" name="short_desc" required>{{ old('short_desc', $our_team->short_desc) }}</textarea>
-        </div>
 
-        {{-- User ID --}}
-        <div class="mb-3">
-            <label class="form-label">User ID</label>
-            <input type="text" class="form-control" name="user_id" value="{{ old('user_id', $our_team->user_id) }}" required>
-        </div>
+                                    {{-- User Type --}}
+                                    <div class="mb-3">
+                                        <label for="user_type" class="form-label">User Type <span
+                                                class="text-danger">*</span></label>
+                                        <select id="user_type" name="user_type" class="form-control" required>
+                                            <option value="">Select User Type</option>
+                                            <option value="1"
+                                                {{ old('user_type', $our_team->user_type) == '1' ? 'selected' : '' }}>
+                                                Leadership</option>
+                                            <option value="2"
+                                                {{ old('user_type', $our_team->user_type) == '2' ? 'selected' : '' }}>Key
+                                                People</option>
+                                        </select>
+                                    </div>
 
-        {{-- Password --}}
-        <div class="mb-3">
-            <label class="form-label">Password <small>(Leave blank to keep current password)</small></label>
-            <input type="password" class="form-control" name="password">
-        </div>
+                                    {{-- Short Description --}}
+                                    <div class="mb-3">
+                                        <label for="short_desc" class="form-label">Short Description <span
+                                                class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="short_desc" name="short_desc" required>{{ old('short_desc', $our_team->short_desc) }}</textarea>
+                                    </div>
 
-        {{-- Joining Date --}}
-        <div class="mb-3">
-            <label class="form-label">Joining Date</label>
-            <input type="date" class="form-control" name="joining_date" value="{{ old('joining_date', $our_team->joining_date) }}">
-        </div>
+                                    {{-- User ID --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">User ID</label>
+                                        <input type="text" class="form-control" name="user_id"
+                                            value="{{ old('user_id', $our_team->user_id) }}">
+                                    </div>
 
-        {{-- Image --}}
-        <div class="mb-3">
-            <label class="form-label">Employee Image</label>
-            <input type="file" class="form-control" name="employee_image" accept="image/*">
-            @if ($our_team->employee_image)
-                <div class="mt-2">
-                    <img src="{{ asset('storage/' . $our_team->employee_image) }}" alt="Employee Image" style="max-width: 150px;">
-                </div>
-            @endif
-        </div>
+                                    {{-- Password --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Password <small>(Leave blank to keep current
+                                                password)</small></label>
+                                        <input type="password" class="form-control" name="password">
+                                    </div>
 
-        {{-- Facebook --}}
-        <div class="mb-3">
-            <label class="form-label">Facebook URL</label>
-            <input type="url" class="form-control" name="fb_id" value="{{ old('fb_id', $our_team->fb_id) }}">
-        </div>
+                                    {{-- Joining Date --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Joining Date</label>
+                                        <input type="date" class="form-control" name="joining_date"
+                                            value="{{ old('joining_date', $our_team->joining_date) }}">
+                                    </div>
 
-        {{-- Twitter --}}
-        <div class="mb-3">
-            <label class="form-label">Twitter URL</label>
-            <input type="url" class="form-control" name="twitter" value="{{ old('twitter', $our_team->twitter) }}">
-        </div>
+                                    {{-- Image --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Employee Image</label>
+                                        <input type="file" class="form-control" name="employee_image" accept="image/*">
+                                        @if ($our_team->employee_image)
+                                            <div class="mt-2">
+                                                <img src="{{ asset('storage/' . $our_team->employee_image) }}"
+                                                    alt="Employee Image" style="max-width: 150px;">
+                                            </div>
+                                        @endif
+                                    </div>
 
-        {{-- LinkedIn --}}
-        <div class="mb-3">
-            <label class="form-label">LinkedIn URL</label>
-            <input type="url" class="form-control" name="linkedin" value="{{ old('linkedin', $our_team->linkedin) }}">
-        </div>
+                                    @if ($our_team->employee_image)
+                                        <div class="mt-2">
+                                            <img src="{{ asset($our_team->employee_image) }}" alt="Employee Image"
+                                                style="max-width: 150px;">
+                                        </div>
+                                    @endif
 
-        {{-- Instagram --}}
-        <div class="mb-3">
-            <label class="form-label">Instagram URL</label>
-            <input type="url" class="form-control" name="instagram" value="{{ old('instagram', $our_team->instagram) }}">
-        </div>
+                                    {{-- Facebook --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Facebook URL</label>
+                                        <input type="url" class="form-control" name="fb_id_link"
+                                            value="{{ old('fb_id_link', $our_team->fb_id_link) }}">
+                                    </div>
 
-        {{-- Status --}}
-        <div class="form-check mb-3">
-            <input type="hidden" name="status" value="0">
-            <input type="checkbox" class="form-check-input" id="status" name="status" value="1"
-                {{ old('status', $our_team->status) ? 'checked' : '' }}>
-            <label class="form-check-label" for="status">Active</label>
-        </div>
+                                    {{-- Twitter --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Twitter URL</label>
+                                        <input type="url" class="form-control" name="twitter_link"
+                                            value="{{ old('twitter_link', $our_team->twitter_link) }}">
+                                    </div>
 
-        <button type="submit" class="btn btn-success">Update Team Member</button>
-    </form>
+                                    {{-- LinkedIn --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">LinkedIn URL</label>
+                                        <input type="url" class="form-control" name="linkedin_link"
+                                            value="{{ old('linkedin_link', $our_team->linkedin_link) }}">
+                                    </div>
+
+                                    {{-- Instagram --}}
+                                    <div class="mb-3">
+                                        <label class="form-label">Instagram URL</label>
+                                        <input type="url" class="form-control" name="instagram_link"
+                                            value="{{ old('instagram_link', $our_team->instagram_link) }}">
+                                    </div>
+
+                                    {{-- Status --}}
+                                    <div class="form-check mb-3">
+                                        <input type="hidden" name="status" value="0">
+                                        <input type="checkbox" class="form-check-input" id="status" name="status"
+                                            value="1" {{ old('status', $our_team->status) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="status">Active</label>
+                                    </div>
+                                    <!-- Add this near the status checkbox -->
+                                    <div class="form-check mb-3">
+                                        <input type="hidden" name="display_on_team" value="0">
+                                        <input type="checkbox" class="form-check-input" id="display_on_team"
+                                            name="display_on_team" value="1"
+                                            {{ old('display_on_team', $our_team->display_on_team) == 1 ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="display_on_team">Display on Team Page</label>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success">Update Team Member</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 @endsection
 
 @section('styles')
     <!-- Select2 and Bootstrap 4 theme -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css"
+        rel="stylesheet" />
     <style>
         .select2-container--default .select2-selection--multiple {
             border: 1px solid #b1b2b1;

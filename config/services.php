@@ -31,12 +31,17 @@ return [
         'site_key' => env('RECAPTCHA_SITE_KEY'),
         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
     ],
+    'nocaptcha' => [
+        'sitekey' => env('NOCAPTCHA_SITEKEY'),
+        'secret' => env('NOCAPTCHA_SECRET'),
+    ],
 
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+
     ],
 
 ];

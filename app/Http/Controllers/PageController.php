@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\OurTeam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,8 +25,7 @@ class PageController extends Controller
     }
     public function ourteam()
     {
-        $members = OurTeam::all();
-        return view('pages.ourteam',compact('members'));
+        $members = OurTeam::where('display_on_team', 1)->get();
+        return view('pages.ourteam', compact('members'));
     }
-
 }

@@ -56,11 +56,13 @@
                                 <tr>
                                     <th>User</th>
                                     <th>All Property</th>
-                                    <th>Featured Image</th>
-                                    <th>Add Now</th>
-                                    <th>Property Image</th>
+                                    <th>Featured Property</th>
+                                    <th>Add New Property</th>
+                                    <th>Enquiry</th>
                                     <th>Our Team</th>
                                     <th>Blog</th>
+                                    <th>Career</th>
+                                    <th>Legal</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -69,11 +71,14 @@
                                     <tr>
                                         <td>{{ $permission->user->name }} ({{ $permission->user->email }})</td>
                                         <td>{{ $permission->all_property ? '✔️' : '❌' }}</td>
-                                        <td>{{ $permission->featured_image ? '✔️' : '❌' }}</td>
-                                        <td>{{ $permission->add_now ? '✔️' : '❌' }}</td>
-                                        <td>{{ $permission->property_image ? '✔️' : '❌' }}</td>
+                                        <td>{{ $permission->featured_property ? '✔️' : '❌' }}</td>
+                                        <td>{{ $permission->add_new_property ? '✔️' : '❌' }}</td>
+                                        <td>{{ $permission->enquiry ? '✔️' : '❌' }}</td>
                                         <td>{{ $permission->our_team ? '✔️' : '❌' }}</td>
                                         <td>{{ $permission->blog ? '✔️' : '❌' }}</td>
+                                        <td>{{ $permission->career ? '✔️' : '❌' }}</td>
+                                        <td>{{ $permission->legal ? '✔️' : '❌' }}</td>
+
                                         <td>
                                             <a href="{{ route('user_permission.edit', $permission->user_id) }}" class="btn btn-sm btn-primary">Edit</a>
                                             {{-- Optional Delete --}}

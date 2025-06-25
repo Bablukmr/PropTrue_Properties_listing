@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Enquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\RateLimiter;
+
 
 class EnquiryController extends Controller
 {
@@ -14,7 +16,14 @@ class EnquiryController extends Controller
     public function index()
     {
         $enquiries = Enquiry::where('enquiry_type', 'sell')->latest()->get();
-        return view('admin.selllist', compact('enquiries'));
+        $title = 'Sell Enquiries';
+        return view('admin.selllist', compact('enquiries', 'title'));
+    }
+    public function indexcontact()
+    {
+        $enquiries = Enquiry::where('enquiry_type', 'contact')->latest()->get();
+        $title = 'Contact Us Enquiries';
+        return view('admin.selllist', compact('enquiries', 'title'));
     }
 
     /**
@@ -24,10 +33,91 @@ class EnquiryController extends Controller
     {
         return view('admin.sell-create');
     }
+    /**
+     * Handle contact form submissions
+     */
+   public function contactStore(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:15',
+        'description' => 'required|string',
+        'g-recaptcha-response' => 'required|captcha', // ✅ Add this line
+    ]);
+
+    $enquiry = new Enquiry();
+    $enquiry->enquiry_type = 'contact';
+    $enquiry->name = $validated['name'];
+    $enquiry->email = $validated['email'];
+    $enquiry->mobile = $validated['phone'];
+    $enquiry->description = $validated['description'];
+
+    $enquiry->save();
+
+    return redirect()->route('contact')->with('success', 'Thank you for contacting us! We will get back to you soon.');
+}
+    public function clientStore(Request $request)
+    {
+        // dd($request->all());
+        // Validate the request data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'email' => 'nullable|email|max:255',
+            'property_type' => 'nullable|string|max:255',
+            'address' => 'required|string',
+            'bedrooms' => 'nullable|integer',
+            'bathrooms' => 'nullable|integer',
+            'area' => 'nullable|numeric',
+            'price' => 'nullable|numeric',
+            'description' => 'nullable|string',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'enquiry_type' => 'required|string|in:sell,rent',
+             'g-recaptcha-response' => 'required|captcha',
+        ]);
+
+        $enquiry = new Enquiry();
+        $enquiry->enquiry_type = $validated['enquiry_type'];
+        $enquiry->name = $validated['name'];
+        $enquiry->mobile = $validated['phone']; // client uses 'phone'
+        $enquiry->email = $validated['email'] ?? null;
+        $enquiry->property_type = $validated['property_type'] ?? null;
+        $enquiry->address = $validated['address'];
+        $enquiry->bedrooms = $validated['bedrooms'] ?? null;
+        $enquiry->bathrooms = $validated['bathrooms'] ?? null;
+        $enquiry->area = $validated['area'] ?? null;
+        $enquiry->price = $validated['price'] ?? null;
+        $enquiry->description = $validated['description'] ?? null;
+
+        // Handle image uploads
+        if ($request->hasFile('images')) {
+            $imagePaths = [];
+            $uploadPath = public_path('uploads/enquiry-images');
+
+            if (!File::isDirectory($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true, true);
+            }
+
+            foreach ($request->file('images') as $image) {
+                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move($uploadPath, $filename);
+                $imagePaths[] = 'uploads/enquiry-images/' . $filename;
+            }
+
+            $enquiry->images = $imagePaths;
+        }
+
+        $enquiry->save();
+
+        return redirect()->route('property.sell')->with('success', 'Thank you for your enquiry! We will contact you soon.');
+    }
 
     /**
      * Store a newly created resource in storage.
      */
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -41,7 +131,7 @@ class EnquiryController extends Controller
             'area' => 'nullable|numeric',
             'price' => 'nullable|numeric',
             'description' => 'nullable|string',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'message' => 'nullable|string',
         ]);
 

@@ -27,11 +27,8 @@
                         'Buy' => [
                             'url' => '#',
                             'dropdown' => [
-                                'New Properties' => route('property.search', [
-                                    'search' => '',
-                                    'property_type' => '',
-                                    'sort' => 'newest',
-                                ]),
+                                'Project' => 'search?listing_type=Project&property_type=&search=',
+
                                 'Resale Properties' => route('property.search', [
                                     'search' => '',
                                     'property_type' => '',
@@ -51,8 +48,8 @@
                         'Careers' => [
                             'url' => '/careers',
                             'dropdown' => [
-                                'Join Us' => '/join-us',
-                                'Associates Us' => '/associates-us',
+                                'Join Our Team' => '/join-us',
+                                'Become an Associate' => '/associates-us',
                             ],
                         ],
                         'Contact' => ['url' => '/contact', 'dropdown' => null],

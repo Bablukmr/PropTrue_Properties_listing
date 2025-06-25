@@ -45,7 +45,7 @@
                         <!-- /.card -->
                         <div class="card">
                             <div class="card-header w-100 d-flex justify-content-between align-items-center">
-                                <h3 class="card-title mb-0">DataTable with default features</h3>
+                                {{-- <h3 class="card-title mb-0">DataTable with default features</h3> --}}
                                 <a href="{{ route('admin.propertylisting') }}" class="btn btn-primary px-4 py-2">
                                     Add New
                                 </a>
@@ -81,7 +81,7 @@
                                                 </td>
                                                 <td>{{ $property->title }}</td>
                                                 <td>{{ $property->address }}</td>
-                                                <td>₹{{$property->price}}</td>
+                                                <td>₹{{ $property->price }}</td>
                                                 <td>
                                                     <span
                                                         class="badge {{ $property->property_status === 'Available' ? 'badge-success' : 'badge-secondary' }}">
@@ -170,17 +170,18 @@
 
     <!-- Page specific script -->
     <script>
-    $(function() {
-   $("#example1").DataTable({
-    "order": [], // 👈 disables initial sorting
-    "responsive": true,
-    "lengthChange": true,
-    "autoWidth": false,
-    "lengthMenu": [ [20, 50, 100, 300, 800, 1000], [20, 50, 100, 300, 800, 1000] ],
-    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-})
-
-});
+        $(function() {
+            $("#example1").DataTable({
+                "order": [], // 👈 disables initial sorting
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "lengthMenu": [
+                    [20, 50, 100, 300, 800, 1000],
+                    [20, 50, 100, 300, 800, 1000]
+                ],
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            })
+        });
     </script>
 @endsection
-
